@@ -1,10 +1,12 @@
 "use client";
-import { attendance, marks, user } from "@/lib/data";
+
+import { useUser } from "@/lib/zustand";
 import { GraduationCap, School } from "lucide-react";
 import React from "react";
 
 const Page = () => {
   const [mount, setMount] = React.useState(false);
+  const { marks, attendance, user } = useUser();
   React.useEffect(() => {
     setMount(true);
   }, []);
@@ -37,7 +39,7 @@ const Page = () => {
         </div>
       </div>
       <div
-        className={`grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 px-4 md:px-0 ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} delay-200 transition-all duration-500`}
+        className={`grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10 px-4 md:px-0 ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} delay-200 transition-all duration-500`}
       >
         {marks.map((mark, i) => {
           const getMark = mark.marks.map((item) => item);
@@ -48,15 +50,22 @@ const Page = () => {
               total: item.total,
             };
           });
+          // const Value = value.map((item) => Number(item.mark));
+          // const totalMark = Value.reduce(
+          //   (accumulator, currentValue) => accumulator + currentValue,
+          //   0
+          // );
+          // const total = value.map((item) => Number(item.total));
+
           const getFaculty = attendance.find((item) => item.code === mark.code);
           return (
             <div
               key={i}
-              className="p-4 border border-foreground/10 rounded-lg bg-foreground/5 flex flex-col gap-4 "
+              className="p-4 border border-foreground/10 rounded-lg bg-foreground/5 flex flex-col gap-3 "
             >
-              <div className="flex justify-between ">
+              <div className="flex justify-between gap-2">
                 <p className="text-md">{mark.name}</p>
-                <div className="flex gap-1  text-orange-500">
+                <div className="flex gap-2  text-green-500">
                   <p>Credit</p>
                   <span>-</span>
                   <p>{mark.credit}</p>
@@ -74,21 +83,31 @@ const Page = () => {
               </div>
               <div className="mt-2 flex flex-col gap-2 justify-center">
                 {value.length !== 0 ? (
-                  value.map((item, i) => {
-                    return (
-                      <div
-                        key={i}
-                        className="flex justify-between items-center"
-                      >
-                        <p className="p-2 ">{item.name} :</p>
-                        <div className="flex gap-1 items-center bg-orange-500/80 px-2 py-0.5 text-background font-bold rounded-full text-sm">
-                          <p>{item.mark}</p>
-                          <span>/</span>
-                          <p>{item.total}</p>
+                  <div>
+                    {value.map((item, i) => {
+                      return (
+                        <div key={i} className="flex flex-col ">
+                          {" "}
+                          <div className="flex justify-between items-center">
+                            <p className="p-2 ">{item.name}</p>
+                            <div className="flex gap-1 items-center bg-orange-500/80 px-2 py-0.5 text-background font-bold rounded-full text-sm">
+                              <p>{item.mark}</p>
+                              <span>/</span>
+                              <p>{item.total}</p>
+                            </div>
+                          </div>
                         </div>
+                      );
+                    })}
+                    {/* <div className="flex justify-between p-2">
+                      <p>Total</p>
+                      <div className="px-3 py-0.5 bg-orange-500/80 text-background font-bold rounded-full text-sm flex gap-1">
+                        <p>{totalMark}</p>
+                        <span>/</span>
+                        <p>{Math.total}</p>
                       </div>
-                    );
-                  })
+                    </div> */}
+                  </div>
                 ) : (
                   <div className="text-red-500 flex  items-center justify-center">
                     <p>No Marks</p>

@@ -12,7 +12,7 @@ const Header = () => {
   const { toggle, isOpen } = useSidebar();
   return (
     <div
-      className={`z-40 fixed top-0 w-full min-h-[50px]  border-b border-foreground/15 items-center justify-between flex px-4 bg-foreground/10 backdrop-blur-3xl ${isOpen && !isMobile ? "left-[250px]" : "left-0"} transition-all duration-300`}
+      className={`z-40 fixed top-0 w-full  min-h-[50px]  border-b border-foreground/15 items-center justify-between flex px-4 bg-foreground/10 backdrop-blur-3xl ${isOpen && !isMobile ? "pl-[260px]" : ""} transition-all duration-300 `}
     >
       <div className="flex gap-2 items-center h-full">
         <PanelRightOpen
@@ -25,7 +25,7 @@ const Header = () => {
           {path.split("/")[2]}
         </p>
       </div>
-      <div className="w-7 h-7 rounded-full bg-foreground/15" />
+      <div className="w-7 h-7 rounded-full bg-foreground" />
     </div>
   );
 };

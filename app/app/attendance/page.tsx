@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
 import App from "./components/AttendancePieBar";
-import { attendance } from "@/lib/data";
+
 import { useWindow } from "@/lib/hook";
 import { CircleAlert, CircleCheck } from "lucide-react";
+import { useUser } from "@/lib/zustand";
 
 const Suggestion = (value: number) => {
   switch (true) {
@@ -16,6 +17,7 @@ const Suggestion = (value: number) => {
   }
 };
 const Page = () => {
+  const { attendance } = useUser();
   const isMobile = useWindow();
   const [mount, setMount] = React.useState(false);
   React.useEffect(() => {
@@ -52,7 +54,7 @@ const Page = () => {
             })}
           </div>
         </div>
-        <div className="py-10 grid grid-cols-1 md:grid-cols-3 gap-6  ">
+        <div className="py-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6  ">
           {attendance.map((item, i) => {
             const marginText = item.margin < 0 ? "Required" : "Margin";
             const marginvalue = Math.abs(item.margin);

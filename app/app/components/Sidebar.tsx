@@ -3,7 +3,6 @@ import React from "react";
 import {
   GraduationCap,
   X,
-  LayoutDashboard,
   CalendarClock,
   AlarmClock,
   BookOpen,
@@ -15,11 +14,6 @@ import { usePathname } from "next/navigation";
 import { useWindow } from "@/lib/hook";
 
 const SidebarMenu = [
-  {
-    title: "Dashboard",
-    icon: <LayoutDashboard className="stroke-blue-500" />,
-    link: "/app/dashboard",
-  },
   {
     title: "Time Table",
     icon: <AlarmClock className="stroke-blue-500" />,

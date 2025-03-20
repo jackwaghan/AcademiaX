@@ -1,8 +1,10 @@
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const cookie = await cookies();
   await cookie.delete("token");
-  return NextResponse.json({ message: "Cookie removed" });
+  const url = new URL(req.url);
+  url.pathname = "/auth/login";
+  return NextResponse.redirect(url);
 }
