@@ -23,6 +23,8 @@ const Page = () => {
   const isMobile = useWindow();
   const [mount, setMount] = React.useState(false);
   React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
     setMount(true);
   }, []);
   if (attendance === null) return <Error error="Attendance not found" />;

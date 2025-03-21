@@ -16,6 +16,7 @@ import Error from "../components/Error";
 const Page = () => {
   const [mount, setMount] = React.useState(false);
   React.useEffect(() => {
+    if (typeof window === "undefined") return;
     setMount(true);
   }, []);
   const { timetable, attendance, dayorder } = useUser();

@@ -61,7 +61,7 @@ const Header = () => {
           onClick={() => setShow(!show)}
         >
           <Image
-            src="https://res.cloudinary.com/dqswovyzi/image/upload/v1738251548/Portfolio/wfz9ph5xnzoyfz6svshu.jpg"
+            src="https://img.freepik.com/premium-vector/3d-vector-icon-simple-blue-user-profile-icon-with-white-features_6011-1575.jpg"
             alt="profile"
             width={30}
             height={30}

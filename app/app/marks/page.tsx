@@ -9,6 +9,8 @@ const Page = () => {
   const [mount, setMount] = React.useState(false);
   const { marks, attendance, user } = useUser();
   React.useEffect(() => {
+    if (typeof window === "undefined") return;
+
     setMount(true);
   }, []);
   if (marks === null) return <Error error="Marks not found" />;
