@@ -13,7 +13,9 @@ type TimetableData = {
   };
 };
 
-export const combineConsecutiveClasses = (data: Course): TimetableData => {
+export const combineConsecutiveClasses = (
+  data: TimetableData
+): TimetableData => {
   const combinedData: TimetableData = {};
 
   let lastClass: string | null = null;

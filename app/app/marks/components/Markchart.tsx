@@ -1,5 +1,4 @@
 "use client";
-import { marks } from "@/lib/data";
 import React from "react";
 import {
   AreaChart,
@@ -21,8 +20,6 @@ const data = [
   },
 ];
 
-console.log(data);
-console.log(marks);
 export default function Markchart() {
   return (
     <AreaChart

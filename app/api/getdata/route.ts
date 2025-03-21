@@ -2,6 +2,9 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { createClient } from "@/lib/supabase/server";
+
+export const runtime = "edge";
+
 export async function GET() {
   const cookie = (await cookies()).get("token")?.value;
   if (!cookie)
