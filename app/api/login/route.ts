@@ -1,5 +1,5 @@
 import { signToken } from "@/lib/jwt";
-import { createClient } from "@/lib/supabase/server";
+
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -46,36 +46,27 @@ export async function POST(req: NextRequest) {
     }).then((res) => res.json());
     if (user.error)
       return NextResponse.json({ error: user.error }, { status: 400 });
+
     const FilteredEmail = email.includes("@srmist.edu.in")
       ? email
       : email + "@srmist.edu.in";
     const EncodedToken = user.token;
     const { Originaltoken } = await convertCookies(EncodedToken);
 
-    const token = await signToken({ email: FilteredEmail });
+    const token = await signToken({
+      email: FilteredEmail,
+      token: Originaltoken,
+    });
     (await cookies()).set("token", token, {
       httpOnly: true,
       sameSite: "strict",
       maxAge: 60 * 60 * 24 * 7,
       secure: process.env.NODE_ENV === "production",
     });
-
-    const supabase = await createClient();
-
-    const { error } = await supabase
-      .from("students")
-      .upsert({
-        email: FilteredEmail,
-        session_cookie: Originaltoken,
-        expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-      })
-      .select();
-
-    if (error) {
-      return NextResponse.json({ error: error }, { status: 500 });
-    }
-
-    return NextResponse.json({ message: "Login Success" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Login Success", token },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });
   }

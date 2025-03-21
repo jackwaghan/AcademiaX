@@ -35,19 +35,24 @@ const Page = () => {
       }
     }
   };
-  const dayOrder = (Number(dayorder?.do) - 1).toString();
+
+  const dayOrder =
+    dayorder.do !== "N" ? (Number(dayorder?.do) - 1).toString() : "6";
   const currentTime = new Date();
-  const currentClass = getCurrentCourse(currentTime, dayOrder);
+  const currentClass =
+    dayOrder !== "6" ? getCurrentCourse(currentTime, dayOrder) : null;
   const Class =
-    timetable[dayOrder][
-      currentClass as keyof (typeof timetable)[typeof dayOrder]
-    ];
+    dayOrder !== "6"
+      ? timetable[dayOrder][
+          currentClass as keyof (typeof timetable)[typeof dayOrder]
+        ]
+      : null;
   const faculty = Class
     ? attendance.find((item) => Class.code === item.code)
     : null;
-  const todayClass = timetable[dayOrder];
+  const todayClass = dayOrder !== "6" ? timetable[dayOrder] : null;
   return (
-    <div className="mx-auto max-w-7xl ">
+    <div className="mx-auto max-w-7xl h-full">
       <div className="grid grid=cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-10  px-5  h-full">
         <div className="h-[300px] p-8 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5 ">
           <div className="flex items-center gap-4 ">
@@ -111,32 +116,42 @@ const Page = () => {
             </div>
           )}
         </div>
-        <div className="h-fit p-6 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5 ">
+        <div className="h-[300px] md:h-full p-6 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5 ">
           <div className="flex items-center gap-4 ">
             <BookOpen size={30} className="stroke-orange-300" />
             <p className="text-2xl text-orange-500 font-semibold">
               Today&apos;s Class
             </p>
           </div>
-          <div className=" flex flex-col gap-4 mt-5">
-            {Object.keys(todayClass).map((item, i) => {
-              const classItem = todayClass[item as keyof typeof todayClass];
-              return (
-                <div
-                  key={i}
-                  className="flex flex-col gap-2 border border-foreground/10 p-4 rounded-lg bg-foreground/5"
-                >
-                  <p className="text-blue-500">{classItem.title.toString()}</p>
-                  <div className="flex gap-2 items-center text-foreground/50">
-                    <p>{classItem.code.toString()}</p>
-                    <span>-</span>
-                    <p>{classItem.type.toString()}</p>
+
+          {dayOrder !== "6" && todayClass ? (
+            <div className=" flex flex-col gap-4 mt-5">
+              {" "}
+              {Object.keys(todayClass).map((item, i) => {
+                const classItem = todayClass[item as keyof typeof todayClass];
+                return (
+                  <div
+                    key={i}
+                    className="flex flex-col gap-2 border border-foreground/10 p-4 rounded-lg bg-foreground/5"
+                  >
+                    <p className="text-blue-500">
+                      {classItem.title.toString()}
+                    </p>
+                    <div className="flex gap-2 items-center text-foreground/50">
+                      <p>{classItem.code.toString()}</p>
+                      <span>-</span>
+                      <p>{classItem.type.toString()}</p>
+                    </div>
+                    <p className="text-green-500">{item}</p>
                   </div>
-                  <p className="text-green-500">{item}</p>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}{" "}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center w-full h-full">
+              <p className="text-2xl font-semibold text-red-500">Holiday</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

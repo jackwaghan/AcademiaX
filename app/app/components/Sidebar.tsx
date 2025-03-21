@@ -93,7 +93,7 @@ const Sidebar = () => {
             <p className="flex items-center gap-2 text-green-500">
               <p>Day Order</p>
               <span>-</span>
-              <p>{dayorder?.do}</p>
+              <p>{dayorder?.do === "N" ? "Holiday" : dayorder?.do}</p>
             </p>
           </div>
         </div>

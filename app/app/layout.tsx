@@ -42,7 +42,7 @@ export default async function RootLayout({
 
 async function Main({ children }: { children: React.ReactNode }) {
   const data = await fetchdata();
-
+  console.log(data);
   if (!data) {
     return (
       <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">

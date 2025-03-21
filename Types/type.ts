@@ -71,5 +71,5 @@ export type Attendance = {
 }[];
 
 export type Dayorder = {
-  do: string;
+  do: string | null;
 };
