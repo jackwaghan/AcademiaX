@@ -7,7 +7,7 @@ const Page = () => {
     e.preventDefault();
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
-    fetch("/api/login", {
+    fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,7 +19,7 @@ const Page = () => {
         if (data.error) {
           console.log(data.error);
         }
-        redirect("/app");
+        redirect("/app/timetable");
       });
   };
   return (

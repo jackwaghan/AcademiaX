@@ -1,7 +1,11 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import { createClient } from "@/lib/supabase/server";
+import { verifyToken } from "@/lib/jwt";
+
+export const config = {
+  runtime: "edge",
+};
 
 export async function GET() {
   const cookie = (await cookies()).get("token")?.value;
@@ -9,11 +13,11 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const decoded = jwt.verify(cookie, process.env.JWT_SECRET!);
-    if (!decoded || typeof decoded !== "object" || !("email" in decoded)) {
+    const decode = await verifyToken(cookie);
+    if (!decode || typeof decode !== "object" || !("email" in decode)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    const email = (decoded as { email: string }).email;
+    const email = decode.email;
     const supabase = await createClient();
 
     const { data: students, error } = await supabase

@@ -2,6 +2,10 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
+export const config = {
+  runtime: "edge",
+};
+
 export async function GET() {
   const email = "ja6101@srmist.edu.in";
 

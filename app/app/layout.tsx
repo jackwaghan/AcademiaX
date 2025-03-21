@@ -9,7 +9,7 @@ async function fetchdata() {
   if (!token) {
     return redirect("/auth/logout");
   }
-  const data = await fetch("http://localhost:3000/api/getdata", {
+  const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/getdata`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -1,7 +1,11 @@
+import { signToken } from "@/lib/jwt";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+
+export const config = {
+  runtime: "edge",
+};
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
@@ -48,9 +52,7 @@ export async function POST(req: NextRequest) {
     const EncodedToken = user.token;
     const { Originaltoken } = await convertCookies(EncodedToken);
 
-    const token = jwt.sign({ email: FilteredEmail }, process.env.JWT_SECRET!, {
-      expiresIn: "7d",
-    });
+    const token = await signToken({ email: FilteredEmail });
     (await cookies()).set("token", token, {
       httpOnly: true,
       sameSite: "strict",
