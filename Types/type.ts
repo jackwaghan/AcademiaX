@@ -8,6 +8,7 @@ export type UserInfo = {
   marks: Marks | null;
   attendance: Attendance | null;
   timetable: TimetableData | null;
+  dayorder: Dayorder | null;
   loading: boolean;
   clearing: boolean;
   setUser: (data: User) => void;
@@ -68,3 +69,7 @@ export type Attendance = {
   percetage: string;
   margin: number;
 }[];
+
+export type Dayorder = {
+  do: string;
+};

@@ -42,9 +42,10 @@ export default async function RootLayout({
 
 async function Main({ children }: { children: React.ReactNode }) {
   const data = await fetchdata();
+
   if (!data) {
     return (
-      <div className="w-screen h-screen flex justify-center items-center  ">
+      <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
         <div className="flex flex-col items-center gap-4 ">
           <p className="text-lg">Unable to get your details </p>
           <Button />

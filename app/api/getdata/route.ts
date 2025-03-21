@@ -24,11 +24,12 @@ export async function GET() {
     if (error || !students)
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const [user, marks, timetable, attendance] = await Promise.all([
+    const [user, marks, timetable, attendance, dayorder] = await Promise.all([
       getUser(students.session_cookie),
       getMark(students.session_cookie),
       getTimetable(students.session_cookie),
       getAttendance(students.session_cookie),
+      getDayOrder(students.session_cookie),
     ]);
 
     return NextResponse.json(
@@ -37,6 +38,7 @@ export async function GET() {
         marks,
         attendance,
         timetable,
+        dayorder,
       },
       { status: 200 }
     );
@@ -147,4 +149,30 @@ async function getAttendance(cookie: string) {
   }).then((res) => res.json());
   if (attendance.error) return NextResponse.json(attendance, { status: 400 });
   return attendance;
+}
+
+async function getDayOrder(cookie: string) {
+  const dayorder = await fetch("https://www.acadia.asia/api/dayorder", {
+    headers: {
+      accept: "*/*",
+      "accept-language": "en-US,en;q=0.9",
+      "cache-control": "no-cache",
+      pragma: "no-cache",
+      priority: "u=1, i",
+      "sec-ch-ua":
+        '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"Windows"',
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
+      cookie: `token=${cookie}`,
+      Referer: "https://www.acadia.asia/timetable",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+    },
+    body: null,
+    method: "GET",
+  }).then((res) => res.json());
+  if (dayorder.error) return NextResponse.json(dayorder, { status: 400 });
+  return dayorder;
 }

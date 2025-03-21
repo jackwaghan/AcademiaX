@@ -8,7 +8,7 @@ import {
   BookOpen,
   CircleHelp,
 } from "lucide-react";
-import { useSidebar } from "@/lib/zustand";
+import { useSidebar, useUser } from "@/lib/zustand";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useWindow } from "@/lib/hook";
@@ -34,6 +34,7 @@ const SidebarMenu = [
 const Sidebar = () => {
   const isMobile = useWindow();
   const path = usePathname();
+  const { user, dayorder } = useUser();
   const { toggle, isOpen } = useSidebar();
   const ref = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
@@ -69,20 +70,33 @@ const Sidebar = () => {
           onClick={() => toggle()}
         />
       </div>
-      <div className="flex-1  gap-3 pt-5 flex flex-col">
-        {SidebarMenu.map((menu, i) => {
-          return (
-            <Link
-              key={i}
-              href={menu.link}
-              className={`mx-4 py-1.5 px-4 flex items-center gap-4  rounded hover:bg-sidebar-foreground/10 cursor-pointer  hover:scale-95 hover:shadow-2xl duration-300 transition-transform ${path === menu.link ? "bg-orange-500 text-black  stroke-white" : ""}`}
-              onClick={() => isMobile && toggle()}
-            >
-              {menu.icon}
-              {menu.title}
-            </Link>
-          );
-        })}
+      <div className="flex-1  gap-3 py-5  flex flex-col justify-between">
+        <div className="flex flex-col gap-2">
+          {SidebarMenu.map((menu, i) => {
+            return (
+              <Link
+                key={i}
+                href={menu.link}
+                className={`mx-4 py-1.5 px-4 flex items-center gap-4  rounded hover:bg-sidebar-foreground/10 cursor-pointer  hover:scale-95 hover:shadow-2xl duration-300 transition-transform ${path === menu.link ? "bg-orange-500 text-black  stroke-white" : ""}`}
+                onClick={() => isMobile && toggle()}
+              >
+                {menu.icon}
+                {menu.title}
+              </Link>
+            );
+          })}
+        </div>
+        <div className="px-4 py-1.5 text-sm ">
+          <div className="flex flex-col gap-2 p-3 border border-foreground/10 rounded-lg bg-foreground/5 ">
+            <p className="">{user?.name}</p>
+            <p className="text-sidebar-foreground/50">{user?.department}</p>
+            <p className="flex items-center gap-2 text-green-500">
+              <p>Day Order</p>
+              <span>-</span>
+              <p>{dayorder?.do}</p>
+            </p>
+          </div>
+        </div>
       </div>
       <div className="pt-5  border-t border-sidebar-foreground/20 px-4 gap-4 flex flex-col">
         <div className="flex gap-3 items-center  px-4 py-1.5 rounded hover:bg-sidebar-foreground/10 cursor-pointer hover:scale-95 hover:shadow-2xl duration-300 transition-transform">

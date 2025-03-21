@@ -14,7 +14,7 @@ import { useUser } from "@/lib/zustand";
 import Error from "../components/Error";
 
 const Page = () => {
-  const { timetable, attendance } = useUser();
+  const { timetable, attendance, dayorder } = useUser();
   if (timetable === null) return <Error error="Timetable not found" />;
   if (attendance === null)
     return (
@@ -23,6 +23,7 @@ const Page = () => {
   found"
       />
     );
+  if (dayorder === null) return <Error error="Day order not found" />;
   const getCurrentCourse = (currentTime: Date, dayOrder: string) => {
     for (const key in (timetable as TimetableData)[dayOrder]) {
       const [startTime, endTime] = key.split(" - ");
@@ -34,7 +35,7 @@ const Page = () => {
       }
     }
   };
-  const dayOrder = "1";
+  const dayOrder = (Number(dayorder?.do) - 1).toString();
   const currentTime = new Date();
   const currentClass = getCurrentCourse(currentTime, dayOrder);
   const Class =

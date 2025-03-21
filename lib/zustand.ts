@@ -25,10 +25,17 @@ export const useUser = create<UserInfo>()((set) => ({
   marks: null,
   attendance: null,
   timetable: null,
+  dayorder: null,
   loading: true,
   clearing: false,
   logout: async () => {
-    set({ user: null, marks: null, attendance: null, timetable: null });
+    set({
+      user: null,
+      marks: null,
+      attendance: null,
+      timetable: null,
+      dayorder: null,
+    });
     localStorage.removeItem("sidebar");
     const data = await fetch("/api/logout", { method: "GET" });
     if (data.ok) return redirect("/auth/login");

@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useSidebar, useUser } from "@/lib/zustand";
 import { useWindow } from "@/lib/hook";
-import { Attendance, Marks, TimetableData, User } from "@/Types/type";
+import { Attendance, Dayorder, Marks, TimetableData, User } from "@/Types/type";
 
 const AppLayout = ({
   children,
@@ -16,6 +16,7 @@ const AppLayout = ({
     marks: Marks;
     attendance: Attendance;
     timetable: { data: TimetableData };
+    dayorder: Dayorder;
   };
 }) => {
   const isMobile = useWindow();
@@ -25,6 +26,7 @@ const AppLayout = ({
     useUser.setState({ marks: data.marks });
     useUser.setState({ attendance: data.attendance });
     useUser.setState({ timetable: data.timetable.data });
+    useUser.setState({ dayorder: data.dayorder });
   }, [data]);
 
   if (isMobile === undefined) return null;
