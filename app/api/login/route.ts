@@ -3,8 +3,6 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-export const runtime = "edge";
-
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
   if (!email)
