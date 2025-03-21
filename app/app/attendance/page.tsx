@@ -5,6 +5,7 @@ import App from "./components/AttendancePieBar";
 import { useWindow } from "@/lib/hook";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { useUser } from "@/lib/zustand";
+import Error from "../components/Error";
 
 const Suggestion = (value: number) => {
   switch (true) {
@@ -16,6 +17,7 @@ const Suggestion = (value: number) => {
       return "At risk";
   }
 };
+
 const Page = () => {
   const { attendance } = useUser();
   const isMobile = useWindow();
@@ -23,6 +25,7 @@ const Page = () => {
   React.useEffect(() => {
     setMount(true);
   }, []);
+  if (attendance === null) return <Error error="Attendance not found" />;
   return (
     <div className=" px-4 ">
       <div className="h-full mx-auto max-w-7xl pt-10">

@@ -1,6 +1,7 @@
 "use client";
-import { attendance } from "@/lib/data";
+
 import { useWindow } from "@/lib/hook";
+import { useUser } from "@/lib/zustand";
 import React from "react";
 import {
   Radar,
@@ -9,6 +10,7 @@ import {
   PolarGrid,
   PolarRadiusAxis,
 } from "recharts";
+import Error from "../../components/Error";
 
 // Sample data for the radar chart
 // const data = [
@@ -43,15 +45,10 @@ import {
 //     fullMark: 100,
 //   },
 // ];
-const filteredAttendance = attendance.map((item) => {
-  return {
-    subject: item.code,
-    percentage: Number(Number(item.percetage).toFixed()),
-  };
-});
 
 export default function App() {
   const isMobile = useWindow();
+  const { attendance } = useUser();
   const [width, setWidth] = React.useState(500);
   const [height, setHeight] = React.useState(500);
   React.useEffect(() => {
@@ -60,7 +57,13 @@ export default function App() {
       setHeight(400);
     }
   }, [isMobile]);
-
+  if (attendance === null) return <Error error="Attendance not found" />;
+  const filteredAttendance = attendance.map((item) => {
+    return {
+      subject: item.code,
+      percentage: Number(Number(item.percetage).toFixed()),
+    };
+  });
   return (
     <RadarChart width={width} height={height} data={filteredAttendance}>
       <PolarGrid className="stroke-foreground/20" />

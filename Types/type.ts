@@ -4,16 +4,18 @@ export type Sidebar = {
 };
 
 export type UserInfo = {
-  user: User;
-  marks: Marks;
-  attendance: Attendance;
-  timetable: TimetableData;
+  user: User | null;
+  marks: Marks | null;
+  attendance: Attendance | null;
+  timetable: TimetableData | null;
   loading: boolean;
+  clearing: boolean;
   setUser: (data: User) => void;
   setMarks: (data: Marks) => void;
   setAttendance: (data: Attendance) => void;
   setTimetable: (data: TimetableData) => void;
   setLoading: (data: boolean) => void;
+  logout: () => void;
 };
 
 export type Course = {

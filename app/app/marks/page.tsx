@@ -3,6 +3,7 @@
 import { useUser } from "@/lib/zustand";
 import { GraduationCap, School } from "lucide-react";
 import React from "react";
+import Error from "../components/Error";
 
 const Page = () => {
   const [mount, setMount] = React.useState(false);
@@ -10,6 +11,16 @@ const Page = () => {
   React.useEffect(() => {
     setMount(true);
   }, []);
+  if (marks === null) return <Error error="Marks not found" />;
+  if (user === null) return <Error error="user not found" />;
+  if (attendance === null)
+    return (
+      <Error
+        error="Attendance not
+  found"
+      />
+    );
+
   return (
     <div className="mx-auto max-w-7xl py-10">
       <div
@@ -50,12 +61,6 @@ const Page = () => {
               total: item.total,
             };
           });
-          // const Value = value.map((item) => Number(item.mark));
-          // const totalMark = Value.reduce(
-          //   (accumulator, currentValue) => accumulator + currentValue,
-          //   0
-          // );
-          // const total = value.map((item) => Number(item.total));
 
           const getFaculty = attendance.find((item) => item.code === mark.code);
           return (

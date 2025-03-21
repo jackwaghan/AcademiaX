@@ -21,7 +21,9 @@ export async function GET() {
       .eq("email", email)
       .single();
 
-    if (error) return NextResponse.json({ error: error }, { status: 400 });
+    if (error || !students)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
     const [user, marks, timetable, attendance] = await Promise.all([
       getUser(students.session_cookie),
       getMark(students.session_cookie),
@@ -29,12 +31,15 @@ export async function GET() {
       getAttendance(students.session_cookie),
     ]);
 
-    return NextResponse.json({
-      user,
-      marks,
-      attendance,
-      timetable,
-    });
+    return NextResponse.json(
+      {
+        user,
+        marks,
+        attendance,
+        timetable,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json({ error }, { status: 401 });
   }

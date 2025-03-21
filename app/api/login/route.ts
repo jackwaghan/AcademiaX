@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       method: "POST",
     }).then((res) => res.json());
     if (user.error)
-      return NextResponse.json({ error: "Server Down" }, { status: 400 });
+      return NextResponse.json({ error: user.error }, { status: 400 });
     const FilteredEmail = email.includes("@srmist.edu.in")
       ? email
       : email + "@srmist.edu.in";

@@ -1,5 +1,4 @@
 "use client";
-import { attendance } from "@/lib/data";
 import React from "react";
 import { TimeInRange } from "./components/TimeInRange";
 import {
@@ -12,9 +11,18 @@ import {
 } from "lucide-react";
 import { TimetableData } from "@/Types/type";
 import { useUser } from "@/lib/zustand";
+import Error from "../components/Error";
 
 const Page = () => {
-  const { timetable } = useUser();
+  const { timetable, attendance } = useUser();
+  if (timetable === null) return <Error error="Timetable not found" />;
+  if (attendance === null)
+    return (
+      <Error
+        error="Attendance not
+  found"
+      />
+    );
   const getCurrentCourse = (currentTime: Date, dayOrder: string) => {
     for (const key in (timetable as TimetableData)[dayOrder]) {
       const [startTime, endTime] = key.split(" - ");
