@@ -14,6 +14,10 @@ import { useUser } from "@/lib/zustand";
 import Error from "../components/Error";
 
 const Page = () => {
+  const [mount, setMount] = React.useState(false);
+  React.useEffect(() => {
+    setMount(true);
+  }, []);
   const { timetable, attendance, dayorder } = useUser();
   if (timetable === null) return <Error error="Timetable not found" />;
   if (attendance === null)
@@ -52,9 +56,11 @@ const Page = () => {
     : null;
   const todayClass = dayOrder !== "6" ? timetable[dayOrder] : null;
   return (
-    <div className="mx-auto max-w-7xl h-full">
+    <div className="mx-auto max-w-7xl h-full ">
       <div className="grid grid=cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-10  px-5  h-full">
-        <div className="h-[300px] p-8 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5 ">
+        <div
+          className={`h-[300px] p-8 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5 ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 `}
+        >
           <div className="flex items-center gap-4 ">
             {" "}
             <Clock8 size={30} className="stroke-orange-300" />
@@ -86,7 +92,9 @@ const Page = () => {
             </div>
           )}
         </div>
-        <div className="h-[300px] p-8 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5 ">
+        <div
+          className={`h-[300px] p-8 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5  ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-150 `}
+        >
           <div className="flex items-center gap-4 ">
             {" "}
             <ChevronRight size={30} className="stroke-orange-300" />
@@ -116,7 +124,9 @@ const Page = () => {
             </div>
           )}
         </div>
-        <div className="h-[300px] md:h-full p-6 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5 ">
+        <div
+          className={`h-[300px] md:h-full p-6 border border-foreground/15  rounded-lg flex flex-col bg-foreground/5  ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-300 `}
+        >
           <div className="flex items-center gap-4 ">
             <BookOpen size={30} className="stroke-orange-300" />
             <p className="text-2xl text-orange-500 font-semibold">
