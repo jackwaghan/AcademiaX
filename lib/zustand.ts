@@ -13,7 +13,7 @@ import { persist } from "zustand/middleware";
 export const useSidebar = create<Sidebar>()(
   persist(
     (set) => ({
-      isOpen: false,
+      isOpen: true,
       toggle: () => set((state) => ({ isOpen: !state.isOpen })),
     }),
     { name: "sidebar" }

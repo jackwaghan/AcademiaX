@@ -102,7 +102,7 @@ const Sidebar = () => {
         <div className="flex gap-3 items-center  px-4 py-1.5 rounded hover:bg-sidebar-foreground/10 cursor-pointer hover:scale-95 hover:shadow-2xl duration-300 transition-transform">
           <CircleHelp size={20} className="stroke-orange-500" /> Need Help?
         </div>
-        <div className="mb-3 px-4 py-1 flex justify-between items-center bg-sidebar-foreground/10 rounded-lg border border-sidebar-foreground/5 text-sm  ">
+        <div className="mb-3 px-4 py-1 flex justify-between items-center bg-sidebar-foreground/10 rounded border border-sidebar-foreground/5 text-sm  ">
           <p>v1.0.0</p>
           <p>@2025</p>
         </div>

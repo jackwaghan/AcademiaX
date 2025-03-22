@@ -61,7 +61,7 @@ const Page = () => {
   const ampm = hour >= 12 ? "PM" : "AM";
 
   return (
-    <div className="mx-auto max-w-7xl pb-10 px-5 overflow-hidden">
+    <div className="mx-auto max-w-7xl pb-10 px-5 ">
       <div className="flex justify-end items-center py-5 ">
         <div className="flex items-center gap-2 text-md text-green-500">
           <Clock size={20} />
@@ -178,7 +178,7 @@ const Page = () => {
           return (
             <div
               key={i}
-              className=" flex flex-col gap-6 border border-foreground/10 p-4 rounded-lg bg-foreground/5 justify-between "
+              className="flex flex-col gap-6 border border-foreground/10 p-4 rounded-lg bg-foreground/5 justify-between "
             >
               <div className="flex justify-between items-center gap-4">
                 <p className="text-orange-500 text-sm border border-foreground/10 rounded-full bg-foreground/5 px-3 py-0.5">

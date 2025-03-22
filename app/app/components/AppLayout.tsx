@@ -30,10 +30,9 @@ const AppLayout = ({
   }, [data]);
   React.useEffect(() => {
     if (isMobile === undefined) return;
-    if (!isMobile) {
-      useSidebar.setState({ isOpen: true });
+    if (isMobile) {
+      useSidebar.setState({ isOpen: false });
     }
-    useSidebar.setState({ isOpen: false });
   }, [isMobile]);
   if (isMobile === undefined) return null;
 

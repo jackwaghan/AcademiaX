@@ -55,9 +55,9 @@ const Header = () => {
           {path.split("/")[2]}
         </p>
       </div>
-      <div className="relative h-full">
+      <div className="relative  ">
         <div
-          className="rounded-full hover:scale-95 duration-300 cursor-pointer border-2 border-orange-500  w-8 h-8 p-0.5 flex "
+          className="rounded-full hover:scale-95 duration-300 cursor-pointer border-3 border-orange-500  w-9 h-9 p-0.5 flex "
           onClick={() => setShow(!show)}
         >
           <Image
@@ -65,10 +65,9 @@ const Header = () => {
             alt="profile"
             width={30}
             height={30}
-            className="rounded-full "
+            className="rounded-full"
           />
         </div>
-
         {show && (
           <div
             ref={ref}
