@@ -28,7 +28,13 @@ const AppLayout = ({
     useUser.setState({ timetable: data.timetable.data });
     useUser.setState({ dayorder: data.dayorder });
   }, [data]);
-
+  React.useEffect(() => {
+    if (isMobile === undefined) return;
+    if (!isMobile) {
+      useSidebar.setState({ isOpen: true });
+    }
+    useSidebar.setState({ isOpen: false });
+  }, [isMobile]);
   if (isMobile === undefined) return null;
 
   return (
