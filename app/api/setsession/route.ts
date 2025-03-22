@@ -1,13 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { verifyToken } from "@/lib/jwt";
+import { cookies } from "next/headers";
 
 export const config = {
   runtime: "edge",
 };
 
-export async function POST(req: NextRequest) {
-  const { token } = await req.json();
+export async function POST() {
+  const token = await (await cookies()).get("token")?.value;
   if (!token)
     return NextResponse.json(
       { error: "Failed to create Session" },

@@ -29,7 +29,7 @@ export type Course = {
 };
 
 export type TimetableData = {
-  [key: string]: {
+  [dayorder: string]: {
     [Timeslot: string]: Course;
   };
 };

@@ -11,7 +11,7 @@ const Button = () => {
   return (
     <button
       onClick={() => handleClick()}
-      className=" bg-orange-500 rounded text-background px-3 py-1 cursor-pointer hover:bg-orange-400  font-semibold hover:scale-95 transition-all duration-300"
+      className=" bg-blue-500 rounded text-background px-3 py-1 cursor-pointer hover:bg-blue-400  font-semibold hover:scale-95 transition-all duration-300"
     >
       Authenticate
     </button>

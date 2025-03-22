@@ -23,9 +23,9 @@ export default async function RootLayout({
         </div>
       </div>
       <div className="flex-1 flex flex-col  h-full overflow-hidden pb-[100px] md:pb-[250px] ">
-        <div className="h-[300px] w-full text-3xl md:text-5xl font-geist-mono  items-center justify-center text-orange-500 flex gap-6 ">
-          <GraduationCap className="stroke-orange-500" size={60} />
-          <p> AcademiaX</p>
+        <div className="h-[300px] w-full text-3xl md:text-4xl   items-center justify-center text-foreground/70 flex gap-6 ">
+          <GraduationCap className="stroke-orange-500" size={50} />
+          <p>AcademiaX</p>
         </div>
 
         {children}

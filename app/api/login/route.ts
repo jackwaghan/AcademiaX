@@ -63,12 +63,12 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 60 * 24 * 7,
       secure: process.env.NODE_ENV === "production",
     });
-    return NextResponse.json(
-      { message: "Login Success", token },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: "Login Success" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 });
+    return NextResponse.json(
+      { error: "You have reached session limit", message: error },
+      { status: 500 }
+    );
   }
 }
 
