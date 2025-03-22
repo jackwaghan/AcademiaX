@@ -37,7 +37,7 @@ const AppLayout = ({
       <div className="flex-1 h-screen flex flex-col ">
         <Header />
         <div
-          className={`flex-1 mt-[50px] md:overflow-y-scroll ${isOpen && !isMobile ? "pl-[250px]" : ""} duration-300 transition-all`}
+          className={`flex-1 mt-[50px] md:overflow-y-auto ${isOpen && !isMobile ? "pl-[250px]" : ""} duration-300 transition-all`}
         >
           {children}
         </div>

@@ -16,9 +16,9 @@ const ProfileIcon = {
 
 const Profile = [
   { name: "Profile", link: "/app/profile" },
-  { name: "Settings", link: "/app/settings" },
   { name: "Logout", link: "/auth/logout" },
 ] as const;
+
 const Header = () => {
   const isMobile = useWindow();
   const path = usePathname();
