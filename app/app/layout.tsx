@@ -15,6 +15,7 @@ async function fetchdata() {
       "Content-Type": "application/json",
       cookie: `token=${token}`,
     },
+    credentials: "include",
   });
 
   if (data.ok) {
