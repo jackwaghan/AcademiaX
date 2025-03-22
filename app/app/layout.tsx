@@ -1,13 +1,13 @@
 import React, { Suspense } from "react";
 import AppLayout from "./components/AppLayout";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import Button from "./components/Button";
+import { redirect } from "next/navigation";
 
 async function fetchdata() {
   const token = (await cookies()).get("token")?.value;
   if (!token) {
-    return redirect("/auth/logout");
+    return redirect("/auth/login");
   }
   const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/getdata`, {
     method: "GET",
@@ -15,6 +15,7 @@ async function fetchdata() {
       "Content-Type": "application/json",
       cookie: `token=${token}`,
     },
+    credentials: "include",
   });
 
   if (data.ok) {

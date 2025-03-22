@@ -12,7 +12,7 @@ export async function GET() {
   });
   (await cookies()).set("token", token, {
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7,
     secure: process.env.NODE_ENV === "production",
   });
