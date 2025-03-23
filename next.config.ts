@@ -4,7 +4,7 @@ const nextConfig = nextPWA({
   dest: "public",
   register: true,
   skipWaiting: true,
-  disble: process.env.NODE_ENV === "development",
+  disble: false,
 });
 
 const config = {
