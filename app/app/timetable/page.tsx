@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-
 import {
   BookOpen,
   CalendarClock,
@@ -24,16 +23,13 @@ const Page = () => {
     if (typeof window === "undefined") return;
     if (dayorder?.do !== "N") setDay((Number(dayorder?.do) - 1).toString());
     setMount(true);
-  }, [dayorder]);
-
-  React.useEffect(() => {
     const currentHour = new Date().getHours();
     if (currentHour >= 18 || currentHour < 8) {
       setIsEvening(true);
     } else {
       setIsEvening(false);
     }
-  }, []);
+  }, [dayorder]);
 
   if (timetable === null) return <Error error="Timetable not found" />;
   if (attendance === null)
@@ -153,10 +149,22 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div
-        className={`mt-10 flex gap-6 px-5 py-5 items-center justify-center rounded-lg ${mount ? "translate-x-0 scale-100 opacity-100" : " translate-y-20 scale-75 opacity-0"} transition-all duration-500 delay-200`}
-      >
-        {Object.keys(timetable).map((item, i) => {
+      <SelectDay mount={mount} />
+      <TimeTable mount={mount} />
+    </div>
+  );
+};
+
+export default Page;
+
+const SelectDay = ({ mount }: { mount: boolean }) => {
+  const { timetable, day, setDay } = useUser();
+  return (
+    <div
+      className={`mt-10 flex gap-6 px-5 py-5 items-center justify-center rounded-lg ${mount ? "translate-x-0 scale-100 opacity-100" : " translate-y-20 scale-75 opacity-0"} transition-all duration-500 delay-200`}
+    >
+      {timetable &&
+        Object.keys(timetable).map((item, i) => {
           return (
             <button
               key={i}
@@ -171,11 +179,20 @@ const Page = () => {
             </button>
           );
         })}
-      </div>
-      <div
-        className={`mt-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 " ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
-      >
-        {Object.keys(timetable[day]).map((item, i) => {
+    </div>
+  );
+};
+
+const TimeTable = ({ mount }: { mount: boolean }) => {
+  const { timetable, attendance, day } = useUser();
+
+  return (
+    <div
+      className={`mt-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 " ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
+    >
+      {timetable &&
+        attendance &&
+        Object.keys(timetable[day]).map((item, i) => {
           const classItem = timetable[day][item];
           const faculty = attendance.find(
             (item) => item.code === classItem.code
@@ -214,9 +231,6 @@ const Page = () => {
             </div>
           );
         })}
-      </div>
     </div>
   );
 };
-
-export default Page;

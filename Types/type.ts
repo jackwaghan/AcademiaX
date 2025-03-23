@@ -9,6 +9,7 @@ export type UserInfo = {
   attendance: Attendance | null;
   timetable: TimetableData | null;
   dayorder: Dayorder | null;
+  day: string;
   loading: boolean;
   clearing: boolean;
   setUser: (data: User) => void;
@@ -17,6 +18,7 @@ export type UserInfo = {
   setTimetable: (data: TimetableData) => void;
   setLoading: (data: boolean) => void;
   logout: () => void;
+  setDay: (data: string) => void;
 };
 
 export type Course = {

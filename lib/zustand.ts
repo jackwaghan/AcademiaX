@@ -26,6 +26,7 @@ export const useUser = create<UserInfo>()((set) => ({
   attendance: null,
   timetable: null,
   dayorder: null,
+  day: "0",
   loading: true,
   clearing: false,
   logout: async () => {
@@ -45,4 +46,5 @@ export const useUser = create<UserInfo>()((set) => ({
   setAttendance: (data: Attendance) => set({ attendance: data }),
   setTimetable: (data: TimetableData) => set({ timetable: data }),
   setLoading: (data: boolean) => set({ loading: data }),
+  setDay: (data: string) => set({ day: data }),
 }));
