@@ -8,6 +8,11 @@ export default async function middleware(req: NextRequest) {
     url.pathname = "/app/timetable";
     return NextResponse.redirect(url);
   }
+  if (req.nextUrl.pathname !== "/auth/login" && !cookie) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/auth/login";
+    return NextResponse.redirect(url);
+  }
   if (req.nextUrl.pathname === "/app" && cookie) {
     const url = req.nextUrl.clone();
     url.pathname = "/app/timetable";
@@ -16,6 +21,6 @@ export default async function middleware(req: NextRequest) {
 }
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|site.webmanifest|sw.js|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|$).*)",
   ],
 };
