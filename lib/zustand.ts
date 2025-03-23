@@ -38,11 +38,11 @@ export const useUser = create<UserInfo>()((set) => ({
       dayorder: null,
     });
     localStorage.removeItem("sidebar");
-    const data = await fetch("/api/logout", {
+    await fetch("/api/logout", {
       method: "GET",
       credentials: "include",
     });
-    if (data.ok) return redirect("/auth/login");
+    return redirect("/auth/login");
   },
   setUser: (data: User) => set({ user: data }),
   setMarks: (data: Marks) => set({ marks: data }),

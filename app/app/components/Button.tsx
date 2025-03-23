@@ -1,16 +1,13 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useUser } from "@/lib/zustand";
 import React from "react";
 
 const Button = () => {
-  const router = useRouter();
+  const { logout } = useUser();
 
-  const handleClick = () => {
-    router.push("/auth/logout");
-  };
   return (
     <button
-      onClick={() => handleClick()}
+      onClick={() => logout()}
       className=" bg-blue-500 rounded text-background px-3 py-1 cursor-pointer hover:bg-blue-400  font-semibold hover:scale-95 transition-all duration-300"
     >
       Authenticate
