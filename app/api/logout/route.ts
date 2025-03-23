@@ -9,7 +9,6 @@ export const config = {
 
 export async function GET() {
   const cookie = (await cookies()).get("token")?.value;
-  console.log("cookie", cookie);
 
   if (!cookie)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

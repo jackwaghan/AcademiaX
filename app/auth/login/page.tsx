@@ -110,7 +110,18 @@ const Page = () => {
             </div>
           </label>
           {error && !success && (
-            <p className="text-red-500 text-center ">{error}</p>
+            <p className="text-red-500 text-center ">
+              {error === "You have reached session limit" ? (
+                <a
+                  href="https://academia.srmist.edu.in/49910842/portal/academia-academic-services/myProfile"
+                  className="underline cursor-pointer "
+                >
+                  {error}
+                </a>
+              ) : (
+                error
+              )}
+            </p>
           )}
           {success && <p className="text-green-500 text-center ">{success}</p>}
 
