@@ -3,15 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export default async function middleware(req: NextRequest) {
   const cookie = (await cookies()).get("token")?.value;
-
   if (cookie && req.nextUrl.pathname === "/auth/login") {
     const url = req.nextUrl.clone();
     url.pathname = "/app/timetable";
-    return NextResponse.redirect(url);
-  }
-  if (req.nextUrl.pathname !== "/auth/login" && !cookie) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/auth/login";
     return NextResponse.redirect(url);
   }
   if (req.nextUrl.pathname === "/app" && cookie) {

@@ -14,14 +14,14 @@ import Error from "../components/Error";
 import { getCurrentAndNextTimeslot } from "./components/TimeInRange";
 
 const Page = () => {
-  const { timetable, attendance, dayorder } = useUser();
+  const { timetable, attendance, dayorder, setDay, day } = useUser();
   const [mount, setMount] = React.useState(false);
-  const [day, setDay] = React.useState<string>("0");
   const [isEvening, setIsEvening] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
-    if (dayorder?.do !== "N") setDay((Number(dayorder?.do) - 1).toString());
+    if (dayorder?.do !== "N" && dayorder?.do)
+      setDay((Number(dayorder?.do) - 1).toString());
     setMount(true);
     const currentHour = new Date().getHours();
     if (currentHour >= 18 || currentHour < 8) {
@@ -29,7 +29,7 @@ const Page = () => {
     } else {
       setIsEvening(false);
     }
-  }, [dayorder]);
+  }, [dayorder?.do, setDay]);
 
   if (timetable === null) return <Error error="Timetable not found" />;
   if (attendance === null)
@@ -145,7 +145,7 @@ const Page = () => {
 
           <div className="flex items-center justify-center w-full h-full">
             <p className="text-5xl font-semibold text-red-500">
-              {dayOrder === "6" ? "Holiday" : dayOrder}
+              {dayOrder === "6" ? "Holiday" : Number(dayOrder) + 1}
             </p>
           </div>
         </div>
