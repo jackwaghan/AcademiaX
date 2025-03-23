@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { TimeInRange } from "./components/TimeInRange";
+
 import {
   BookOpen,
   CalendarClock,
@@ -10,19 +10,31 @@ import {
   MapPin,
   User,
 } from "lucide-react";
-import { TimetableData } from "@/Types/type";
 import { useUser } from "@/lib/zustand";
 import Error from "../components/Error";
+import { getCurrentAndNextTimeslot } from "./components/TimeInRange";
 
 const Page = () => {
   const { timetable, attendance, dayorder } = useUser();
   const [mount, setMount] = React.useState(false);
   const [day, setDay] = React.useState<string>("0");
+  const [isEvening, setIsEvening] = React.useState<boolean>(false);
+
   React.useEffect(() => {
     if (typeof window === "undefined") return;
     if (dayorder?.do !== "N") setDay((Number(dayorder?.do) - 1).toString());
     setMount(true);
   }, [dayorder]);
+
+  React.useEffect(() => {
+    const currentHour = new Date().getHours();
+    if (currentHour >= 18 || currentHour < 8) {
+      setIsEvening(true);
+    } else {
+      setIsEvening(false);
+    }
+  }, []);
+
   if (timetable === null) return <Error error="Timetable not found" />;
   if (attendance === null)
     return (
@@ -32,30 +44,24 @@ const Page = () => {
       />
     );
   if (dayorder === null) return <Error error="Day order not found" />;
-  const getCurrentCourse = (currentTime: Date, dayOrder: string) => {
-    for (const key in (timetable as TimetableData)[dayOrder]) {
-      const [startTime, endTime] = key.split(" - ");
-      const time = TimeInRange(startTime, endTime);
-      if (time) {
-        const currentClass = `${startTime} - ${endTime}`;
-
-        return currentClass.toString();
-      }
-    }
-  };
 
   const dayOrder =
     dayorder.do !== "N" ? (Number(dayorder?.do) - 1).toString() : "6";
-  const currentTime = new Date();
+
+  const timeslot =
+    dayOrder !== "6" ? getCurrentAndNextTimeslot(timetable, day) : null;
+  const current = !isEvening && timeslot ? timeslot.current : null;
+  const next = !isEvening && timeslot ? timeslot.next : null;
   const currentClass =
-    dayOrder !== "6" ? getCurrentCourse(currentTime, dayOrder) : null;
-  const Class =
-    dayOrder !== "6"
-      ? timetable[dayOrder][
-          currentClass as keyof (typeof timetable)[typeof dayOrder]
-        ]
-      : null;
-  const faculty = attendance.find((item) => item.code === Class?.code);
+    dayOrder !== "6" && current ? timetable[day][current] : null;
+  const nextClass = dayOrder !== "6" && next ? timetable[day][next] : null;
+
+  const facultyCurrent = attendance.find(
+    (item) => item.code === currentClass?.code
+  );
+  const facultyNext = attendance.find((item) => item.code === nextClass?.code);
+
+  const currentTime = new Date();
   const hour = currentTime.getHours();
   const minute = currentTime.getMinutes();
   const ampm = hour >= 12 ? "PM" : "AM";
@@ -80,21 +86,21 @@ const Page = () => {
               Current Class
             </p>
           </div>
-          {Class ? (
+          {currentClass ? (
             <div className="h-full flex   flex-col gap-4 mt-5">
-              <p className="text-xl">{Class.title}</p>
+              <p className="text-xl">{currentClass.title}</p>
               <div className="flex items-center gap-2 text-md text-foreground/50">
-                <p>{Class.code}</p>
+                <p>{currentClass.code}</p>
                 <span>-</span>
-                <p>{Class.type}</p>
+                <p>{currentClass.type}</p>
               </div>
               <div className="flex items-center gap-2 text-md text-blue-500">
                 <MapPin size={20} />
-                <p className="text-md">{Class.room}</p>
+                <p className="text-md">{currentClass.room}</p>
               </div>
               <div className="flex items-center gap-2 text-md text-blue-500">
                 <User size={20} />
-                <p>{faculty?.faculty}</p>
+                <p>{facultyCurrent?.faculty}</p>
               </div>
             </div>
           ) : (
@@ -110,21 +116,21 @@ const Page = () => {
             <ChevronRight size={30} className="stroke-orange-300" />
             <p className="text-2xl text-orange-500 font-semibold">Next Class</p>
           </div>
-          {Class ? (
+          {nextClass ? (
             <div className="h-full flex   flex-col gap-4 mt-5 x ">
-              <p className="text-xl">{Class.title}</p>
+              <p className="text-xl">{nextClass.title}</p>
               <div className="flex items-center gap-2 text-md text-foreground/50">
-                <p>{Class.code}</p>
+                <p>{nextClass.code}</p>
                 <span>-</span>
-                <p>{Class.type}</p>
+                <p>{nextClass.type}</p>
               </div>
               <div className="flex items-center gap-2 text-md text-blue-500">
                 <MapPin size={20} />
-                <p className="text-md">{Class.room}</p>
+                <p className="text-md">{nextClass.room}</p>
               </div>
               <div className="flex items-center gap-2 text-md text-blue-500">
                 <User size={20} />
-                <p>{faculty?.faculty}</p>
+                <p>{facultyNext?.faculty}</p>
               </div>
             </div>
           ) : (
@@ -170,8 +176,7 @@ const Page = () => {
         className={`mt-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 " ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
       >
         {Object.keys(timetable[day]).map((item, i) => {
-          const classItem =
-            timetable[day][item as keyof (typeof timetable)[typeof day]];
+          const classItem = timetable[day][item];
           const faculty = attendance.find(
             (item) => item.code === classItem.code
           );
@@ -182,7 +187,7 @@ const Page = () => {
             >
               <div className="flex justify-between items-center gap-4">
                 <p className="text-orange-500 text-sm border border-foreground/10 rounded-full bg-foreground/5 px-3 py-0.5">
-                  {classItem.type}
+                  {classItem?.type}
                 </p>
                 <p className="text-green-500 text-sm border border-foreground/10 rounded-full bg-green-500/10 px-2 py-0.5">
                   {item}
@@ -190,20 +195,20 @@ const Page = () => {
               </div>
               <div className="flex flex-col gap-2">
                 {" "}
-                <p className="text-foreground">{classItem.title}</p>
-                <p className="text-foreground/50 font-sm">{classItem.code}</p>
+                <p className="text-foreground">{classItem?.title}</p>
+                <p className="text-foreground/50 font-sm">{classItem?.code}</p>
                 <div className="flex items-center gap-2 text-md text-blue-500">
                   <User size={20} />
                   <p>{faculty?.faculty}</p>
                 </div>
                 <div className="flex items-center gap-2 text-md text-blue-500">
                   <MapPin size={20} />
-                  <p className="">{classItem.room}</p>
+                  <p className="">{classItem?.room}</p>
                 </div>
               </div>
               <div>
                 <p className="text-foreground/70 text-sm border border-foreground/10 rounded-full bg-background px-3 py-1 w-fit">
-                  {classItem.category}
+                  {classItem?.category}
                 </p>
               </div>
             </div>

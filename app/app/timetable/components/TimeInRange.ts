@@ -1,17 +1,45 @@
-export const TimeInRange = (startTime: string, endTime: string): boolean => {
-  // Get current time
+import { TimetableData } from "@/Types/type";
+
+export function getCurrentAndNextTimeslot(
+  schedule: TimetableData,
+  dayOrder: string
+) {
+  const daySchedule = schedule[dayOrder];
+  if (!daySchedule) return { current: null, next: null }; // No schedule for this day
+
   const now = new Date();
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-  // Extract current hours and minutes
-  const currentTime = now.getHours() * 60 + now.getMinutes(); // Convert current time to minutes
+  const timeslots = Object.keys(daySchedule).map((timeslot) => {
+    const [startStr, endStr] = timeslot.split(" - ");
+    const [startHour, startMinute] = startStr.split(":").map(Number);
+    const [endHour, endMinute] = endStr.split(":").map(Number);
 
-  // Parse start and end times and convert them to minutes
-  const [startHour, startMinute] = startTime.split(":").map(Number);
-  const [endHour, endMinute] = endTime.split(":").map(Number);
+    return {
+      timeslot,
+      startMinutes: startHour * 60 + startMinute,
+      endMinutes: endHour * 60 + endMinute,
+    };
+  });
 
-  const startTimeInMinutes = startHour * 60 + startMinute; // Convert start time to minutes
-  const endTimeInMinutes = endHour * 60 + endMinute; // Convert end time to minutes
+  // Sort timeslots by start time
+  timeslots.sort((a, b) => a.startMinutes - b.startMinutes);
 
-  // Check if current time is within the range
-  return currentTime >= startTimeInMinutes && currentTime <= endTimeInMinutes;
-};
+  let current = null;
+  let next = null;
+
+  for (let i = 0; i < timeslots.length; i++) {
+    const slot = timeslots[i];
+
+    if (
+      currentMinutes >= slot.startMinutes &&
+      currentMinutes <= slot.endMinutes
+    ) {
+      current = slot.timeslot;
+      next = timeslots[i + 1] ? timeslots[i + 1].timeslot : null;
+      break;
+    }
+  }
+
+  return { current, next };
+}
