@@ -30,7 +30,7 @@ export default async function Main({
     return (
       <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
         <div className="flex flex-col items-center gap-4 ">
-          <p className="text-lg">Unable to get your details </p>
+          <p className="text-lg">You have been logged out</p>
           <Button />
         </div>
       </div>
