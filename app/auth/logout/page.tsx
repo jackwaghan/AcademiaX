@@ -8,8 +8,8 @@ const Page = () => {
     logout();
   }, [logout]);
   return (
-    <div className="w-screen h-screen flex items-center justify-center text-lg ">
-      Logging out...
+    <div className="w-dvw h-dvh flex items-center justify-center overflow-clip">
+      <span className="loader" />
     </div>
   );
 };

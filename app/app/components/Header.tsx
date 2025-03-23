@@ -79,7 +79,7 @@ const Header = () => {
                 <Link
                   href={item.link}
                   key={index}
-                  className={`flex gap-2 items-center hover:bg-foreground/10 px-3 py-1.5 rounded duration-300 hover:scale-95 transition-transform`}
+                  className={`flex gap-2 items-center hover:bg-foreground/10 px-3 py-1.5 rounded-lg duration-300 hover:scale-95 transition-transform`}
                   onClick={() => setShow(false)}
                 >
                   <span

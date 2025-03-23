@@ -4,6 +4,7 @@
 @theme {
   --font-geist-sans: var(--geist-font-sans);
   --font-geist-mono: var(--geist-font-mono);
+  --font-poppins: var(--font-poppins);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sidebar-background: var(--sidebar-background);
