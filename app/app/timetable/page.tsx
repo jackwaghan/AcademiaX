@@ -58,9 +58,10 @@ const Page = () => {
   const facultyNext = attendance.find((item) => item.code === nextClass?.code);
 
   const currentTime = new Date();
-  const hour = currentTime.getHours();
+  let hour = currentTime.getHours();
   const minute = currentTime.getMinutes();
   const ampm = hour >= 12 ? "PM" : "AM";
+  hour = hour >= 12 ? hour - 12 : hour;
 
   return (
     <div className="mx-auto max-w-7xl pb-10 px-5 ">
