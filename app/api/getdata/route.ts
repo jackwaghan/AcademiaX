@@ -13,16 +13,24 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const decode = await verifyToken(cookie);
-    if (!decode || typeof decode !== "object" || !("email" in decode)) {
+    if (
+      !decode ||
+      typeof decode !== "object" ||
+      !("email" in decode) ||
+      !("token" in decode)
+    ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const email = decode.email;
+    const token = decode.token;
+
     const supabase = await createClient();
 
     const { data: students, error } = await supabase
-      .from("students")
+      .from("session")
       .select("*")
       .eq("email", email)
+      .eq("session_cookie", token)
       .single();
 
     if (error || !students)

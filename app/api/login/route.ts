@@ -1,13 +1,26 @@
 import { signToken } from "@/lib/jwt";
+import { createClient } from "@/lib/supabase/server";
 
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { UAParser } from "ua-parser-js";
 
 export const config = {
   runtime: "edge",
 };
 
+interface DeviceInfo {
+  deviceInfo: {
+    browser: {
+      name: string;
+    };
+    os: {
+      name: string;
+    };
+  };
+}
 export async function POST(req: NextRequest) {
+  (await cookies()).delete("token");
   const { email, password } = await req.json();
   if (!email)
     return NextResponse.json(
@@ -46,6 +59,11 @@ export async function POST(req: NextRequest) {
     }).then((res) => res.json());
     if (user.error)
       return NextResponse.json({ error: user.error }, { status: 400 });
+    const supabase = await createClient();
+
+    const { deviceInfo, ip } = (await getUserdetails(req)) as DeviceInfo & {
+      ip: string;
+    };
 
     const FilteredEmail = email.includes("@srmist.edu.in")
       ? email
@@ -57,12 +75,35 @@ export async function POST(req: NextRequest) {
       email: FilteredEmail,
       token: Originaltoken,
     });
+
+    const { error } = await supabase.from("session").insert({
+      email: FilteredEmail,
+      session_cookie: Originaltoken,
+      expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      device_info: deviceInfo,
+      ip: ip,
+    });
+
+    if (error) {
+      return NextResponse.json({ error: error }, { status: 500 });
+    }
+    const { error: studentError } = await supabase.from("students").upsert([
+      {
+        email: FilteredEmail,
+      },
+    ]);
+
+    if (studentError) {
+      return NextResponse.json({ error: studentError }, { status: 500 });
+    }
+
     (await cookies()).set("token", token, {
       httpOnly: true,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
       secure: process.env.NODE_ENV === "production",
     });
+
     return NextResponse.json({ message: "Login Success" }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
@@ -72,7 +113,16 @@ export async function POST(req: NextRequest) {
   }
 }
 
-function convertCookies(EncodedToken: string) {
+async function convertCookies(EncodedToken: string) {
   const Originaltoken = encodeURIComponent(EncodedToken);
   return { Originaltoken };
+}
+
+async function getUserdetails(req: NextRequest) {
+  const ip = "Unknown";
+  const parser = new UAParser();
+  parser.setUA(req.headers.get("user-agent") || "");
+  const deviceInfo = parser.getResult();
+
+  return { deviceInfo, ip };
 }

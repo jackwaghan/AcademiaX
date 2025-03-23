@@ -7,7 +7,7 @@ export async function signToken(payload: JWTPayload): Promise<string> {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: ALGORITHM })
     .setIssuedAt()
-    .setExpirationTime("7d") // Token expires in 1 hour
+    .setExpirationTime("7d") // Token expires in 7 day
     .sign(SECRET_KEY);
 }
 

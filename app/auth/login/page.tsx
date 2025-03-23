@@ -5,14 +5,13 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 const Page = () => {
-  const router = useRouter();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
-  const [message, setMessage] = React.useState("");
-  const [error, setError] = React.useState("");
+  const [success, setSuccess] = React.useState<string>("");
+  const [error, setError] = React.useState<string>("");
   const [submitting, setSubmitting] = React.useState(false);
-
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setSubmitting(true);
     e.preventDefault();
@@ -27,6 +26,7 @@ const Page = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ email, password }),
         }
       ).then((res) => res.json());
@@ -36,29 +36,10 @@ const Page = () => {
         setError(loginResponse.error);
         return;
       }
+      setError("");
+      setSuccess(loginResponse.message);
       setSubmitting(false);
-
-      setMessage(loginResponse.message);
-      const sessionCreate = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/setsession`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token: loginResponse.token }),
-        }
-      ).then((res) => res.json());
-      if (sessionCreate.error) {
-        setSubmitting(false);
-
-        setError(sessionCreate.error);
-        return;
-      }
-      setSubmitting(false);
-
-      setMessage(sessionCreate.message);
-      router.push(`${process.env.NEXT_PUBLIC_DOMAIN}/app/timetable`);
+      router.push("/app");
     } catch (error) {
       setSubmitting(false);
       setError("An error occurred. Please try again later.");
@@ -99,7 +80,7 @@ const Page = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@srmist.edu.in"
-              className={`mt-2 outline-none focus:ring-1 focus:ring-orange-500 bg-foreground/5 border border-foreground/5 rounded-lg px-2 py-1.5 w-full ${error ? "ring-1 ring-red-500" : ""}`}
+              className={`mt-2 outline-none focus:ring-1 focus:ring-orange-500 bg-foreground/5 border border-foreground/5 rounded-lg px-2 py-1.5 w-full ${error ? "ring-1 ring-red-500" : success ? "ring-1 ring-green-500" : ""}`}
             />
           </label>
           <label htmlFor="password">
@@ -111,7 +92,7 @@ const Page = () => {
                 id="password"
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="********"
-                className={`relative mt-2 outline-none focus:ring-1 focus:ring-orange-500 bg-foreground/5 border border-foreground/5 rounded-lg px-2 py-1.5 w-full pr-10 ${error && !message ? "ring-1 ring-red-500" : error && message ? "ring-1 ring-green-500" : ""}`}
+                className={`relative mt-2 outline-none focus:ring-1 focus:ring-orange-500 bg-foreground/5 border border-foreground/5 rounded-lg px-2 py-1.5 w-full pr-10 ${error && !success ? "ring-1 ring-red-500" : !error && success ? "ring-1 ring-green-500" : ""}`}
               />
               {!showPassword ? (
                 <EyeOffIcon
@@ -128,12 +109,10 @@ const Page = () => {
               )}
             </div>
           </label>
-          {error && !message && (
+          {error && !success && (
             <p className="text-red-500 text-center ">{error}</p>
           )}
-          {message && !error && (
-            <p className="text-green-500 text-center ">{error}</p>
-          )}
+          {success && <p className="text-green-500 text-center ">{success}</p>}
 
           <button
             type="submit"
