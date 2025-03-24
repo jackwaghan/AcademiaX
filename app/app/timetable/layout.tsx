@@ -9,5 +9,5 @@ export default async function Rootlayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <>{children};</>;
 }

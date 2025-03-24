@@ -61,7 +61,7 @@ const Page = () => {
   hour = hour === 0 ? 12 : hour;
 
   return (
-    <div className="mx-auto max-w-7xl pb-10 px-5  ">
+    <div className="mx-auto max-w-7xl pb-10 ">
       <div className="flex justify-end items-center py-5 ">
         <div className="flex items-center gap-2 text-md text-green-500">
           <Clock size={20} />
@@ -70,7 +70,7 @@ const Page = () => {
         </div>
       </div>
       <div
-        className={`grid grid=cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  px-5 py-5  bg-foreground/5 rounded-lg border border-foreground/5 ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 `}
+        className={`grid grid=cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  px-5 mx-5 md:mx-0  py-5  bg-foreground/5 rounded-lg border border-foreground/5 ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 `}
       >
         <div className="h-[300px] p-8 border border-foreground/10  rounded-lg flex flex-col bg-background ">
           <div className="flex items-center gap-4 ">
@@ -197,7 +197,7 @@ const TimeTable = ({
   const { timetable, attendance, day } = useUser();
   return (
     <div
-      className={`mt-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
+      className={`mt-10 md:mx-0 mx-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
     >
       {timetable &&
         attendance &&
