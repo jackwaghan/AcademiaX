@@ -58,6 +58,7 @@ const Page = () => {
   const minute = currentTime.getMinutes();
   const ampm = hour >= 12 ? "PM" : "AM";
   hour = hour >= 13 ? hour - 12 : hour;
+  hour = hour === 0 ? 12 : hour;
 
   return (
     <div className="mx-auto max-w-7xl pb-10 px-5 ">
@@ -65,7 +66,7 @@ const Page = () => {
         <div className="flex items-center gap-2 text-md text-green-500">
           <Clock size={20} />
 
-          <p>{`${hour.toString().padStart(2, "0")}:${minute} ${ampm}`}</p>
+          <p>{`${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")} ${ampm}`}</p>
         </div>
       </div>
       <div

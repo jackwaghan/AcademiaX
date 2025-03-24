@@ -25,6 +25,16 @@ export const metadata: Metadata = {
   title: "AcademiaX SRM",
   description:
     "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
+  keywords: [
+    "SRM",
+    "Academia",
+    "AcademiaX",
+    "AcademiaX SRM",
+    "jackwaghan",
+    "jackwaghan.com",
+    "jack waghan",
+    "SRM Academia",
+  ],
   openGraph: {
     title: "AcademiaX SRM",
     description:

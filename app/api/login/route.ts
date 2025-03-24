@@ -5,8 +5,6 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { UAParser } from "ua-parser-js";
 
-export const runtime = "edge";
-
 interface DeviceInfo {
   deviceInfo: {
     browser: {

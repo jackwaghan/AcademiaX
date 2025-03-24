@@ -1,7 +1,12 @@
 "use client";
 import { useWindow } from "@/lib/hook";
-import { useSidebar } from "@/lib/zustand";
-import { CircleUserRound, Cog, LogOut, PanelRightOpen } from "lucide-react";
+import { useSidebar, useUser } from "@/lib/zustand";
+import {
+  CircleUserRound,
+  LogOut,
+  PanelRightOpen,
+  UserCircle2,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,12 +15,12 @@ import React from "react";
 
 const ProfileIcon = {
   Profile: <CircleUserRound />,
-  Settings: <Cog />,
+  // Settings: <Cog />,
   Logout: <LogOut />,
 };
 
 const Profile = [
-  { name: "Profile", link: "/app/profile" },
+  // { name: "Profile", link: "/app/profile" },
   { name: "Logout", link: "/auth/logout" },
 ] as const;
 
@@ -68,34 +73,58 @@ const Header = () => {
             className="rounded-full"
           />
         </div>
-        {show && (
-          <div
-            ref={ref}
-            className="absolute top-13 right-5 px-2 py-2 bg-background border border-foreground/10 rounded-lg shadow-lg flex flex-col gap-1 cursor-pointer "
-          >
-            {Profile.map((item, index) => {
-              const color = item.name === "Logout" ? "red-500" : "blue-500";
-              return (
-                <Link
-                  href={item.link}
-                  key={index}
-                  className={`flex gap-2 items-center hover:bg-foreground/10 px-3 py-1.5 rounded-lg duration-300 hover:scale-95 transition-transform`}
-                  onClick={() => setShow(false)}
-                >
-                  <span
-                    className={`w-5 h-5 items-center flex text-blue-500 text-${color}`}
-                  >
-                    {ProfileIcon[item.name]}
-                  </span>
-                  <p className="rounded px-2 mr-5">{item.name}</p>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+        <ProfileDropdown ref={ref} setShow={setShow} show={show} />
       </div>
     </div>
   );
 };
 
 export default Header;
+
+const ProfileDropdown = ({
+  ref,
+  setShow,
+  show,
+}: {
+  ref: React.RefObject<HTMLDivElement | null>;
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const { user } = useUser();
+  return (
+    <div
+      ref={ref}
+      className={`absolute top-13 right-5 px-2 py-2 bg-background border border-foreground/10 rounded-lg shadow-lg flex flex-col gap-1  w-[230px] md:w-[250px] z-50 transition-transform duration-700 ${
+        show
+          ? "opacity-100 translate-y-0 scale-100"
+          : " opacity-0 translate-y-10 scale-90"
+      }`}
+    >
+      <div className="flex items-center  text-sm p-2 gap-4 ">
+        <UserCircle2 size={30} className=" text-blue-500" />
+        <div>
+          <p className="">{user?.name}</p>
+          <p className="text-foreground/60">{user?.roll}</p>
+        </div>
+      </div>
+      {Profile.map((item, index) => {
+        const color = item.name === "Logout" ? "red-500" : "blue-500";
+        return (
+          <Link
+            href={item.link}
+            key={index}
+            className={`flex gap-2 items-center hover:bg-foreground/10 px-3 py-1.5 rounded-lg duration-300 hover:scale-95 transition-transform`}
+            onClick={() => setShow(false)}
+          >
+            <span
+              className={`w-5 h-5 items-center flex text-blue-500 text-${color}`}
+            >
+              {ProfileIcon[item.name]}
+            </span>
+            <p className="rounded px-2 mr-5">{item.name}</p>
+          </Link>
+        );
+      })}
+    </div>
+  );
+};

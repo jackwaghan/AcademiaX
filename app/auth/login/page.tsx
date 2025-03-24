@@ -1,4 +1,5 @@
 "use client";
+import { login } from "@/app/action";
 import { Eye, EyeOffIcon, GraduationCap, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,20 +18,8 @@ const Page = () => {
     e.preventDefault();
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
-    console.log(email, password);
     try {
-      const loginResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ email, password }),
-        }
-      ).then((res) => res.json());
-
+      const loginResponse = await login({ email, password });
       if (loginResponse.error) {
         setSubmitting(false);
         setError(loginResponse.error);
@@ -90,6 +79,7 @@ const Page = () => {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 id="password"
+                autoSave="off"
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="********"
                 className={`relative mt-2 outline-none focus:ring-1 focus:ring-orange-500 bg-foreground/5 border border-foreground/5 rounded-lg px-2 py-1.5 w-full pr-10 ${error && !success ? "ring-1 ring-red-500" : !error && success ? "ring-1 ring-green-500" : ""}`}
@@ -128,7 +118,7 @@ const Page = () => {
           <button
             type="submit"
             className="mt-5 bg-orange-500 text-black px-3 py-2 md:px-4 md:py-2 rounded-lg hover:scale-95 duration-300 cursor-pointer font-semibold items-center flex justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={submitting}
+            disabled={submitting || email === "" || password === ""}
           >
             {submitting ? (
               <Loader2 size={20} className="animate-spin " />

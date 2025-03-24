@@ -7,6 +7,7 @@ import {
   AlarmClock,
   BookOpen,
   CircleHelp,
+  UserCircle2,
 } from "lucide-react";
 import { useSidebar, useUser } from "@/lib/zustand";
 import Link from "next/link";
@@ -28,6 +29,11 @@ const SidebarMenu = [
     title: "Marks",
     icon: <BookOpen className="stroke-blue-500" />,
     link: "/app/marks",
+  },
+  {
+    title: "Profile",
+    icon: <UserCircle2 className="stroke-blue-500" />,
+    link: "/app/profile",
   },
 ];
 
@@ -116,9 +122,14 @@ const Sidebar = () => {
         </a>
       </div>
       <div className="pt-5  border-t border-sidebar-foreground/20 px-4 gap-4 flex flex-col">
-        <div className="flex gap-3 items-center  px-4 py-1.5 rounded-lg hover:bg-sidebar-foreground/10 cursor-pointer hover:scale-95 hover:shadow-2xl duration-300 transition-transform">
-          <CircleHelp size={20} className="stroke-orange-500" /> Need Help?
-        </div>
+        <a
+          className="flex gap-3 items-center  px-4 py-1.5 rounded-lg hover:bg-sidebar-foreground/10 cursor-pointer hover:scale-95 hover:shadow-2xl duration-300 transition-transform"
+          href="https://chat.whatsapp.com/B6a15jYEKgI1UD7QzX39cM"
+          target="_blank"
+        >
+          <CircleHelp size={20} className="stroke-orange-500" /> Join
+          What&apos;s app
+        </a>
         <div className="mb-3 px-4 py-1 flex justify-between items-center bg-sidebar-foreground/10 rounded-lg border border-sidebar-foreground/5 text-sm  ">
           <p>v1.0.0</p>
           <p>@2025</p>
