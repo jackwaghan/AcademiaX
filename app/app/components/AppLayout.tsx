@@ -37,7 +37,7 @@ const AppLayout = ({
   if (isMobile === undefined) return null;
 
   return (
-    <div className="flex h-screen ">
+    <div className="flex h-screen">
       <Sidebar />
       <div className="flex-1 h-screen flex flex-col ">
         <Header />

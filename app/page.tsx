@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="w-dvw h-svh overflow-hidden px-2 font-poppins">
-      <nav className="relative max-w-7xl mx-auto mt-5 border border-foreground/10 bg-foreground/5 backdrop-blur-3xl rounded-xl  h-[60px] flex items-center justify-between px-4">
+      <nav className="relative max-w-6xl mx-auto mt-5 border border-foreground/10 bg-foreground/5 backdrop-blur-3xl rounded-xl  h-[60px] flex items-center justify-between px-4">
         <div className="flex items-center justify-center gap-4 text-xl ">
           <GraduationCap size={30} className="stroke-orange-500" />
           <h1>AcademiaX SRM</h1>
@@ -43,7 +43,9 @@ export default function Home() {
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
             placeholder="blur"
             width={1700}
-            height={1700}
+            height={1200}
+            priority
+            quality={85}
             className="rounded-lg "
           ></Image>
           <div className="absolute inset-0 bg-orange-500/90 blur-3xl -z-10" />

@@ -24,7 +24,7 @@ const Page = () => {
     );
 
   return (
-    <div className="mx-auto max-w-7xl py-10 px-4 ">
+    <div className="mx-auto max-w-7xl py-10 md:px-4 ">
       <div
         className={`grid grid-cols-2 md:grid-cols-4 gap-4 px-4 md:px-0 ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500`}
       >

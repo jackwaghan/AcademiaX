@@ -5,24 +5,24 @@ export function getCurrentAndNextTimeslot(
   dayOrder: string
 ) {
   const daySchedule = schedule[dayOrder];
-  if (!daySchedule) return { current: null, next: null }; // No schedule for this day
-
-  const now = new Date();
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  if (!daySchedule) return { current: null, next: null };
+  const now = getcurrentTime(); // 12-hour format
+  const currentMinutes = now.hour * 60 + now.minute;
 
   const timeslots = Object.keys(daySchedule).map((timeslot) => {
     const [startStr, endStr] = timeslot.split(" - ");
-    const [startHour, startMinute] = startStr.split(":").map(Number);
-    const [endHour, endMinute] = endStr.split(":").map(Number);
+    const startTime = convertTo24Hour(startStr);
+    const endTime = convertTo24Hour(endStr);
 
     return {
       timeslot,
-      startMinutes: startHour * 60 + startMinute,
-      endMinutes: endHour * 60 + endMinute,
+      startMinutes: startTime.hour * 60 + startTime.minute,
+      endMinutes: endTime.hour * 60 + endTime.minute,
+      details: daySchedule[timeslot],
     };
   });
 
-  // Sort timeslots by start time
+  // Ensure timeslots are sorted in ascending order of start time
   timeslots.sort((a, b) => a.startMinutes - b.startMinutes);
 
   let current = null;
@@ -33,13 +33,41 @@ export function getCurrentAndNextTimeslot(
 
     if (
       currentMinutes >= slot.startMinutes &&
-      currentMinutes <= slot.endMinutes
+      currentMinutes < slot.endMinutes
     ) {
-      current = slot.timeslot;
-      next = timeslots[i + 1] ? timeslots[i + 1].timeslot : null;
+      current = { timeslot: slot.timeslot, ...slot.details };
+      next = timeslots[i + 1]
+        ? { timeslot: timeslots[i + 1].timeslot, ...timeslots[i + 1].details }
+        : null;
       break;
     }
   }
 
+  // If no current class is found, set the first class as next
+  if (!current) {
+    next =
+      timeslots.length > 0
+        ? { timeslot: timeslots[0].timeslot, ...timeslots[0].details }
+        : null;
+  }
+
   return { current, next };
+}
+
+function convertTo24Hour(timeStr: string) {
+  const [hour, minute] = timeStr.split(":").map(Number);
+  let currentHour = hour;
+  if (1 <= currentHour && currentHour <= 5) {
+    currentHour = currentHour + 12;
+  }
+
+  return { hour, minute };
+}
+
+function getcurrentTime() {
+  const time = new Date();
+  const minute = time.getMinutes();
+  let hour = time.getHours();
+  hour = hour >= 13 ? hour - 12 : hour;
+  return { hour, minute };
 }

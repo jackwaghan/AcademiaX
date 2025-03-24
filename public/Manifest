@@ -2,13 +2,22 @@
   "name": "AcademiaX SRM",
   "short_name": "AcademiaX",
   "description": "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
+  "categories": [
+    "education",
+    "productivity"
+  ],
+  "lang": "en-US",
+  "dir": "ltr",
+  "theme_color": "#000000",
+  "background_color": "#000000",
   "start_url": "/",
   "scope": "/",
-  "lang": "en",
-  "dir": "ltr",
   "orientation": "portrait",
   "display": "standalone",
-  "display_override": ["fullscreen", "window-controls-overlay"],
+  "display_override": [
+    "fullscreen",
+    "window-controls-overlay"
+  ],
   "launch_handler": {
     "client_mode": "focus-existing"
   },
@@ -24,6 +33,20 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/Mobile.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/Desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
     }
   ]
 }

@@ -14,21 +14,14 @@ import Error from "../components/Error";
 import { getCurrentAndNextTimeslot } from "./components/TimeInRange";
 
 const Page = () => {
-  const { timetable, attendance, dayorder, setDay, day } = useUser();
+  const { timetable, attendance, dayorder, setDay } = useUser();
   const [mount, setMount] = React.useState(false);
-  const [isEvening, setIsEvening] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
     if (dayorder?.do !== "N" && dayorder?.do)
       setDay((Number(dayorder?.do) - 1).toString());
     setMount(true);
-    const currentHour = new Date().getHours();
-    if (currentHour >= 18 || currentHour < 8) {
-      setIsEvening(true);
-    } else {
-      setIsEvening(false);
-    }
   }, [dayorder?.do, setDay]);
 
   if (timetable === null) return <Error error="Timetable not found" />;
@@ -45,23 +38,26 @@ const Page = () => {
     dayorder.do !== "N" ? (Number(dayorder?.do) - 1).toString() : "6";
 
   const timeslot =
-    dayOrder !== "6" ? getCurrentAndNextTimeslot(timetable, day) : null;
-  const current = !isEvening && timeslot ? timeslot.current : null;
-  const next = !isEvening && timeslot ? timeslot.next : null;
-  const currentClass =
-    dayOrder !== "6" && current ? timetable[day][current] : null;
-  const nextClass = dayOrder !== "6" && next ? timetable[day][next] : null;
+    dayOrder !== "6" ? getCurrentAndNextTimeslot(timetable, dayOrder) : null;
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const current =
+    currentHour >= 8 && currentHour < 18 && timeslot ? timeslot.current : null;
+  const next =
+    currentHour >= 8 && currentHour <= 17 && timeslot ? timeslot.next : null;
+  const currentClass = current ? timetable[dayOrder][current.timeslot] : null;
+  const nextClass =
+    dayOrder !== "6" && next ? timetable[dayOrder][next.timeslot] : null;
 
   const facultyCurrent = attendance.find(
     (item) => item.code === currentClass?.code
   );
   const facultyNext = attendance.find((item) => item.code === nextClass?.code);
 
-  const currentTime = new Date();
   let hour = currentTime.getHours();
   const minute = currentTime.getMinutes();
   const ampm = hour >= 12 ? "PM" : "AM";
-  hour = hour >= 12 ? hour - 12 : hour;
+  hour = hour >= 13 ? hour - 12 : hour;
 
   return (
     <div className="mx-auto max-w-7xl pb-10 px-5 ">
@@ -69,7 +65,7 @@ const Page = () => {
         <div className="flex items-center gap-2 text-md text-green-500">
           <Clock size={20} />
 
-          <p>{`${hour}:${minute} ${ampm}`}</p>
+          <p>{`${hour.toString().padStart(2, "0")}:${minute} ${ampm}`}</p>
         </div>
       </div>
       <div
@@ -151,7 +147,7 @@ const Page = () => {
         </div>
       </div>
       <SelectDay mount={mount} />
-      <TimeTable mount={mount} />
+      <TimeTable mount={mount} current={currentClass} />
     </div>
   );
 };
@@ -184,12 +180,23 @@ const SelectDay = ({ mount }: { mount: boolean }) => {
   );
 };
 
-const TimeTable = ({ mount }: { mount: boolean }) => {
+const TimeTable = ({
+  mount,
+  current,
+}: {
+  mount: boolean;
+  current: {
+    code: string;
+    title: string;
+    room: string;
+    type: string;
+    category: string;
+  } | null;
+}) => {
   const { timetable, attendance, day } = useUser();
-
   return (
     <div
-      className={`mt-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 " ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
+      className={`mt-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
     >
       {timetable &&
         attendance &&
@@ -201,7 +208,7 @@ const TimeTable = ({ mount }: { mount: boolean }) => {
           return (
             <div
               key={i}
-              className="flex flex-col gap-6 border border-foreground/10 p-4 rounded-lg bg-foreground/5 justify-between "
+              className={`flex flex-col gap-6 border  p-4 rounded-lg bg-foreground/5 justify-between ${current === classItem ? "border-red-500" : "border-foreground/10"}`}
             >
               <div className="flex justify-between items-center gap-4">
                 <p className="text-orange-500 text-sm border border-foreground/10 rounded-full bg-foreground/5 px-3 py-0.5">

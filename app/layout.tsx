@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
-
+import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "next-themes";
 import PWAInstaller from "./components/PwaInstaller";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,6 +25,30 @@ export const metadata: Metadata = {
   title: "AcademiaX SRM",
   description:
     "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
+  openGraph: {
+    title: "AcademiaX SRM",
+    description:
+      "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
+    url: "https://academiax.in",
+    siteName: "AcademiaX SRM",
+    images: [
+      {
+        url: "https://academiax.in/screenshots/Desktop.png",
+        width: 1920,
+        height: 1080,
+        alt: "AcademiaX SRM",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@academiax",
+    title: "AcademiaX SRM",
+    description:
+      "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
+    images: ["https://academiax.in/screenshots/Desktop.png"],
+  },
 };
 
 export default function RootLayout({
@@ -48,11 +73,13 @@ export default function RootLayout({
           href="/apple-touch-icon.png"
         />
         <meta name="apple-mobile-web-app-title" content="AcademiaX" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href="/Manifest" />
       </head>
       <body
         className={`${geistSans.variable} ${poppins.variable} ${geistMono.variable} antialiased  `}
       >
+        <Analytics />
+        <SpeedInsights />
         <ThemeProvider
           enableSystem={false}
           defaultTheme="dark"
