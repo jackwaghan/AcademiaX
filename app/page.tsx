@@ -29,7 +29,7 @@ export default function Home() {
           students.
         </p>
         <Link
-          href={"/auth/login"}
+          href={"/app/timetable"}
           className="mt-10 bg-orange-500 text-black px-3 py-1 md:px-4 md:py-2 rounded-lg hover:scale-90 duration-300 cursor-pointer font-semibold"
         >
           Get Started

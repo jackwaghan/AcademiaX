@@ -57,7 +57,7 @@ const Sidebar = () => {
   return (
     <div
       ref={ref}
-      className={`z-50 fixed w-[250px] h-full flex flex-col bg-sidebar-foreground/10 backdrop-blur-3xl border-r border-sidebar-foreground/15 ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300`}
+      className={`z-50 fixed w-[250px] h-full flex flex-col bg-sidebar-foreground/5 backdrop-blur-3xl border-r border-sidebar-foreground/15 ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300`}
     >
       <div className="min-h-[50px] flex gap-2 items-center justify-between border-b border-sidebar-foreground/15 px-4">
         <div className="flex gap-2 items-center p-1">
@@ -69,6 +69,22 @@ const Sidebar = () => {
           size={25}
           onClick={() => toggle()}
         />
+      </div>
+      <div className="px-4 pt-5 text-sm ">
+        <div
+          className={`flex flex-col gap-2  border border-foreground/15 rounded-lg bg-foreground/10 px-5 py-3 duration-300 `}
+        >
+          <p className="text-blue-500  text-md ">Welcome Back 👋 </p>
+          <p className="pt-2">{user?.name}</p>
+          <p className="text-foreground/60">{user?.department}</p>
+          <p className="flex items-center gap-2 text-green-500">
+            <p className="flex items-center gap-2 text-green-500">
+              <p>Day Order</p>
+              <span>-</span>
+              <p>{dayorder?.do === "N" ? "Holiday" : dayorder?.do}</p>
+            </p>
+          </p>
+        </div>
       </div>
       <div className="flex-1  gap-3 py-5  flex flex-col justify-between">
         <div className="flex flex-col gap-2">
@@ -86,17 +102,18 @@ const Sidebar = () => {
             );
           })}
         </div>
-        <div className="px-4 py-1.5 text-sm ">
-          <div className="flex flex-col gap-2 p-3 border border-foreground/10 rounded-lg bg-foreground/5 ">
-            <p className="">{user?.name}</p>
-            <p className="text-sidebar-foreground/50">{user?.department}</p>
-            <p className="flex items-center gap-2 text-green-500">
-              <p>Day Order</p>
-              <span>-</span>
-              <p>{dayorder?.do === "N" ? "Holiday" : dayorder?.do}</p>
-            </p>
+        <a
+          href="https://jackwaghan.com"
+          className="px-4 text-sm hover:scale-95 hover:shadow-2xl duration-300 transition-all"
+          target="_blank"
+        >
+          <div
+            className={`flex flex-col gap-2  border-2 border-dotted border-orange-300/60 rounded-lg bg-foreground/10 px-5 py-3 duration-300 `}
+          >
+            <p className="">🛠️ Designed & Built by </p>
+            <p className="text-orange-300 pl-5 font-semibold">JACK WAGHAN</p>
           </div>
-        </div>
+        </a>
       </div>
       <div className="pt-5  border-t border-sidebar-foreground/20 px-4 gap-4 flex flex-col">
         <div className="flex gap-3 items-center  px-4 py-1.5 rounded-lg hover:bg-sidebar-foreground/10 cursor-pointer hover:scale-95 hover:shadow-2xl duration-300 transition-transform">

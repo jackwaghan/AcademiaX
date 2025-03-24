@@ -3,9 +3,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { verifyToken } from "@/lib/jwt";
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
 
 export async function GET() {
   const cookie = (await cookies()).get("token")?.value;
