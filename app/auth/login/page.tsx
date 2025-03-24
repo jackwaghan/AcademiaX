@@ -1,5 +1,4 @@
 "use client";
-import { login } from "@/app/action";
 import { Eye, EyeOffIcon, GraduationCap, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,7 +18,18 @@ const Page = () => {
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     try {
-      const loginResponse = await login({ email, password });
+      const loginResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        }
+      ).then((res) => res.json());
+
       if (loginResponse.error) {
         setSubmitting(false);
         setError(loginResponse.error);
