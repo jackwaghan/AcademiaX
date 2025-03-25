@@ -45,8 +45,6 @@ export async function POST(req: NextRequest) {
         "sec-fetch-dest": "empty",
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
-        //   cookie:
-        //     "_ga=GA1.1.2014352967.1742235047; _ga_MGPN5E88RB=GS1.1.1742235046.1.1.1742235088.0.0.0",
         Referer: "https://www.acadia.asia/login",
         "Referrer-Policy": "strict-origin-when-cross-origin",
       },

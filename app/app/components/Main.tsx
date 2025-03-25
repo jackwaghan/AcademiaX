@@ -14,10 +14,7 @@ async function fetchdata() {
     },
     credentials: "include",
   });
-
-  if (data.ok) {
-    return await data.json();
-  }
+  return { data: await data.json(), status: data.status };
 }
 
 export default async function Main({
@@ -25,13 +22,32 @@ export default async function Main({
 }: {
   children: React.ReactNode;
 }) {
-  const data = await fetchdata();
-  if (!data) {
+  const { data, status } = await fetchdata();
+  if (status === 401) return;
+
+  <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
+    <div className="flex flex-col items-center gap-4 ">
+      <p className="text-lg">Try to Reload Page</p>
+      <Button status="401" />
+    </div>
+  </div>;
+  if (status === 500) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
+        <div className="flex flex-col items-center gap-4 ">
+          <p className="text-lg">Internal Server Error</p>
+          <Button status="500" />
+        </div>
+      </div>
+    );
+  }
+
+  if (status === 403 || status === 402) {
     return (
       <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
         <div className="flex flex-col items-center gap-4 ">
           <p className="text-lg">You have been logged out</p>
-          <Button />
+          <Button status="403" />
         </div>
       </div>
     );

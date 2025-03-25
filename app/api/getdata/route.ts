@@ -15,7 +15,7 @@ export async function GET() {
       !("email" in decode) ||
       !("token" in decode)
     ) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "JWT decode Error" }, { status: 402 });
     }
     const email = decode.email;
     const token = decode.token;
@@ -30,7 +30,7 @@ export async function GET() {
       .single();
 
     if (error || !students)
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "Session Not Found" }, { status: 403 });
 
     const [user, marks, timetable, attendance, dayorder] = await Promise.all([
       getUser(students.session_cookie),
@@ -51,7 +51,7 @@ export async function GET() {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json({ error }, { status: 401 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
 
