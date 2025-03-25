@@ -95,6 +95,11 @@ const Page = () => {
                 <User size={20} />
                 <p>{facultyCurrent?.faculty}</p>
               </div>
+              <div className="w-fit">
+                <p className="text-green-500 text-sm border border-foreground/10 rounded-full bg-green-500/10 px-2 py-0.5">
+                  {current?.timeslot}
+                </p>
+              </div>
             </div>
           ) : (
             <div className="h-full flex items-center  justify-center flex-col gap-6 ">
@@ -124,6 +129,11 @@ const Page = () => {
               <div className="flex items-center gap-2 text-md text-blue-500">
                 <User size={20} />
                 <p>{facultyNext?.faculty}</p>
+              </div>
+              <div className="w-fit">
+                <p className="text-green-500 text-sm border border-foreground/10 rounded-full bg-green-500/10 px-2 py-0.5">
+                  {next?.timeslot}
+                </p>
               </div>
             </div>
           ) : (
