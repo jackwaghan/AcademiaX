@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export default async function middleware(req: NextRequest) {
   const cookie = (await cookies()).get("token")?.value;
-
   if (req.nextUrl.pathname === "/auth/login" && cookie) {
     const url = req.nextUrl.clone();
     url.pathname = "/app/timetable";

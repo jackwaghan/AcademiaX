@@ -78,7 +78,7 @@ const Sidebar = () => {
       </div>
       <div className="px-4 pt-5 text-sm ">
         <div
-          className={`flex flex-col gap-2  border border-foreground/15 rounded-lg bg-foreground/10 px-5 py-3 duration-300 `}
+          className={`flex flex-col gap-2  border border-foreground/10 rounded-lg bg-foreground/5 shadow-inner shadow-foreground/10 px-5 py-3 duration-300 `}
         >
           <p className="text-blue-500  text-md ">Welcome Back 👋 </p>
           <p className="pt-2">{user?.name}</p>
@@ -99,7 +99,7 @@ const Sidebar = () => {
               <Link
                 key={i}
                 href={menu.link}
-                className={`mx-4 py-1.5 px-4 flex items-center gap-4  rounded-md hover:bg-sidebar-foreground/10 cursor-pointer  hover:scale-96 hover:shadow-2xl duration-300 transition-transform ${path === menu.link ? "bg-orange-500 text-black  stroke-white" : ""}`}
+                className={`mx-4 py-1.5 px-4 flex items-center gap-4  rounded-md hover:text-foreground hover:scale-98 cursor-pointer  duration-300 transition-transform ${path === menu.link ? "shadow-inner shadow-foreground/10 text-foreground bg-foreground/10 " : " text-foreground/60"}`}
                 onClick={() => isMobile && toggle()}
               >
                 {menu.icon}
@@ -110,11 +110,11 @@ const Sidebar = () => {
         </div>
         <a
           href="https://jackwaghan.com"
-          className="px-4 text-sm hover:scale-98 hover:shadow-2xl duration-300 transition-all"
+          className="px-4 text-sm duration-300 transition-all"
           target="_blank"
         >
           <div
-            className={`flex flex-col gap-2  border-2 border-dotted border-orange-300/60 rounded-lg bg-foreground/10 px-5 py-3 duration-300 `}
+            className={`flex flex-col gap-2 border rounded-lg bg-foreground/5 shadow-foreground/10 hover:shadow-orange-300 shadow-inner  px-5 py-3 duration-300 `}
           >
             <p className="">🛠️ Designed & Built by </p>
             <p className="text-orange-300 pl-5 font-semibold">JACK WAGHAN</p>
@@ -129,7 +129,12 @@ const Sidebar = () => {
         >
           <CircleHelp size={20} className="stroke-orange-500" /> Need Help?
         </a>
-        <div className="mb-3 px-4 py-1 flex justify-between items-center bg-sidebar-foreground/10 rounded-lg border border-sidebar-foreground/5 text-sm  ">
+        <div
+          onClick={() => {
+            useUser.setState({ NewVersion: true });
+          }}
+          className="cursor-pointer mb-3 px-4 py-2 flex justify-between items-center shadow-inner shadow-foreground/5 rounded-lg border border-sidebar-foreground/5 bg-foreground/5 text-sm  "
+        >
           <p>v1.0.0</p>
           <p>@2025</p>
         </div>

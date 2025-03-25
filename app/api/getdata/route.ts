@@ -5,8 +5,11 @@ import { verifyToken } from "@/lib/jwt";
 
 export async function GET() {
   const cookie = (await cookies()).get("token")?.value;
+
   if (!cookie)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const NewVersion = "v1.0.1";
+
   try {
     const decode = await verifyToken(cookie);
     if (
@@ -19,6 +22,7 @@ export async function GET() {
     }
     const email = decode.email;
     const token = decode.token;
+    console.log(email, token);
 
     const supabase = await createClient();
 
@@ -47,6 +51,7 @@ export async function GET() {
         attendance,
         timetable,
         dayorder,
+        NewVersion,
       },
       { status: 200 }
     );

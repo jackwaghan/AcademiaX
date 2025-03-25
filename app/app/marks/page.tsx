@@ -28,7 +28,7 @@ const Page = () => {
       <div
         className={`grid grid-cols-2 md:grid-cols-4 gap-4 px-4 md:px-0 ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500`}
       >
-        <div className="h-[150px] justify-center px-5 rounded-lg bg-foreground/5 border border-foreground/10 flex flex-col gap-4">
+        <div className="h-[150px] justify-center px-5 rounded-lg bg-foreground/5 shadow-inner shadow-foreground/20 border border-foreground/5 flex flex-col gap-4">
           <p className="text-xl text-blue-500 font-semibold">
             Current Semester
           </p>
@@ -40,7 +40,7 @@ const Page = () => {
           </div>
         </div>
         <div>
-          <div className="h-[150px] justify-center px-5 rounded-lg bg-foreground/5 border border-foreground/10 flex flex-col gap-4 ">
+          <div className="h-[150px] justify-center px-5 rounded-lg bg-foreground/5 shadow-inner shadow-foreground/20 border border-foreground/5  flex flex-col gap-4 ">
             <p className="text-2xl text-blue-500 font-semibold">Section</p>
             <div className="flex items-center justify-between">
               <p className="text-4xl font-semibold">{user.section}</p>
@@ -68,7 +68,7 @@ const Page = () => {
           return (
             <div
               key={i}
-              className="p-4 border border-foreground/10 rounded-lg bg-foreground/5 flex flex-col gap-3 "
+              className="p-4 border-orange-200/20 border-l-4 rounded-lg bg-foreground/5  flex flex-col gap-3 "
             >
               <div className="flex justify-between gap-2">
                 <p className="text-md">{mark.name}</p>
@@ -97,7 +97,7 @@ const Page = () => {
                           {" "}
                           <div className="flex justify-between items-center">
                             <p className="p-2 ">{item.name}</p>
-                            <div className="flex gap-1 items-center bg-orange-500/80 px-2 py-0.5 text-background font-bold rounded-full text-sm">
+                            <div className="flex gap-1 items-center   bg-orange-200/80  px-2 py-0.5 text-background font-bold rounded-full text-sm">
                               <p>{item.mark}</p>
                               <span>/</span>
                               <p>{item.total}</p>

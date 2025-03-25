@@ -28,6 +28,7 @@ export const useUser = create<UserInfo>()((set) => ({
   day: "0",
   loading: true,
   clearing: false,
+  NewVersion: false,
   logout: async () => {
     set({
       user: null,

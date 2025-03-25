@@ -2,10 +2,10 @@ import React from "react";
 import Button from "./Button";
 import AppLayout from "./AppLayout";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 async function fetchdata() {
   const token = (await cookies()).get("token")?.value;
-
   const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/getdata`, {
     method: "GET",
     headers: {
@@ -14,7 +14,9 @@ async function fetchdata() {
     },
     credentials: "include",
   });
-  return { data: await data.json(), status: data.status };
+  const version = (await cookies()).get("version")?.value || "v1.0.0";
+
+  return { data: await data.json(), status: data.status, version };
 }
 
 export default async function Main({
@@ -22,15 +24,8 @@ export default async function Main({
 }: {
   children: React.ReactNode;
 }) {
-  const { data, status } = await fetchdata();
-  if (status === 401) return;
-
-  <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
-    <div className="flex flex-col items-center gap-4 ">
-      <p className="text-lg">Try to Reload Page</p>
-      <Button status="401" />
-    </div>
-  </div>;
+  const { data, status, version } = await fetchdata();
+  if (status === 401) return redirect("/auth/login");
   if (status === 500) {
     return (
       <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
@@ -53,5 +48,9 @@ export default async function Main({
     );
   }
 
-  return <AppLayout data={data}>{children}</AppLayout>;
+  return (
+    <AppLayout data={data} version={version}>
+      {children}
+    </AppLayout>
+  );
 }

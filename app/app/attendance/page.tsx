@@ -32,7 +32,7 @@ const Page = () => {
     <div className=" px-4 ">
       <div className="h-full mx-auto max-w-7xl pt-10">
         <div
-          className={`grid grid-cols-1 md:grid-cols-2 gap-6  border border-foreground/10 rounded-lg p-5 bg-foreground/5 backdrop-blur-3xl ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500`}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-6  rounded-lg p-5 bg-foreground/5 shadow-inner border border-foreground/5 shadow-foreground/30  ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500`}
         >
           <div className="flex flex-col ">
             <p className="text-xl text-center  text-orange-500 md:text-2xl">
@@ -84,9 +84,9 @@ const Page = () => {
             return (
               <div
                 key={i}
-                className={`flex flex-col justify-between border border-foreground/10 rounded-lg p-4 bg-foreground/5 backdrop-blur-3xl ${mount ? "translate-y-0 opacity-100 " : "translate-y-20 opacity-0"} transition-all  delay-200 duration-500`}
+                className={`flex flex-col justify-between border border-foreground/5 shadow-inner shadow-foreground/10 rounded-lg p-4 bg-foreground/5 backdrop-blur-3xl ${mount ? "translate-y-0 opacity-100 " : "translate-y-20 opacity-0"} transition-all  delay-200 duration-500`}
               >
-                <div className="flex justify-between border-b pb-5 h-[90px] border-foreground/10 w-full">
+                <div className="flex justify-between border-b pb-5 h-[90px] border-foreground/10 w-full gap-2 ">
                   <div className="flex flex-col gap-2 w-full">
                     <p>{item.title}</p>
                     <div className="text-sm text-foreground/50 flex gap-2 ">
@@ -96,7 +96,7 @@ const Page = () => {
                     </div>
                   </div>
                   <div className={`${suggestionValue} `}>
-                    <p className="px-2 py-1 text-sm border border-foreground/10 flex gap-1 rounded-full ">
+                    <p className="px-2 py-1 text-sm border border-foreground/10 flex gap-1 rounded-full bg-background shadow-2xl text-center">
                       {item.percetage}
                       <span>%</span>
                     </p>
@@ -117,8 +117,8 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-3 ">
-                  <p>Class Attended</p>
-                  <div className="flex gap-1 items-center bg-orange-500/80 text-background font-bold px-2 py-0.5 rounded-full text-sm">
+                  <p className="text-orange-300">Class Attended</p>
+                  <div className="flex gap-1 items-center  bg-orange-300 text-background font-bold px-2 py-0.5 rounded-full text-sm">
                     <p>{classAttended}</p>
                     <span>/</span>
                     <p>{item.conducted}</p>

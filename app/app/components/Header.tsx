@@ -51,18 +51,16 @@ const Header = () => {
     >
       <div className="flex gap-2 items-center h-full">
         <PanelRightOpen
-          className="stroke-foreground/80 hover:stroke-foreground p-1 hover:bg-foreground/10 hover:scale-95 duration-300 transition-all rounded cursor-pointer"
+          className="stroke-orange-500 hover:stroke-foreground p-1 hover:bg-foreground/10 hover:scale-95 duration-300 transition-all rounded cursor-pointer"
           size={35}
           onClick={() => toggle()}
         />
         <div className="bg-foreground/20 h-[40px] w-[1px]" />
-        <p className="text-xl text-orange-500 capitalize font-geist-mono">
-          {path.split("/")[2]}
-        </p>
+        <p className="text-xl  capitalize ">{path.split("/")[2]}</p>
       </div>
       <div className="relative  ">
         <div
-          className="rounded-full hover:scale-95 duration-300 cursor-pointer border-3 border-orange-500  w-9 h-9 p-0.5 flex "
+          className="rounded-full hover:scale-95 duration-300 cursor-pointer border-2 border-orange-500  w-9 h-9 p-0.5 flex "
           onClick={() => setShow(!show)}
         >
           <Image
@@ -93,9 +91,9 @@ const ProfileDropdown = ({
   return (
     <div
       ref={ref}
-      className="absolute top-13 right-5 px-2 py-2 bg-background border border-foreground/10 rounded-lg shadow-xl flex flex-col gap-1  w-[230px] md:w-[250px] z-50 transition-transform duration-500"
+      className="absolute top-13 right-5 px-2 py-2 shadow-inner shadow-foreground/20 border border-foreground/10 bg-background rounded-lg flex flex-col gap-1  w-[230px] md:w-[250px] z-50 transition-transform duration-500"
     >
-      <div className="flex items-center  text-sm p-2 gap-4 ">
+      <div className="flex items-center  text-sm p-2 gap-4 border-b border-foreground/10">
         <UserCircle2 size={30} className=" text-blue-500" />
         <div>
           <p className="">{user?.name}</p>
@@ -108,7 +106,7 @@ const ProfileDropdown = ({
           <Link
             href={item.link}
             key={index}
-            className={`flex gap-2 items-center hover:bg-foreground/10 px-3 py-1.5 rounded-lg duration-300 hover:scale-98 transition-transform `}
+            className={`flex gap-2 items-center hover:shadow-inner hover:shadow-foreground/20 hover:bg-foreground/5 px-3 py-1.5 rounded-lg duration-300 hover:scale-98 transition-transform `}
             onClick={() => setShow(false)}
           >
             <span

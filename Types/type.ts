@@ -12,6 +12,7 @@ export type UserInfo = {
   day: string;
   loading: boolean;
   clearing: boolean;
+  NewVersion: boolean;
   setUser: (data: User) => void;
   setMarks: (data: Marks) => void;
   setAttendance: (data: Attendance) => void;

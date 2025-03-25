@@ -10,8 +10,8 @@ const Page = () => {
     setMount(true);
   }, []);
   return (
-    <div className="max-w-7xl mx-auto h-[80%] ">
-      <div className="flex items-center flex-col h-full justify-center px-5 ">
+    <div className="max-w-7xl mx-auto h-full">
+      <div className="flex items-center flex-col h-full pt-[100px] px-5 ">
         <Image
           src="https://img.freepik.com/premium-vector/3d-vector-icon-simple-blue-user-profile-icon-with-white-features_6011-1575.jpg"
           alt="profile"
@@ -20,7 +20,7 @@ const Page = () => {
           className={`rounded-full ${mount ? "translate-y-0 opacity-100" : "-translate-y-20 opacity-0"} transition-all duration-500`}
         />
         <div
-          className={`mt-20 bg-foreground/5 border border-foreground/10 p-5 rounded-lg w-full  md:w-[500px] flex flex-col gap-5 text-foreground/60 ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500 delay-200`}
+          className={`mt-20 bg-foreground/5 shadow-inner shadow-foreground/20 border border-foreground/5   p-5 rounded-lg w-full  md:w-[500px] flex flex-col gap-5 text-foreground/60 ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500 delay-200`}
         >
           <p className="text-lg flex justify-between">
             <span className="text-foreground">Name</span>

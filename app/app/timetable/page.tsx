@@ -4,7 +4,6 @@ import {
   BookOpen,
   CalendarClock,
   ChevronRight,
-  Clock,
   Clock8,
   MapPin,
   User,
@@ -39,7 +38,6 @@ const Page = () => {
 
   const timeslot =
     dayOrder !== "6" ? getCurrentAndNextTimeslot(timetable, dayOrder) : null;
-  const currentTime = new Date();
   const current = timeslot ? timeslot.current : null;
   const next = timeslot ? timeslot.next : null;
   const currentClass = current ? timetable[dayOrder][current.timeslot] : null;
@@ -49,39 +47,23 @@ const Page = () => {
   const facultyCurrent = attendance.find(
     (item) => item.code === currentClass?.code
   );
-  const facultyNext = attendance.find((item) => item.code === nextClass?.code);
-
-  let hour = currentTime.getHours();
-  const minute = currentTime.getMinutes();
-  const ampm = hour >= 12 ? "PM" : "AM";
-  hour = hour >= 13 ? hour - 12 : hour;
-  hour = hour === 0 ? 12 : hour;
 
   return (
-    <div className="mx-auto max-w-7xl pb-10  md:px-5">
-      <div className="flex justify-end items-center py-5 pr-5">
-        <div className=" flex gap-4 ">
-          <p className="text-md">Current Time</p>
-          <div className="flex items-center gap-2 text-md text-green-500">
-            <Clock size={20} />
-            <p>{`${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")} ${ampm}`}</p>
-          </div>
-        </div>
-      </div>
+    <div className="mx-auto max-w-7xl pb-10 px-4 ">
       <div
-        className={`grid grid=cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  px-5 mx-5 md:mx-0  py-5  bg-foreground/5 rounded-lg border border-foreground/5 ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 `}
+        className={`pt-7 grid grid=cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 h-full ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 `}
       >
-        <div className="h-[300px] p-8 border border-foreground/10  rounded-lg flex flex-col bg-background ">
+        <div className="h-[260px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl ">
           <div className="flex items-center gap-4 ">
             {" "}
             <Clock8 size={30} className="stroke-orange-300" />
-            <p className="text-2xl text-orange-500 font-semibold">
+            <p className="text-2xl text-orange-300 font-semibold">
               Current Class
             </p>
           </div>
           {currentClass ? (
-            <div className="h-full flex   flex-col gap-4 mt-5">
-              <p className="text-xl">{currentClass.title}</p>
+            <div className="h-full flex flex-col gap-4 mt-5">
+              <p className="text-lg">{currentClass.title}</p>
               <div className="flex items-center gap-2 text-md text-foreground/50">
                 <p>{currentClass.code}</p>
                 <span>-</span>
@@ -102,21 +84,21 @@ const Page = () => {
               </div>
             </div>
           ) : (
-            <div className="h-full flex items-center  justify-center flex-col gap-6 ">
+            <div className="h-full flex items-center justify-center flex-col gap-6 ">
               <CalendarClock size={50} className="stroke-blue-500" />
               <p className="text-blue-500">No class in progress right now</p>
             </div>
           )}
         </div>
-        <div className="h-[300px]  p-8 border border-foreground/10  rounded-lg flex flex-col bg-background  ">
+        <div className="h-[260px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl">
           <div className="flex items-center gap-4 ">
             {" "}
             <ChevronRight size={30} className="stroke-orange-300" />
-            <p className="text-2xl text-orange-500 font-semibold">Next Class</p>
+            <p className="text-2xl text-orange-300 font-semibold">Next Class</p>
           </div>
           {nextClass ? (
-            <div className="h-full flex   flex-col gap-4 mt-5 x ">
-              <p className="text-xl">{nextClass.title}</p>
+            <div className="h-full flex flex-col gap-3 mt-4 w-full  ">
+              <p className="text-lg ">{nextClass.title}</p>
               <div className="flex items-center gap-2 text-md text-foreground/50">
                 <p>{nextClass.code}</p>
                 <span>-</span>
@@ -126,11 +108,8 @@ const Page = () => {
                 <MapPin size={20} />
                 <p className="text-md">{nextClass.room}</p>
               </div>
-              <div className="flex items-center gap-2 text-md text-blue-500">
-                <User size={20} />
-                <p>{facultyNext?.faculty}</p>
-              </div>
-              <div className="w-fit">
+
+              <div className=" w-fit  ">
                 <p className="text-green-500 text-sm border border-foreground/10 rounded-full bg-green-500/10 px-2 py-0.5">
                   {next?.timeslot}
                 </p>
@@ -139,14 +118,14 @@ const Page = () => {
           ) : (
             <div className="h-full flex items-center  justify-center flex-col gap-6 ">
               <CalendarClock size={50} className="stroke-blue-500" />
-              <p className="text-blue-500">No class in progress right now</p>
+              <p className="text-blue-500">There is no next class</p>
             </div>
           )}
         </div>
-        <div className="h-[300px]   p-6 border border-foreground/10  rounded-lg flex flex-col bg-background">
+        <div className="h-[260px] p-6 border border-foreground/5  shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl">
           <div className="flex items-center gap-4 ">
             <BookOpen size={30} className="stroke-orange-300" />
-            <p className="text-2xl text-orange-500 font-semibold">Day Order</p>
+            <p className="text-2xl text-orange-300 font-semibold">Day Order</p>
           </div>
 
           <div className="flex items-center justify-center w-full h-full">
@@ -168,7 +147,7 @@ const SelectDay = ({ mount }: { mount: boolean }) => {
   const { timetable, day, setDay } = useUser();
   return (
     <div
-      className={`mt-10 flex gap-6 px-5 py-5 items-center justify-center rounded-lg ${mount ? "translate-x-0 scale-100 opacity-100" : " translate-y-20 scale-75 opacity-0"} transition-all duration-500 delay-200`}
+      className={`mt-10  flex gap-6 px-5 py-5 items-center justify-center rounded-lg ${mount ? "translate-x-0 scale-100 opacity-100" : " translate-y-20 scale-75 opacity-0"} transition-all duration-500 delay-200`}
     >
       {timetable &&
         Object.keys(timetable).map((item, i) => {
@@ -176,7 +155,7 @@ const SelectDay = ({ mount }: { mount: boolean }) => {
             <button
               key={i}
               onClick={() => setDay(item)}
-              className={`px-4 py-2 rounded-lg border border-foreground/10  cursor-pointer hover:scale-90 duration-300 transition-transform ${
+              className={`px-4 py-2 rounded-lg shadow-inner shadow-foreground/5 border border-foreground/5   cursor-pointer hover:scale-90 duration-300 transition-transform ${
                 day === item
                   ? "bg-blue-500 text-white"
                   : "bg-foreground/5 text-orange-500"
@@ -206,7 +185,7 @@ const TimeTable = ({
   const { timetable, attendance, day } = useUser();
   return (
     <div
-      className={`mt-10 md:mx-0 mx-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
+      className={`mt-10  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 delay-400`}
     >
       {timetable &&
         attendance &&
@@ -218,10 +197,10 @@ const TimeTable = ({
           return (
             <div
               key={i}
-              className={`flex flex-col gap-6 border  p-4 rounded-lg bg-foreground/5 justify-between ${current === classItem ? "border-red-500" : "border-foreground/10"}`}
+              className={`flex flex-col gap-6 border-l-4 border-orange-200/20 p-4 rounded-lg  justify-between ${current === classItem ? "border-red-500" : "bg-foreground/5"}`}
             >
               <div className="flex justify-between items-center gap-4">
-                <p className="text-orange-500 text-sm border border-foreground/10 rounded-full bg-foreground/5 px-3 py-0.5">
+                <p className="text-orange-300 text-sm border border-foreground/10 rounded-full bg-foreground/5 px-3 py-0.5">
                   {classItem?.type}
                 </p>
                 <p className="text-green-500 text-sm border border-foreground/10 rounded-full bg-green-500/10 px-2 py-0.5">
