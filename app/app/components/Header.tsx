@@ -93,7 +93,7 @@ const ProfileDropdown = ({
   return (
     <div
       ref={ref}
-      className="absolute top-13 right-5 px-2 py-2 bg-background border border-foreground/10 rounded-lg shadow-lg flex flex-col gap-1  w-[230px] md:w-[250px] z-50 transition-transform duration-500"
+      className="absolute top-13 right-5 px-2 py-2 bg-background border border-foreground/10 rounded-lg shadow-xl flex flex-col gap-1  w-[230px] md:w-[250px] z-50 transition-transform duration-500"
     >
       <div className="flex items-center  text-sm p-2 gap-4 ">
         <UserCircle2 size={30} className=" text-blue-500" />
@@ -108,7 +108,7 @@ const ProfileDropdown = ({
           <Link
             href={item.link}
             key={index}
-            className={`flex gap-2 items-center hover:bg-foreground/10 px-3 py-1.5 rounded-lg duration-300 hover:scale-95 transition-transform`}
+            className={`flex gap-2 items-center hover:bg-foreground/10 px-3 py-1.5 rounded-lg duration-300 hover:scale-98 transition-transform `}
             onClick={() => setShow(false)}
           >
             <span

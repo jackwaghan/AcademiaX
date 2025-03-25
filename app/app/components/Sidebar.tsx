@@ -99,7 +99,7 @@ const Sidebar = () => {
               <Link
                 key={i}
                 href={menu.link}
-                className={`mx-4 py-1.5 px-4 flex items-center gap-4  rounded hover:bg-sidebar-foreground/10 cursor-pointer  hover:scale-95 hover:shadow-2xl duration-300 transition-transform ${path === menu.link ? "bg-orange-500 text-black  stroke-white" : ""}`}
+                className={`mx-4 py-1.5 px-4 flex items-center gap-4  rounded-md hover:bg-sidebar-foreground/10 cursor-pointer  hover:scale-96 hover:shadow-2xl duration-300 transition-transform ${path === menu.link ? "bg-orange-500 text-black  stroke-white" : ""}`}
                 onClick={() => isMobile && toggle()}
               >
                 {menu.icon}
@@ -110,7 +110,7 @@ const Sidebar = () => {
         </div>
         <a
           href="https://jackwaghan.com"
-          className="px-4 text-sm hover:scale-95 hover:shadow-2xl duration-300 transition-all"
+          className="px-4 text-sm hover:scale-98 hover:shadow-2xl duration-300 transition-all"
           target="_blank"
         >
           <div
@@ -123,12 +123,11 @@ const Sidebar = () => {
       </div>
       <div className="pt-5  border-t border-sidebar-foreground/20 px-4 gap-4 flex flex-col">
         <a
-          className="flex gap-3 items-center  px-4 py-1.5 rounded-lg hover:bg-sidebar-foreground/10 cursor-pointer hover:scale-95 hover:shadow-2xl duration-300 transition-transform"
+          className="flex gap-3 items-center  px-4 py-1.5 rounded-lg hover:underline underline-offset-4 cursor-pointer hover:text-orange-200 duration-300 transition-all"
           href="https://chat.whatsapp.com/B6a15jYEKgI1UD7QzX39cM"
           target="_blank"
         >
-          <CircleHelp size={20} className="stroke-orange-500" /> Join
-          What&apos;s app
+          <CircleHelp size={20} className="stroke-orange-500" /> Need Help?
         </a>
         <div className="mb-3 px-4 py-1 flex justify-between items-center bg-sidebar-foreground/10 rounded-lg border border-sidebar-foreground/5 text-sm  ">
           <p>v1.0.0</p>
