@@ -40,11 +40,8 @@ const Page = () => {
   const timeslot =
     dayOrder !== "6" ? getCurrentAndNextTimeslot(timetable, dayOrder) : null;
   const currentTime = new Date();
-  const currentHour = currentTime.getHours();
-  const current =
-    currentHour >= 8 && currentHour < 18 && timeslot ? timeslot.current : null;
-  const next =
-    currentHour >= 8 && currentHour <= 17 && timeslot ? timeslot.next : null;
+  const current = timeslot ? timeslot.current : null;
+  const next = timeslot ? timeslot.next : null;
   const currentClass = current ? timetable[dayOrder][current.timeslot] : null;
   const nextClass =
     dayOrder !== "6" && next ? timetable[dayOrder][next.timeslot] : null;
@@ -61,12 +58,14 @@ const Page = () => {
   hour = hour === 0 ? 12 : hour;
 
   return (
-    <div className="mx-auto max-w-7xl pb-10 ">
+    <div className="mx-auto max-w-7xl pb-10  md:px-5">
       <div className="flex justify-end items-center py-5 pr-5">
-        <div className="flex items-center gap-2 text-md text-green-500">
-          <Clock size={20} />
-
-          <p>{`${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")} ${ampm}`}</p>
+        <div className=" flex gap-4 ">
+          <p className="text-md">Current Time</p>
+          <div className="flex items-center gap-2 text-md text-green-500">
+            <Clock size={20} />
+            <p>{`${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")} ${ampm}`}</p>
+          </div>
         </div>
       </div>
       <div

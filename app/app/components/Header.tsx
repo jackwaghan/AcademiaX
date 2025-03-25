@@ -84,7 +84,6 @@ export default Header;
 const ProfileDropdown = ({
   ref,
   setShow,
-  show,
 }: {
   ref: React.RefObject<HTMLDivElement | null>;
   show: boolean;
@@ -94,9 +93,7 @@ const ProfileDropdown = ({
   return (
     <div
       ref={ref}
-      className={`absolute top-13 right-5 px-2 py-2 bg-background border border-foreground/10 rounded-lg shadow-lg flex flex-col gap-1  w-[230px] md:w-[250px] z-50 transition-transform duration-500 ${
-        show ? "opacity-100 translate-y-0 " : " opacity-0 translate-y-10"
-      }`}
+      className="absolute top-13 right-5 px-2 py-2 bg-background border border-foreground/10 rounded-lg shadow-lg flex flex-col gap-1  w-[230px] md:w-[250px] z-50 transition-transform duration-500"
     >
       <div className="flex items-center  text-sm p-2 gap-4 ">
         <UserCircle2 size={30} className=" text-blue-500" />

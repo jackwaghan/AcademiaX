@@ -6,7 +6,8 @@ export function getCurrentAndNextTimeslot(
 ) {
   const daySchedule = schedule[dayOrder];
   if (!daySchedule) return { current: null, next: null };
-  const now = getcurrentTime(); // 12-hour format
+
+  const now = getCurrentTime(); // Get current time in 24-hour format
   const currentMinutes = now.hour * 60 + now.minute;
 
   const timeslots = Object.keys(daySchedule).map((timeslot) => {
@@ -43,31 +44,44 @@ export function getCurrentAndNextTimeslot(
     }
   }
 
-  // If no current class is found, set the first class as next
+  // If no current class is found, check the next available class
   if (!current) {
-    next =
-      timeslots.length > 0
-        ? { timeslot: timeslots[0].timeslot, ...timeslots[0].details }
-        : null;
+    for (let i = 0; i < timeslots.length; i++) {
+      if (currentMinutes < timeslots[i].startMinutes) {
+        next = { timeslot: timeslots[i].timeslot, ...timeslots[i].details };
+        break;
+      }
+    }
+  }
+
+  // If the last class has already ended, set next to null
+  if (
+    timeslots.length > 0 &&
+    currentMinutes > timeslots[timeslots.length - 1].endMinutes
+  ) {
+    next = null;
   }
 
   return { current, next };
 }
 
 function convertTo24Hour(timeStr: string) {
-  const [hour, minute] = timeStr.split(":").map(Number);
-  let currentHour = hour;
-  if (1 <= currentHour && currentHour <= 5) {
-    currentHour = currentHour + 12;
+  const time = timeStr.split(":").map(Number);
+  let hour = time[0];
+  const minute = time[1];
+
+  // Convert 12-hour format to 24-hour format
+  if (hour === 12) {
+    hour = 0; // 12:XX should be treated as 0:XX in 24-hour time
+  }
+  if (hour >= 1 && hour <= 5) {
+    hour += 12; // Convert afternoon/evening times
   }
 
   return { hour, minute };
 }
 
-function getcurrentTime() {
+function getCurrentTime() {
   const time = new Date();
-  const minute = time.getMinutes();
-  let hour = time.getHours();
-  hour = hour >= 13 ? hour - 12 : hour;
-  return { hour, minute };
+  return { hour: time.getHours(), minute: time.getMinutes() };
 }
