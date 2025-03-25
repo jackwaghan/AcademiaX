@@ -62,7 +62,7 @@ const Page = () => {
 
   return (
     <div className="mx-auto max-w-7xl pb-10 ">
-      <div className="flex justify-end items-center py-5 ">
+      <div className="flex justify-end items-center py-5 pr-5">
         <div className="flex items-center gap-2 text-md text-green-500">
           <Clock size={20} />
 
