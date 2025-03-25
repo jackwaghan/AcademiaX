@@ -4,7 +4,7 @@ import Template from "../public/Template-Marks.png";
 import Link from "next/link";
 export default function Home() {
   return (
-    <div className="w-dvw h-svh overflow-hidden px-2 font-poppins">
+    <div className="w-dvw h-svh overflow-hidden px-4 md:px-0 font-poppins">
       <nav className="relative max-w-6xl mx-auto mt-5 border border-foreground/10 bg-foreground/5 backdrop-blur-3xl rounded-xl  h-[60px] flex items-center justify-between px-4">
         <div className="flex items-center justify-center gap-4 text-xl ">
           <GraduationCap size={30} className="stroke-orange-500" />

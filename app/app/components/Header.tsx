@@ -73,7 +73,7 @@ const Header = () => {
             className="rounded-full"
           />
         </div>
-        <ProfileDropdown ref={ref} setShow={setShow} show={show} />
+        {show && <ProfileDropdown ref={ref} show={show} setShow={setShow} />}
       </div>
     </div>
   );

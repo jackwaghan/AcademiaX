@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "next-themes";
-import PWAInstaller from "./components/PwaInstaller";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -100,7 +99,6 @@ export default function RootLayout({
           defaultTheme="dark"
           attribute="class"
         >
-          <PWAInstaller />
           {children}
         </ThemeProvider>
       </body>

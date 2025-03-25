@@ -10,7 +10,7 @@
   "dir": "ltr",
   "theme_color": "#000000",
   "background_color": "#000000",
-  "start_url": "/",
+  "start_url": "/app",
   "scope": "/",
   "orientation": "portrait",
   "display": "standalone",

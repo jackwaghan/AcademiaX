@@ -41,7 +41,7 @@ export const useUser = create<UserInfo>()((set) => ({
       method: "GET",
       credentials: "include",
     });
-    window.location.reload();
+    window.location.href = "/auth/login";
   },
   setUser: (data: User) => set({ user: data }),
   setMarks: (data: Marks) => set({ marks: data }),
