@@ -54,28 +54,20 @@ export function getCurrentAndNextTimeslot(
     }
   }
 
-  // If the last class has already ended, set next to null
-  if (
-    timeslots.length > 0 &&
-    currentMinutes > timeslots[timeslots.length - 1].endMinutes
-  ) {
-    next = null;
-  }
-
   return { current, next };
 }
 
 function convertTo24Hour(timeStr: string) {
-  const time = timeStr.split(":").map(Number);
-  let hour = time[0];
-  const minute = time[1];
+  const [hourStr, minuteStr] = timeStr.split(":");
+  let hour = Number(hourStr);
+  const minute = Number(minuteStr);
 
-  // Convert 12-hour format to 24-hour format
+  // Convert 12-hour format to 24-hour format based on logical sequence
   if (hour === 12) {
     hour = 0; // 12:XX should be treated as 0:XX in 24-hour time
   }
-  if (hour >= 1 && hour <= 5) {
-    hour += 12; // Convert afternoon/evening times
+  if (hour < 7) {
+    hour += 12; // Assume times before 7 are PM (e.g., "1:00" should be 13:00)
   }
 
   return { hour, minute };

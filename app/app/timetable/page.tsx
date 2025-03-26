@@ -44,16 +44,12 @@ const Page = () => {
   const nextClass =
     dayOrder !== "6" && next ? timetable[dayOrder][next.timeslot] : null;
 
-  const facultyCurrent = attendance.find(
-    (item) => item.code === currentClass?.code
-  );
-
   return (
     <div className="mx-auto max-w-7xl pb-10 px-4 ">
       <div
         className={`pt-7 grid grid=cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 h-full ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 `}
       >
-        <div className="h-[260px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl ">
+        <div className="h-[270px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl ">
           <div className="flex items-center gap-4 ">
             {" "}
             <Clock8 size={30} className="stroke-orange-300" />
@@ -73,10 +69,6 @@ const Page = () => {
                 <MapPin size={20} />
                 <p className="text-md">{currentClass.room}</p>
               </div>
-              <div className="flex items-center gap-2 text-md text-blue-500">
-                <User size={20} />
-                <p>{facultyCurrent?.faculty}</p>
-              </div>
               <div className="w-fit">
                 <p className="text-green-500 text-sm border border-foreground/10 rounded-full bg-green-500/10 px-2 py-0.5">
                   {current?.timeslot}
@@ -90,14 +82,14 @@ const Page = () => {
             </div>
           )}
         </div>
-        <div className="h-[260px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl">
+        <div className="h-[270px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl">
           <div className="flex items-center gap-4 ">
             {" "}
             <ChevronRight size={30} className="stroke-orange-300" />
             <p className="text-2xl text-orange-300 font-semibold">Next Class</p>
           </div>
           {nextClass ? (
-            <div className="h-full flex flex-col gap-3 mt-4 w-full  ">
+            <div className="h-full flex flex-col gap-3 mt-4  ">
               <p className="text-lg ">{nextClass.title}</p>
               <div className="flex items-center gap-2 text-md text-foreground/50">
                 <p>{nextClass.code}</p>
@@ -108,7 +100,6 @@ const Page = () => {
                 <MapPin size={20} />
                 <p className="text-md">{nextClass.room}</p>
               </div>
-
               <div className=" w-fit  ">
                 <p className="text-green-500 text-sm border border-foreground/10 rounded-full bg-green-500/10 px-2 py-0.5">
                   {next?.timeslot}
@@ -122,7 +113,7 @@ const Page = () => {
             </div>
           )}
         </div>
-        <div className="h-[260px] p-6 border border-foreground/5  shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl">
+        <div className="h-[270px] p-6 border border-foreground/5  shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl">
           <div className="flex items-center gap-4 ">
             <BookOpen size={30} className="stroke-orange-300" />
             <p className="text-2xl text-orange-300 font-semibold">Day Order</p>
@@ -197,7 +188,7 @@ const TimeTable = ({
           return (
             <div
               key={i}
-              className={`flex flex-col gap-6 border-l-4 border-orange-200/20 p-4 rounded-lg  justify-between ${current === classItem ? "border-red-500" : "bg-foreground/5"}`}
+              className={`flex flex-col gap-6  p-4 rounded-lg  justify-between bg-foreground/5 ${current === classItem ? "border-red-500 border" : "border-l-4 border-orange-200/20 "}`}
             >
               <div className="flex justify-between items-center gap-4">
                 <p className="text-orange-300 text-sm border border-foreground/10 rounded-full bg-foreground/5 px-3 py-0.5">
