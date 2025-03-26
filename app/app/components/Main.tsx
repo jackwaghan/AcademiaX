@@ -26,7 +26,8 @@ export default async function Main({
   children: React.ReactNode;
 }) {
   const { data, status, version } = await fetchdata();
-  if (status === 401) return redirect("/auth/login");
+  if (status === 401 || status === 403) return redirect("/auth/login");
+
   if (status === 500) {
     return (
       <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
@@ -38,7 +39,7 @@ export default async function Main({
     );
   }
 
-  if (status === 403 || status === 402) {
+  if (status === 402) {
     return (
       <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
         <div className="flex flex-col items-center gap-4 ">
