@@ -76,3 +76,5 @@ export type Attendance = {
 export type Dayorder = {
   do: string | null;
 };
+
+export type Grade = "O" | "A+" | "A" | "B+" | "B" | "C";

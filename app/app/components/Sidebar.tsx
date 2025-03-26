@@ -114,7 +114,7 @@ const Sidebar = () => {
           target="_blank"
         >
           <div
-            className={`flex flex-col gap-2 border rounded-lg bg-foreground/5 shadow-foreground/10 hover:shadow-orange-300 shadow-inner  px-5 py-3 duration-300 `}
+            className={`flex flex-col gap-2 border rounded-lg bg-foreground/5 shadow-orange-300 hover:shadow-foreground/10 shadow-inner  px-5 py-3 duration-300 `}
           >
             <p className="">🛠️ Designed & Built by </p>
             <p className="text-orange-300 pl-5 font-semibold">JACK WAGHAN</p>
@@ -135,7 +135,7 @@ const Sidebar = () => {
           }}
           className="cursor-pointer mb-3 px-4 py-2 flex justify-between items-center shadow-inner shadow-foreground/5 rounded-lg border border-sidebar-foreground/5 bg-foreground/5 text-sm  "
         >
-          <p>v1.0.3</p>
+          <p>v1.0.4</p>
           <p>@2025</p>
         </div>
       </div>
