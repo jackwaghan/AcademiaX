@@ -3,18 +3,17 @@ import { createClient } from "@/lib/supabase/server";
 
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { UAParser } from "ua-parser-js";
-import { v4 as uuid } from "uuid";
-interface DeviceInfo {
-  deviceInfo: {
-    browser: {
-      name: string;
-    };
-    os: {
-      name: string;
-    };
-  };
-}
+// import { UAParser } from "ua-parser-js";
+// interface DeviceInfo {
+//   deviceInfo: {
+//     browser: {
+//       name: string;
+//     };
+//     os: {
+//       name: string;
+//     };
+//   };
+// }
 export async function POST(req: NextRequest) {
   (await cookies()).delete("token");
   const { email, password } = await req.json();
@@ -55,34 +54,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: user.error }, { status: 400 });
     const supabase = await createClient();
 
-    const { deviceInfo, ip } = (await getUserdetails(req)) as DeviceInfo & {
-      ip: string;
-    };
+    // const { deviceInfo, ip } = (await getUserdetails(req)) as DeviceInfo & {
+    //   ip: string;
+    // };
 
     const FilteredEmail = email.includes("@srmist.edu.in")
       ? email
       : email + "@srmist.edu.in";
     const EncodedToken = user.token;
     const { Originaltoken } = await convertCookies(EncodedToken);
-    const userUUID = uuid();
+
     const token = await signToken({
       email: FilteredEmail,
       token: Originaltoken,
-      uuid: userUUID,
     });
 
-    const { error } = await supabase.from("session").insert({
-      email: FilteredEmail,
-      session_cookie: Originaltoken,
-      user_id: userUUID,
-      expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-      device_info: deviceInfo,
-      ip: ip,
-    });
-
-    if (error) {
-      return NextResponse.json({ error: error }, { status: 500 });
-    }
     const { error: studentError } = await supabase.from("students").upsert([
       {
         email: FilteredEmail,
@@ -114,11 +100,11 @@ async function convertCookies(EncodedToken: string) {
   return { Originaltoken };
 }
 
-async function getUserdetails(req: NextRequest) {
-  const ip = "Unknown";
-  const parser = new UAParser();
-  parser.setUA(req.headers.get("user-agent") || "");
-  const deviceInfo = parser.getResult();
+// async function getUserdetails(req: NextRequest) {
+//   const ip = "Unknown";
+//   const parser = new UAParser();
+//   parser.setUA(req.headers.get("user-agent") || "");
+//   const deviceInfo = parser.getResult();
 
-  return { deviceInfo, ip };
-}
+//   return { deviceInfo, ip };
+// }
