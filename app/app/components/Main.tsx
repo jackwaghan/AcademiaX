@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 async function fetchdata() {
   const token = (await cookies()).get("token")?.value;
+  if (!token) return redirect("/auth/login");
   const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/getdata`, {
     method: "GET",
     headers: {

@@ -14,19 +14,20 @@ export async function GET() {
     !decode ||
     typeof decode !== "object" ||
     !("email" in decode) ||
-    !("token" in decode)
+    !("token" in decode) ||
+    !("uuid" in decode)
   ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const email = decode.email;
-  const token = decode.token;
+  const uuid = decode.uuid;
 
   const supabase = await createClient();
   await supabase
     .from("session")
     .delete()
     .eq("email", email)
-    .eq("session_cookie", token);
+    .eq("user_id", uuid);
   (await cookies()).delete("token");
   return NextResponse.json({ message: "Logged out" }, { status: 200 });
 }

@@ -8,11 +8,6 @@ const Button = ({ status }: { status: string }) => {
   return (
     <button
       onClick={() => {
-        if (status === "401") {
-          window.location.reload();
-
-          return;
-        }
         if (status === "403") {
           logout();
 
@@ -25,7 +20,7 @@ const Button = ({ status }: { status: string }) => {
       }}
       className=" bg-blue-500 rounded text-background px-3 py-1 cursor-pointer hover:bg-blue-400  font-semibold hover:scale-95 transition-all duration-300"
     >
-      {status === "401" ? "Reload" : status === "403" ? "Login" : "Retry"}
+      {status === "403" ? "Login" : "Retry"}
     </button>
   );
 };

@@ -4,25 +4,23 @@ import { createClient } from "@/lib/supabase/server";
 import { verifyToken } from "@/lib/jwt";
 
 export async function GET() {
-  const cookie = (await cookies()).get("token")?.value;
-
-  if (!cookie)
+  const token = (await cookies()).get("token")?.value as string | undefined;
+  if (!token)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const NewVersion = "v1.0.1";
-
+  const NewVersion = "v1.0.2";
   try {
-    const decode = await verifyToken(cookie);
+    const decode = await verifyToken(token);
     if (
       !decode ||
       typeof decode !== "object" ||
       !("email" in decode) ||
-      !("token" in decode)
+      !("token" in decode) ||
+      !("uuid" in decode)
     ) {
       return NextResponse.json({ error: "JWT decode Error" }, { status: 402 });
     }
     const email = decode.email;
-    const token = decode.token;
-    console.log(email, token);
+    const uuid = decode.uuid;
 
     const supabase = await createClient();
 
@@ -30,11 +28,13 @@ export async function GET() {
       .from("session")
       .select("*")
       .eq("email", email)
-      .eq("session_cookie", token)
+      .eq("user_id", uuid)
       .single();
 
-    if (error || !students)
+    if (error || !students) {
+      console.log(error, students);
       return NextResponse.json({ error: "Session Not Found" }, { status: 403 });
+    }
 
     const [user, marks, timetable, attendance, dayorder] = await Promise.all([
       getUser(students.session_cookie),
@@ -134,7 +134,11 @@ async function getTimetable(cookie: string) {
     body: null,
     method: "GET",
   }).then((res) => res.json());
-  if (timetable.error) return NextResponse.json(timetable, { status: 400 });
+
+  if (timetable.error) {
+    console.log(timetable.error);
+    return NextResponse.json(timetable, { status: 400 });
+  }
   return timetable;
 }
 

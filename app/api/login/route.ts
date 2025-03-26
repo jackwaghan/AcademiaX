@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { UAParser } from "ua-parser-js";
-
+import { v4 as uuid } from "uuid";
 interface DeviceInfo {
   deviceInfo: {
     browser: {
@@ -64,15 +64,17 @@ export async function POST(req: NextRequest) {
       : email + "@srmist.edu.in";
     const EncodedToken = user.token;
     const { Originaltoken } = await convertCookies(EncodedToken);
-
+    const userUUID = uuid();
     const token = await signToken({
       email: FilteredEmail,
       token: Originaltoken,
+      uuid: userUUID,
     });
 
     const { error } = await supabase.from("session").insert({
       email: FilteredEmail,
       session_cookie: Originaltoken,
+      user_id: userUUID,
       expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
       device_info: deviceInfo,
       ip: ip,
