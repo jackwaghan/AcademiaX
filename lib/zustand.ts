@@ -6,7 +6,6 @@ import {
   User,
   UserInfo,
 } from "@/Types/type";
-import { redirect } from "next/navigation";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -43,7 +42,7 @@ export const useUser = create<UserInfo>()((set) => ({
       method: "GET",
       credentials: "include",
     });
-    redirect("/auth/login");
+    window.location.href = "/auth/login";
   },
   setUser: (data: User) => set({ user: data }),
   setMarks: (data: Marks) => set({ marks: data }),
