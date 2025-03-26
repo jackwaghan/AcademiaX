@@ -7,7 +7,7 @@ export async function GET() {
   const token = (await cookies()).get("token")?.value as string | undefined;
   if (!token)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const NewVersion = "v1.0.2";
+  const NewVersion = "v1.0.3";
   try {
     const decode = await verifyToken(token);
     if (
