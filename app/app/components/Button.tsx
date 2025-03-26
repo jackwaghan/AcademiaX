@@ -8,11 +8,16 @@ const Button = ({ status }: { status: string }) => {
   return (
     <button
       onClick={() => {
-        if (status === "403") {
+        if (status === "403" || status === "402") {
           logout();
 
           return;
         }
+        if (status === "401") {
+          window.location.reload();
+          return;
+        }
+
         if (status === "500") {
           window.location.reload();
           return;

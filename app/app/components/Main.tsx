@@ -26,8 +26,6 @@ export default async function Main({
   children: React.ReactNode;
 }) {
   const { data, status, version } = await fetchdata();
-  if (status === 401 || status === 403 || status === 500)
-    return redirect("/auth/login");
 
   if (status === 500) {
     return (
@@ -35,6 +33,27 @@ export default async function Main({
         <div className="flex flex-col items-center gap-4 ">
           <p className="text-lg">Internal Server Error</p>
           <Button status="500" />
+        </div>
+      </div>
+    );
+  }
+  if (status === 401) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
+        <div className="flex flex-col items-center gap-4 ">
+          <p className="text-lg">Unauthorized</p>
+          <Button status="401" />
+        </div>
+      </div>
+    );
+  }
+
+  if (status === 402 || status === 403) {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center  overflow-hidden">
+        <div className="flex flex-col items-center gap-4 ">
+          <p className="text-lg">You have been logged out</p>
+          <Button status="403" />
         </div>
       </div>
     );
