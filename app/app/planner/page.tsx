@@ -32,9 +32,9 @@ const Page = () => {
   if (!planner) return null;
 
   return (
-    <div className="px-5 py-5 container mx-auto h-full">
+    <div className="px-5   h-full">
       {/* Header */}
-      <div className="flex justify-between items-center mb-5 ">
+      <div className="sticky top-[50px] md:top-0 left-0 right-0 flex justify-between items-center mb-5 bg-background py-2   ">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">
           📅 Academic Calendar
         </h2>
@@ -55,7 +55,7 @@ const Page = () => {
         </select>
       </div>
       {/* Calendar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-5 pb-5 container mx-auto">
         {planner[selectedMonth].map((day, i) => {
           const isToday =
             today === day.date && selectedMonth === getCurrentMonth();

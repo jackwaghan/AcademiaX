@@ -154,14 +154,10 @@ const Page = () => {
                           [mark.code]: e.target.value as Grade,
                         }));
                       }}
-                      className="cursor-pointer hover:scale-95 duration-300 bg-foreground/10 backdrop-blur-3xl shadow-inner shadow-foreground/25 rounded h-fit pl-3 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-orange-300 appearance-none "
+                      className="cursor-pointer hover:scale-95 duration-300 bg-foreground/10 backdrop-blur-3xl shadow-inner shadow-foreground/25 rounded h-fit pl-3 p-1 focus:outline-none"
                     >
                       {["O", "A+", "A", "B+", "B", "C"].map((item, i) => (
-                        <option
-                          key={i}
-                          value={item}
-                          className="bg-background absolute "
-                        >
+                        <option key={i} value={item} className="bg-background ">
                           {item}
                         </option>
                       ))}

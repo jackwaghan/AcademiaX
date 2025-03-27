@@ -83,7 +83,7 @@ const Updates = () => {
     <div className="fixed w-screen h-screen z-50 items-center justify-center flex bg-black/50 top-0 left-0">
       <div className="mx-4 w-[500px] h-[300px] bg-background rounded-lg shadow-foreground/10 p-5 border border-foreground/10">
         <div className="flex items-center justify-between">
-          <p className="text-2xl  font-semibold">Updates v1.0.4</p>
+          <p className="text-2xl  font-semibold">Updates v1.0.5</p>
           <X
             onClick={() => useUser.setState({ NewVersion: false })}
             className="cursor-pointer p-0.5 border border-foreground/10 rounded "
