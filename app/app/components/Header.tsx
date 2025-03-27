@@ -7,7 +7,6 @@ import {
   PanelRightOpen,
   UserCircle2,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -59,18 +58,11 @@ const Header = () => {
         <p className="text-xl  capitalize ">{path.split("/")[2]}</p>
       </div>
       <div className="relative  ">
-        <div
-          className="rounded-full hover:scale-95 duration-300 cursor-pointer border-2 border-orange-500  w-9 h-9 p-0.5 flex "
+        <UserCircle2
           onClick={() => setShow(!show)}
-        >
-          <Image
-            src="https://img.freepik.com/premium-vector/3d-vector-icon-simple-blue-user-profile-icon-with-white-features_6011-1575.jpg"
-            alt="profile"
-            width={30}
-            height={30}
-            className="rounded-full"
-          />
-        </div>
+          size={30}
+          className=" text-blue-500 hover:scale-95 duration-300 transition-all cursor-pointer"
+        />
         {show && <ProfileDropdown ref={ref} show={show} setShow={setShow} />}
       </div>
     </div>

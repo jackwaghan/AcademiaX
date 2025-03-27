@@ -20,6 +20,7 @@ export async function GET() {
       getTimetable(token),
       getAttendance(token),
       getDayOrder(token),
+      // getPlanner(token),
     ]);
 
     return NextResponse.json(
@@ -29,6 +30,7 @@ export async function GET() {
         attendance,
         timetable,
         dayorder,
+        // planner,
         NewVersion,
       },
       { status: 200 }
@@ -171,3 +173,29 @@ async function getDayOrder(cookie: string) {
   if (dayorder.error) return NextResponse.json(dayorder, { status: 400 });
   return dayorder;
 }
+
+// async function getPlanner(cookie: string) {
+//   const planner = await fetch("https://www.acadia.asia/api/planner", {
+//     headers: {
+//       accept: "*/*",
+//       "accept-language": "en-US,en;q=0.9",
+//       "cache-control": "no-cache",
+//       pragma: "no-cache",
+//       priority: "u=1, i",
+//       "sec-ch-ua":
+//         '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"',
+//       "sec-ch-ua-mobile": "?0",
+//       "sec-ch-ua-platform": '"Windows"',
+//       "sec-fetch-dest": "empty",
+//       "sec-fetch-mode": "cors",
+//       "sec-fetch-site": "same-origin",
+//       cookie: `token=${cookie}`,
+//       Referer: "https://www.acadia.asia/timetable",
+//       "Referrer-Policy": "strict-origin-when-cross-origin",
+//     },
+//     body: null,
+//     method: "GET",
+//   }).then((res) => res.json());
+//   if (planner.error) return NextResponse.json(planner, { status: 400 });
+//   return planner;
+// }

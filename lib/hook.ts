@@ -5,7 +5,7 @@ export const useWindow = () => {
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
-        setMobile(window.innerWidth < 768);
+        setMobile(window.innerWidth < 1300);
       };
       window.addEventListener("resize", handleResize);
       handleResize();

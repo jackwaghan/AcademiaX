@@ -4,7 +4,14 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useSidebar, useUser } from "@/lib/zustand";
 import { useWindow } from "@/lib/hook";
-import { Attendance, Dayorder, Marks, TimetableData, User } from "@/Types/type";
+import {
+  Attendance,
+  Dayorder,
+  Marks,
+  Planner,
+  TimetableData,
+  User,
+} from "@/Types/type";
 import { X } from "lucide-react";
 
 const AppLayout = ({
@@ -20,6 +27,7 @@ const AppLayout = ({
     attendance: Attendance;
     timetable: { data: TimetableData };
     dayorder: Dayorder;
+    planner: Planner;
     NewVersion: string;
   };
 }) => {
@@ -38,6 +46,7 @@ const AppLayout = ({
     useUser.setState({ attendance: data.attendance });
     useUser.setState({ timetable: data.timetable.data });
     useUser.setState({ dayorder: data.dayorder });
+    // useUser.setState({ planner: data.planner });
     if (update) {
       useUser.setState({ NewVersion: true });
       localStorage.setItem("version", version);

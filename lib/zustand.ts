@@ -25,6 +25,7 @@ export const useUser = create<UserInfo>()((set) => ({
   attendance: null,
   timetable: null,
   dayorder: null,
+  planner: null,
   day: "0",
   loading: true,
   clearing: false,
@@ -36,6 +37,8 @@ export const useUser = create<UserInfo>()((set) => ({
       attendance: null,
       timetable: null,
       dayorder: null,
+      planner: null,
+      day: "0",
     });
     localStorage.removeItem("sidebar");
     await fetch("/api/logout", {

@@ -8,6 +8,7 @@ import {
   BookOpen,
   CircleHelp,
   UserCircle2,
+  LucideCalendarRange,
 } from "lucide-react";
 import { useSidebar, useUser } from "@/lib/zustand";
 import Link from "next/link";
@@ -29,6 +30,11 @@ const SidebarMenu = [
     title: "Marks",
     icon: <BookOpen className="stroke-blue-500" />,
     link: "/app/marks",
+  },
+  {
+    title: "Planner",
+    icon: <LucideCalendarRange className="stroke-blue-500" />,
+    link: "/app/planner",
   },
   {
     title: "Profile",

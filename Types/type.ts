@@ -9,6 +9,7 @@ export type UserInfo = {
   attendance: Attendance | null;
   timetable: TimetableData | null;
   dayorder: Dayorder | null;
+  planner: Planner | null;
   day: string;
   loading: boolean;
   clearing: boolean;
@@ -77,4 +78,14 @@ export type Dayorder = {
   do: string | null;
 };
 
+export type Planner = {
+  [month: string]: [
+    {
+      date: string;
+      day: string;
+      sp: string;
+      dayo: string;
+    },
+  ];
+};
 export type Grade = "O" | "A+" | "A" | "B+" | "B" | "C";
