@@ -94,8 +94,8 @@ const Updates = () => {
           <div className="flex gap-4 items-center px-2 ">
             <div className="w-4 md:w-3 h-2 bg-green-500 rounded-full "></div>
             <p>
-              Implemented GradeX 🥳 - Now you can able to analyse your grade
-              with the internals you got .{" "}
+              Added Planner 📅 - Now you can see your academic calendar and plan
+              your day accordingly.
             </p>
           </div>
         </div>

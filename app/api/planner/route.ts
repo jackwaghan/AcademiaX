@@ -12,7 +12,6 @@ export async function GET() {
       return NextResponse.json({ error: "JWT decode Error" }, { status: 402 });
     }
     const token = decode.token as string;
-    console.log("Planner Fetched");
     const planner = await fetch("https://www.acadia.asia/api/planner", {
       headers: {
         accept: "*/*",
