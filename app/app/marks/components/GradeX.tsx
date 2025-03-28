@@ -1,6 +1,7 @@
 import { Grade } from "@/Types/type";
 
 export function predictMarks(internalMarks: number, grade: Grade) {
+  console.log(internalMarks, grade);
   // Corrected grade thresholds (out of 100)
   const gradeThresholds: { [key in Grade]: number } = {
     O: 91,

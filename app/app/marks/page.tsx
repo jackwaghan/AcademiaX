@@ -9,7 +9,10 @@ import { Grade } from "@/Types/type";
 
 const Page = () => {
   const [mount, setMount] = useState(false);
-  const [grades, setGrades] = useState<{ [key: string]: Grade }>({});
+  const [grades, setGrades] = useState<{ [subject: string]: Grade }>({});
+  const [manualInternal, setmanualInternals] = useState<{
+    [subject: string]: number;
+  }>({});
   const { marks, attendance, user } = useUser();
 
   useEffect(() => {
@@ -59,8 +62,6 @@ const Page = () => {
         } delay-200 transition-all duration-500`}
       >
         {marks.map((mark, i) => {
-          const subjectGrades = grades[mark.code] || "O"; // Default grade is "O"
-
           const getMark = mark.marks.map((item) => item);
           const value = getMark.map((item) => ({
             name: item.name,
@@ -78,7 +79,9 @@ const Page = () => {
             .map(Number)
             .reduce((a, b) => a + b, 0);
 
-          const gradeX = predictMarks(total, subjectGrades);
+          const subjectGrades = grades[mark.code] || "O"; // Default grade is "O"
+
+          const gradeX = predictMarks(manualInternal[mark.code], subjectGrades);
 
           const getFaculty = attendance.find((item) => item.code === mark.code);
 
@@ -141,11 +144,13 @@ const Page = () => {
 
               {value.length !== 0 ? (
                 <div className="w-full border-t pt-2">
-                  <p className="text-center text-orange-500">GradeX</p>
-                  <div className="mt-5 flex items-center justify-between ">
+                  {/* <p className="py-2 text-orange-500">
+                    Predicted Theory Marks{" "}
+                  </p>
+                  <div className=" flex items-center justify-between ">
                     <select
                       name="grade"
-                      id={`grade-${mark.code}`}
+                      id={`${mark.code}`}
                       value={subjectGrades}
                       aria-label="grade"
                       onChange={(e) => {
@@ -162,14 +167,85 @@ const Page = () => {
                         </option>
                       ))}
                     </select>
+
                     <div className="flex gap-1 items-center px-2 py-0.5 rounded-full text-foreground/50">
                       <p
                         className={`text-lg font-semibold ${gradeX.requiredTheoryMarks > 75 ? "text-red-700" : "text-green-600"}`}
                       >
-                        {Number(gradeX.requiredTheoryMarks).toFixed(1)}
+                        {Number(gradeX.requiredTheoryMarks).toFixed(2)}
                       </p>
                       <span className="text-3xl">/</span>
                       <p className="text-xl">75</p>
+                    </div>
+                  </div> */}
+                  <div>
+                    <div className="grid grid-cols-3 gap-2 w-full">
+                      <div className="flex flex-col gap-1 items-center ">
+                        <p className="py-2 text-orange-400 text-center">
+                          Internals
+                        </p>
+                        <div className="flex items-center border border-foreground/10 rounded-full px-2 py-0.5 text-sm w-fit">
+                          <input
+                            type="text"
+                            id={`${mark.code}`}
+                            placeholder="0"
+                            value={manualInternal[mark.code]}
+                            onChange={(e) =>
+                              setmanualInternals((prev) => ({
+                                ...prev,
+                                [mark.code]: Number(e.target.value),
+                              }))
+                            }
+                            className="w-7 focus:outline-none text-orange-300"
+                          />
+                          <p className="text-foreground/60">/ 60</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-1 items-center ">
+                        <p className="py-2 text-orange-400 text-center">
+                          Theory
+                        </p>
+                        <div
+                          className={`flex items-center border border-foreground/10 rounded-full px-2 py-0.5 text-sm w-fit  ${gradeX.requiredTheoryMarks > 75 ? "text-red-700" : "text-green-600"}`}
+                        >
+                          <p className="w-7 focus:outline-none font-semibold">
+                            {isNaN(gradeX.requiredTheoryMarks)
+                              ? 0
+                              : gradeX.requiredTheoryMarks.toFixed(0)}
+                          </p>
+                          <p className="text-foreground/60">/ 75</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-1 items-center ">
+                        <p className="py-2 text-orange-400 text-center">
+                          Grade
+                        </p>
+                        <div className="flex items-center  text-sm ">
+                          <select
+                            name="grade"
+                            id={`${mark.code}`}
+                            value={subjectGrades}
+                            aria-label="grade"
+                            onChange={(e) => {
+                              setGrades((prevGrades) => ({
+                                ...prevGrades,
+                                [mark.code]: e.target.value as Grade,
+                              }));
+                            }}
+                            className="cursor-pointer hover:scale-95 duration-300 bg-foreground/10 backdrop-blur-3xl shadow-inner shadow-foreground/25 rounded pl-2.5 p-1 appearance-none focus:outline-none"
+                          >
+                            {["O", "A+", "A", "B+", "B", "C"].map((item, i) => (
+                              <option
+                                key={i}
+                                value={item}
+                                className="bg-background "
+                              >
+                                {item}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
