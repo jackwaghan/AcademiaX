@@ -20,7 +20,7 @@ const Page = () => {
           className={`rounded-full ${mount ? "translate-y-0 opacity-100" : "-translate-y-20 opacity-0"} transition-all duration-500`}
         />
         <div
-          className={`mt-20 bg-foreground/5 shadow-inner shadow-foreground/20 border border-foreground/5   p-5 rounded-lg w-full  md:w-[500px] flex flex-col gap-5 text-foreground/60 ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500 delay-200`}
+          className={`mt-20 bg-foreground/5 shadow-inner shadow-orange-300 border border-foreground/5   p-5 rounded-lg w-full  md:w-[500px] flex flex-col gap-5 text-foreground/60 ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500 delay-200`}
         >
           <p className="text-lg flex justify-between">
             <span className="text-foreground">Name</span>

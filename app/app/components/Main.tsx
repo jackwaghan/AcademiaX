@@ -15,7 +15,7 @@ async function fetchdata() {
     },
     credentials: "include",
   });
-  const version = (await cookies()).get("version")?.value || "v1.0.5";
+  const version = (await cookies()).get("version")?.value || "v1.0.6";
 
   return { data: await data.json(), status: data.status, version };
 }

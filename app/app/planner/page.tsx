@@ -32,16 +32,16 @@ const Page = () => {
   if (!planner) return null;
 
   return (
-    <div className="px-5   h-full">
+    <div className="px-5 h-full">
       {/* Header */}
-      <div className="sticky top-[50px] md:top-0 left-0 right-0 flex justify-between items-center mb-5 bg-background py-2   ">
+      <div className="sticky top-[50px] md:top-0 left-0 right-0 flex justify-between items-center mb-5 bg-background py-4   ">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">
           📅 Academic Calendar
         </h2>
         <select
           value={selectedMonth}
           onChange={(e) => setSelectedMonth(e.target.value)}
-          className="border border-foreground/5 shadow-inner bg-foreground/10 text-white px-4 py-2 rounded-lg shadow-foreground/20  focus:outline-none cursor-pointer transition-all duration-300"
+          className="hover:scale-98 border border-foreground/5 shadow-inner bg-foreground/10 text-white px-4 py-2 rounded-lg shadow-orange-300  focus:outline-none cursor-pointer transition-all duration-300"
         >
           {Object.keys(planner).map((month) => (
             <option
@@ -55,7 +55,7 @@ const Page = () => {
         </select>
       </div>
       {/* Calendar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-5 pb-5 container mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3  pb-5 container mx-auto">
         {planner[selectedMonth].map((day, i) => {
           const isToday =
             today === day.date && selectedMonth === getCurrentMonth();
@@ -78,7 +78,7 @@ const Page = () => {
                 className={`${day.dayo === " - " ? "text-red-500" : "text-orange-300"} `}
               >
                 {" "}
-                Day Order - {day.dayo === " - " ? "Holiday" : day.dayo}
+                {day.dayo === " - " ? "Holiday" : `Day Order - ${day.dayo}`}
               </p>
               <p className="text-sm h-full items-center  text-green-600 flex">
                 {day.sp}
