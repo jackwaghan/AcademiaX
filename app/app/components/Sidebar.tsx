@@ -37,11 +37,6 @@ const SidebarMenu = [
     link: "/app/planner",
   },
   {
-    title: "Prediction",
-    icon: <GraduationCap className="stroke-blue-500" />,
-    link: "/app/prediction",
-  },
-  {
     title: "Profile",
     icon: <UserCircle2 className="stroke-blue-500" />,
     link: "/app/profile",
@@ -146,7 +141,7 @@ const Sidebar = () => {
           }}
           className="cursor-pointer mb-3 px-4 py-2 flex justify-between items-center shadow-inner shadow-foreground/5 rounded-lg border border-sidebar-foreground/5 bg-foreground/5 text-sm  "
         >
-          <p>v1.0.6</p>
+          <p>v1.0.7</p>
           <p>@2025</p>
         </div>
       </div>

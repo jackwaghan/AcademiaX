@@ -19,9 +19,19 @@ export const useSidebar = create<Sidebar>()(
   )
 );
 
-export const useUser = create<UserInfo>()(
-  persist(
-    (set) => ({
+export const useUser = create<UserInfo>()((set) => ({
+  user: null,
+  marks: null,
+  attendance: null,
+  timetable: null,
+  dayorder: null,
+  planner: null,
+  day: "0",
+  loading: true,
+  clearing: false,
+  NewVersion: false,
+  logout: async () => {
+    set({
       user: null,
       marks: null,
       attendance: null,
@@ -29,33 +39,18 @@ export const useUser = create<UserInfo>()(
       dayorder: null,
       planner: null,
       day: "0",
-      loading: true,
-      clearing: false,
-      NewVersion: false,
-      logout: async () => {
-        set({
-          user: null,
-          marks: null,
-          attendance: null,
-          timetable: null,
-          dayorder: null,
-          planner: null,
-          day: "0",
-        });
-        localStorage.removeItem("sidebar");
-        await fetch("/api/logout", {
-          method: "GET",
-          credentials: "include",
-        });
-        window.location.href = "/auth/login";
-      },
-      setUser: (data: User) => set({ user: data }),
-      setMarks: (data: Marks) => set({ marks: data }),
-      setAttendance: (data: Attendance) => set({ attendance: data }),
-      setTimetable: (data: TimetableData) => set({ timetable: data }),
-      setLoading: (data: boolean) => set({ loading: data }),
-      setDay: (data: string) => set({ day: data }),
-    }),
-    { name: "user" }
-  )
-);
+    });
+    localStorage.removeItem("sidebar");
+    await fetch("/api/logout", {
+      method: "GET",
+      credentials: "include",
+    });
+    window.location.href = "/auth/login";
+  },
+  setUser: (data: User) => set({ user: data }),
+  setMarks: (data: Marks) => set({ marks: data }),
+  setAttendance: (data: Attendance) => set({ attendance: data }),
+  setTimetable: (data: TimetableData) => set({ timetable: data }),
+  setLoading: (data: boolean) => set({ loading: data }),
+  setDay: (data: string) => set({ day: data }),
+}));

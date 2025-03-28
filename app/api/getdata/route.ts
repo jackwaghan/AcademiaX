@@ -7,7 +7,7 @@ export async function GET() {
   const cookie = (await cookies()).get("token")?.value as string | undefined;
   if (!cookie)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const NewVersion = "v1.0.6";
+  const NewVersion = "v1.0.7";
   try {
     const decode = await verifyToken(cookie);
     if (
@@ -21,14 +21,16 @@ export async function GET() {
     const email = decode.email as string;
     const token = decode.token as string;
 
-    const [user, marks, timetable, attendance, dayorder] = await Promise.all([
-      getUser(token),
-      getMark(token),
-      getTimetable(token),
-      getAttendance(token),
-      getDayOrder(token),
-      updateLastSeen(email),
-    ]);
+    const [user, marks, timetable, attendance, dayorder, planner] =
+      await Promise.all([
+        getUser(token),
+        getMark(token),
+        getTimetable(token),
+        getAttendance(token),
+        getDayOrder(token),
+        getPlanner(token),
+        updateLastSeen(email),
+      ]);
     return NextResponse.json(
       {
         user,
@@ -36,6 +38,7 @@ export async function GET() {
         attendance,
         timetable,
         dayorder,
+        planner,
         NewVersion,
       },
       { status: 200 }
@@ -178,6 +181,32 @@ async function getDayOrder(cookie: string) {
   }).then((res) => res.json());
   if (dayorder.error) return NextResponse.json(dayorder, { status: 400 });
   return dayorder;
+}
+
+async function getPlanner(cookie: string) {
+  const planner = await fetch("https://www.acadia.asia/api/planner", {
+    headers: {
+      accept: "*/*",
+      "accept-language": "en-US,en;q=0.9",
+      "cache-control": "no-cache",
+      pragma: "no-cache",
+      priority: "u=1, i",
+      "sec-ch-ua":
+        '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"',
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": '"Windows"',
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-origin",
+      cookie: `token=${cookie}`,
+      Referer: "https://www.acadia.asia/timetable",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+    },
+    body: null,
+    method: "GET",
+  }).then((res) => res.json());
+  if (planner.error) return NextResponse.json(planner, { status: 400 });
+  return planner;
 }
 
 async function updateLastSeen(email: string) {

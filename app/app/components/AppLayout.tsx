@@ -46,7 +46,7 @@ const AppLayout = ({
     useUser.setState({ attendance: data.attendance });
     useUser.setState({ timetable: data.timetable.data });
     useUser.setState({ dayorder: data.dayorder });
-    // useUser.setState({ planner: data.planner });
+    useUser.setState({ planner: data.planner });
     if (update) {
       useUser.setState({ NewVersion: true });
       localStorage.setItem("version", version);
@@ -81,9 +81,9 @@ export default AppLayout;
 const Updates = () => {
   return (
     <div className="fixed w-screen h-screen z-50 items-center justify-center flex bg-black/50 top-0 left-0">
-      <div className="mx-4 w-[500px] h-[300px] bg-background rounded-lg shadow-foreground/10 p-5 border border-foreground/10">
+      <div className="mx-4 w-[500px] h-[350px] bg-background rounded-lg shadow-foreground/10 p-5 border border-foreground/10">
         <div className="flex items-center justify-between">
-          <p className="text-2xl  font-semibold">Updates v1.0.6</p>
+          <p className="text-2xl  font-semibold">Updates v1.0.7</p>
           <X
             onClick={() => useUser.setState({ NewVersion: false })}
             className="cursor-pointer p-0.5 border border-foreground/10 rounded "
@@ -92,15 +92,15 @@ const Updates = () => {
         </div>
         <div className="flex flex-col gap-2 mt-5 ">
           <div className="flex gap-4 items-center px-2 ">
-            <div className="w-4.5 md:w-3 h-2 bg-green-500 rounded-full "></div>
+            <div className="w-4 md:w-3 h-2 bg-green-500 rounded-full "></div>
             <p>
-              Enhanced GradeX component with manual internal marks input and
-              updated grade handling logic
+              Added OD / ML Prediction component to the Attendance page to
+              predict your attendance based on the date you select.
             </p>
           </div>
           <div className="flex gap-4 items-center px-2 ">
             <div className="w-2 h-2 bg-green-500 rounded-full "></div>
-            <p>Updated Planner and Timetable with new UI</p>
+            <p>Added Animation to Planner and fixed Bugs</p>
           </div>
         </div>
 

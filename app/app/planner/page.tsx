@@ -7,7 +7,11 @@ import { getCurrentDate } from "./components/CurrentDay";
 
 const Page = () => {
   const { planner } = useUser();
+  const [mount, setMount] = useState(false);
 
+  React.useEffect(() => {
+    setMount(true);
+  }, []);
   const [selectedMonth, setSelectedMonth] = useState(getCurrentMonth());
   const todayRef = useRef<HTMLDivElement | null>(null);
   // Ensure the selected month is valid when planner data loads
@@ -34,7 +38,11 @@ const Page = () => {
   return (
     <div className="px-5 h-full">
       {/* Header */}
-      <div className="sticky top-[50px] md:top-0 left-0 right-0 flex justify-between items-center mb-5 bg-background py-4   ">
+      <div
+        className={`sticky top-[50px] md:top-0 left-0 right-0 flex justify-between items-center mb-5 bg-background py-4   ${
+          mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
+        }  transition-all duration-500`}
+      >
         <h2 className="text-xl md:text-2xl font-bold text-foreground">
           📅 Academic Calendar
         </h2>
@@ -55,7 +63,11 @@ const Page = () => {
         </select>
       </div>
       {/* Calendar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3  pb-5 container mx-auto">
+      <div
+        className={`grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3  pb-5 container mx-auto ${
+          mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
+        } delay-200 transition-all duration-500`}
+      >
         {planner[selectedMonth].map((day, i) => {
           const isToday =
             today === day.date && selectedMonth === getCurrentMonth();
