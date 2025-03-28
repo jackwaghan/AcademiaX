@@ -6,6 +6,7 @@ import { useWindow } from "@/lib/hook";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { useUser } from "@/lib/zustand";
 import Error from "../components/Error";
+import Prediction from "./components/Prediction";
 
 const Suggestion = (value: number) => {
   switch (true) {
@@ -22,6 +23,7 @@ const Page = () => {
   const { attendance } = useUser();
   const isMobile = useWindow();
   const [mount, setMount] = React.useState(false);
+  const [show, setShow] = React.useState(false);
   React.useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -59,7 +61,24 @@ const Page = () => {
             })}
           </div>
         </div>
-        <div className="py-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6  ">
+        <div className="flex flex-col gap-2 ">
+          <div className="flex w-full justify-between mt-5 ">
+            <h1
+              className={`text-lg md:text-2xl  text-orange-300 ${!show && "opacity-0"}`}
+            >
+              OD / ML Predictions
+            </h1>
+
+            <button
+              className="bg-blue-600 hover:scale-98 hover:bg-blue-500 cursor-pointer text-foreground px-3 py-1 rounded transition-all duration-300 flex items-center gap-2"
+              onClick={() => setShow(!show)}
+            >
+              <p className="text-sm sm:text-base">Show Prediction</p>
+            </button>
+          </div>
+          {show && <Prediction />}
+        </div>
+        <div className="py-5 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6  ">
           {attendance.map((item, i) => {
             const marginText = item.margin < 0 ? "Required" : "Margin";
             const marginvalue = Math.abs(item.margin);
@@ -86,7 +105,7 @@ const Page = () => {
                 key={i}
                 className={`flex flex-col justify-between border border-foreground/5 shadow-inner shadow-foreground/10 rounded-lg p-4 bg-foreground/5 backdrop-blur-3xl ${mount ? "translate-y-0 opacity-100 " : "translate-y-20 opacity-0"} transition-all  delay-200 duration-500`}
               >
-                <div className="flex justify-between border-b pb-5 h-[90px] border-foreground/10 w-full gap-2 ">
+                <div className="flex justify-between border-b pb-5  border-foreground/10 w-full gap-2 ">
                   <div className="flex flex-col gap-2 w-full">
                     <p>{item.title}</p>
                     <div className="text-sm text-foreground/50 flex gap-2 ">

@@ -37,6 +37,11 @@ const SidebarMenu = [
     link: "/app/planner",
   },
   {
+    title: "Prediction",
+    icon: <GraduationCap className="stroke-blue-500" />,
+    link: "/app/prediction",
+  },
+  {
     title: "Profile",
     icon: <UserCircle2 className="stroke-blue-500" />,
     link: "/app/profile",
