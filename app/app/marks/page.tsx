@@ -184,11 +184,12 @@ const Page = () => {
                         <p className="py-2 text-orange-400 text-center">
                           Internals
                         </p>
-                        <div className="flex items-center border border-foreground/10 rounded-full px-2 py-0.5 text-sm w-fit">
+                        <div className="flex items-center border border-foreground/10 rounded-full px-2 py-1 text-sm w-fit bg-background">
                           <input
                             type="text"
                             id={`${mark.code}`}
                             placeholder="0"
+                            autoComplete="off"
                             value={manualInternal[mark.code]}
                             onChange={(e) =>
                               setmanualInternals((prev) => ({
@@ -206,7 +207,7 @@ const Page = () => {
                           Theory
                         </p>
                         <div
-                          className={`flex items-center border border-foreground/10 rounded-full px-2 py-0.5 text-sm w-fit  ${gradeX.requiredTheoryMarks > 75 ? "text-red-700" : "text-green-600"}`}
+                          className={`flex items-center border border-foreground/10 rounded-full px-2 py-1 text-sm w-fit bg-background ${gradeX.requiredTheoryMarks > 75 ? "text-red-700" : "text-green-600"}`}
                         >
                           <p className="w-7 focus:outline-none font-semibold">
                             {isNaN(gradeX.requiredTheoryMarks)

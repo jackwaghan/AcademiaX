@@ -90,10 +90,10 @@ const Sidebar = () => {
           <p className="pt-2">{user?.name}</p>
           <p className="text-foreground/60">{user?.department}</p>
           <p className="flex items-center gap-2 text-green-500">
-            <p className="flex items-center gap-2 text-green-500">
-              <p>Day Order</p>
-              <span>-</span>
-              <p>{dayorder?.do === "N" ? "Holiday" : dayorder?.do}</p>
+            <p
+              className={`flex items-center gap-2 ${dayorder?.do === "N" ? "text-red-500" : "text-green-500"}`}
+            >
+              {dayorder?.do === "N" ? "Holiday" : `Day Order - ${dayorder?.do}`}
             </p>
           </p>
         </div>
