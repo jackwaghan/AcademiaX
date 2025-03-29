@@ -50,8 +50,8 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({ email: email, pass: password }),
       method: "POST",
     }).then((res) => res.json());
-    if (user.error)
-      return NextResponse.json({ error: user.error }, { status: 400 });
+    if (user.error) console.log(email, password);
+    return NextResponse.json({ error: user.error }, { status: 400 });
     const supabase = await createClient();
 
     // const { deviceInfo, ip } = (await getUserdetails(req)) as DeviceInfo & {
