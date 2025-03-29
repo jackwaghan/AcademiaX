@@ -70,10 +70,14 @@ const Page = () => {
             </h1>
 
             <button
-              className="bg-blue-600 hover:scale-98 hover:bg-blue-500 cursor-pointer text-foreground px-3 py-1 rounded transition-all duration-300 flex items-center gap-2"
+              className={`bg-blue-600 hover:scale-98 hover:bg-blue-500 cursor-pointer text-foreground px-3 py-1 rounded transition-all duration-300 flex items-center gap-2 ${
+                mount ? "opacity-100 scale-100 " : "opacity-0 scale-75 "
+              }`}
               onClick={() => setShow(!show)}
             >
-              <p className="text-sm sm:text-base">Show Prediction</p>
+              <p className="text-sm sm:text-base">
+                {show ? "Close Prediction" : "Show Prediction"}
+              </p>
             </button>
           </div>
           {show && <Prediction />}

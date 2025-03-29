@@ -23,25 +23,6 @@ export default function GoogleAnalytics() {
       });
     }
   }, [pathname]);
-  useEffect(() => {
-    const handleOutboundClick = (event: MouseEvent) => {
-      const target = event.target as HTMLAnchorElement;
-      if (
-        target &&
-        window.gtag &&
-        target.tagName === "A" &&
-        target.href.startsWith("https://")
-      ) {
-        window.gtag("event", "outbound_click", {
-          event_category: "Outbound",
-          event_label: target.href,
-        });
-      }
-    };
-
-    document.addEventListener("click", handleOutboundClick);
-    return () => document.removeEventListener("click", handleOutboundClick);
-  }, []);
 
   return (
     <>

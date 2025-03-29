@@ -50,7 +50,7 @@ const Prediction = () => {
   };
   return (
     <div className="h-full w-full mt-5 flex flex-col">
-      <div className="grid grid-cols-1 md:grid-cols-4 max-w-7xl md:mx-0 mx-auto items-center gap-6 justify-center ">
+      <div className="grid grid-cols-2 md:grid-cols-4 max-w-7xl  items-center gap-3  justify-center ">
         <SelectionBox
           title="From"
           month={startmonth}
@@ -67,14 +67,14 @@ const Prediction = () => {
           setDay={setendDay}
           planner={planner}
         />
-        <div className="flex justify-center">
-          <button
-            className="px-3 py-1.5 bg-orange-500 transition-all hover:scale-98 cursor-pointer duration-300 rounded shadow-lg "
-            onClick={() => handlePredict()}
-          >
-            {method === "Past" ? "Predict Past" : "Predict Future"}
-          </button>
-        </div>
+      </div>
+      <div className="flex justify-center w-full mt-10 ">
+        <button
+          className="px-3 py-1.5 bg-orange-500 transition-all hover:scale-98 cursor-pointer duration-300 rounded shadow-lg "
+          onClick={() => handlePredict()}
+        >
+          {method === "Past" ? "Predict Past" : "Predict Future"}
+        </button>
       </div>
 
       <div className="mt-8">
@@ -102,11 +102,11 @@ const SelectionBox = ({
   planner: Record<string, { date: string; dayo: string }[]>;
 }) => {
   return (
-    <div className="p-6 bg-foreground/5 rounded-lg shadow-lg border border-foreground/10 w-[250px]">
+    <div className="p-6  bg-foreground/5 rounded-lg shadow-inner shadow-foreground/10 border border-foreground/10 md:w-[200px]">
       <div className="flex flex-col gap-4">
         <p className="text-xl font-semibold">{title}</p>
         <select
-          className="px-4 py-2 bg-foreground/10 rounded-lg focus:outline-none cursor-pointer"
+          className="px-3 py-1.5 bg-foreground/10 rounded shadow-inner shadow-foreground/10  focus:outline-none cursor-pointer"
           value={month}
           onChange={(e) => setMonth(e.target.value)}
         >
@@ -117,7 +117,7 @@ const SelectionBox = ({
           ))}
         </select>
         <select
-          className="px-4 py-2 bg-foreground/10 shadow-lg rounded-lg focus:outline-none cursor-pointer"
+          className="px-3 py-1.5 bg-foreground/10 rounded shadow-inner shadow-foreground/10   focus:outline-none cursor-pointer"
           value={day}
           onChange={(e) => setDay(e.target.value)}
         >
@@ -141,6 +141,12 @@ const PredictedItems = ({
 }) => {
   const method =
     Number(startday) >= Number(getCurrentDate()) ? "Future" : "Past";
+  const ref = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [dayorder]);
 
   const { attendance, timetable } = useUser();
   if (!timetable || !attendance)
@@ -167,8 +173,18 @@ const PredictedItems = ({
       };
     });
 
+  if (items.length === 0)
+    return (
+      <div className="text-white text-center mt-10">
+        No classes found for the selected dates.
+      </div>
+    );
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 py-6 gap-6 h-full p-4 border-orange-200 border-dotted border-2 rounded-lg mx-2">
+    <div
+      ref={ref}
+      className="grid grid-cols-1 md:grid-cols-4 py-6 gap-6 h-full p-4 border-red-600 border-dotted border-2 rounded-lg mx-2"
+    >
       {items.map((item, i) => {
         const pastAbsent = Number(item.absent) - Number(item.classes);
         const pastPredict =
@@ -193,18 +209,18 @@ const PredictedItems = ({
                 <p className="text-foreground/60 ">Class</p>
               </div>
               <div className="flex gap-2 items-center">
-                {method === "Past" ? (
-                  <ArrowBigUpDash className="text-green-500" size={16} />
-                ) : (
-                  <ArrowBigUpDash
-                    className="text-red-500 rotate-180"
-                    size={16}
-                  />
-                )}
                 <p className="px-2 py-1 text-sm border border-foreground/10 flex gap-1 rounded-full bg-background shadow-2xl text-center">
                   <span
-                    className={`${method === "Past" ? "text-green-500" : "text-red-500"}`}
+                    className={`${method === "Past" ? "text-green-500" : "text-red-500"} flex items-center gap-1`}
                   >
+                    {method === "Past" ? (
+                      <ArrowBigUpDash className="text-green-500" size={16} />
+                    ) : (
+                      <ArrowBigUpDash
+                        className="text-red-500 rotate-180"
+                        size={16}
+                      />
+                    )}
                     {method === "Past"
                       ? `${Math.abs(Number(item.percentage) - Number(pastPredict.toFixed(2))).toFixed(2)}`
                       : `${Math.abs(Number(item.percentage) - Number(futurePredict.toFixed(2))).toFixed(2)}`}{" "}
@@ -230,8 +246,12 @@ const PredictedItems = ({
               <span>---{">"}</span>
               <p className="px-2 py-1 rounded-full border border-foreground/10 text-sm text-orange-400 bg-background">
                 {method === "Past"
-                  ? pastPredict.toFixed(2)
-                  : futurePredict.toFixed(2)}{" "}
+                  ? Number(pastPredict.toFixed(2)) > 100
+                    ? 100
+                    : pastPredict.toFixed(2)
+                  : Number(futurePredict.toFixed(2)) > 100
+                    ? 100
+                    : futurePredict.toFixed(2)}{" "}
                 %
               </p>
             </div>

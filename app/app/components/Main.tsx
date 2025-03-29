@@ -2,11 +2,9 @@ import React from "react";
 import Button from "./Button";
 import AppLayout from "./AppLayout";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 async function fetchdata() {
   const token = (await cookies()).get("token")?.value;
-  if (!token) return redirect("/auth/login");
   const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/getdata`, {
     method: "GET",
     headers: {
