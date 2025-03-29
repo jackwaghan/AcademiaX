@@ -222,8 +222,8 @@ const PredictedItems = ({
                       />
                     )}
                     {method === "Past"
-                      ? `${Math.abs(Number(item.percentage) - Number(pastPredict.toFixed(2))).toFixed(2)}`
-                      : `${Math.abs(Number(item.percentage) - Number(futurePredict.toFixed(2))).toFixed(2)}`}{" "}
+                      ? `${Math.min(100, Math.abs(Number(item.percentage) - Number(pastPredict.toFixed(2)))).toFixed(2)}`
+                      : `${Math.min(100, Math.abs(Number(item.percentage) - Number(futurePredict.toFixed(2)))).toFixed(2)}`}{" "}
                     %
                   </span>
                 </p>

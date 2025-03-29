@@ -128,9 +128,9 @@ const Page = () => {
                         </div>
                       </div>
                     ))}
-                    <div className="flex justify-between p-2">
-                      <p>Total</p>
-                      <div className="px-3 py-0.5 bg-orange-200/80 text-background font-bold rounded-full text-sm flex gap-1">
+                    <div className="flex justify-between items-center">
+                      <p className="p-2">Total</p>
+                      <div className="px-2 py-0.5 bg-orange-200/80 text-background font-bold rounded-full text-sm flex gap-1">
                         <p>{total}</p>
                         <span>/</span>
                         <p>{totalMarks}</p>
