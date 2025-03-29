@@ -72,12 +72,14 @@ const Page = () => {
           const totalMarks = getMark
             .map((item) => item.total)
             .map(Number)
-            .reduce((a, b) => a + b, 0);
+            .reduce((a, b) => a + b, 0)
+            .toFixed(2);
 
           const total = getMark
             .map((item) => item.mark)
             .map(Number)
-            .reduce((a, b) => a + b, 0);
+            .reduce((a, b) => a + b, 0)
+            .toFixed(2);
 
           const subjectGrades = grades[mark.code] || "O"; // Default grade is "O"
 
