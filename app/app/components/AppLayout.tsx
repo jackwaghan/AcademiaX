@@ -83,7 +83,7 @@ const Updates = () => {
     <div className="fixed w-screen h-screen z-50 items-center justify-center flex bg-black/50 top-0 left-0">
       <div className="mx-4 w-[500px] h-[350px] bg-background rounded-lg shadow-foreground/10 p-5 border border-foreground/10">
         <div className="flex items-center justify-between">
-          <p className="text-2xl  font-semibold">Updates v1.0.8</p>
+          <p className="text-2xl  font-semibold">Updates v1.0.9</p>
           <X
             onClick={() => useUser.setState({ NewVersion: false })}
             className="cursor-pointer p-0.5 border border-foreground/10 rounded "
@@ -94,12 +94,13 @@ const Updates = () => {
           <div className="flex gap-4 items-center px-2 ">
             <div className="w-4 md:w-3 h-2 bg-green-500 rounded-full "></div>
             <p>
-              Enhance Prediction component layout for better user experience
+              Introduced grade predictions for scenarios with and without
+              end-semester examinations.
             </p>
           </div>
           <div className="flex gap-4 items-center px-2 ">
             <div className="w-2 h-2 bg-green-500 rounded-full "></div>
-            <p>Improve UI responsiveness and accessibility</p>
+            <p>Fixed bugs in the prediction algorithm.</p>
           </div>
         </div>
 

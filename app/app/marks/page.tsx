@@ -4,7 +4,7 @@ import { useUser } from "@/lib/zustand";
 import { GraduationCap, School } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import Error from "../components/Error";
-import { predictMarks } from "./components/GradeX";
+import { getGradeThresholds, predictMarks } from "./components/GradeX";
 import { Grade } from "@/Types/type";
 
 const Page = () => {
@@ -69,12 +69,15 @@ const Page = () => {
             total: item.total,
           }));
 
-          const totalMarks = getMark
-            .map((item) => item.total)
-            .map(Number)
-            .reduce((a, b) => a + b, 0)
-            .toFixed(2);
+          const totalMarks = Number(
+            getMark
+              .map((item) => item.total)
+              .map(Number)
+              .reduce((a, b) => a + b, 0)
+              .toFixed(2)
+          );
 
+          // const totalMarks = 80;
           const total = getMark
             .map((item) => item.mark)
             .map(Number)
@@ -83,7 +86,10 @@ const Page = () => {
 
           const subjectGrades = grades[mark.code] || "O"; // Default grade is "O"
 
-          const gradeX = predictMarks(manualInternal[mark.code], subjectGrades);
+          const gradeX =
+            totalMarks > 60
+              ? getGradeThresholds(manualInternal[mark.code])
+              : predictMarks(manualInternal[mark.code], subjectGrades);
 
           const getFaculty = attendance.find((item) => item.code === mark.code);
 
@@ -181,7 +187,9 @@ const Page = () => {
                     </div>
                   </div> */}
                   <div>
-                    <div className="grid grid-cols-3 gap-2 w-full">
+                    <div
+                      className={`grid  gap-2 w-full justify-between items-center ${totalMarks > 60 ? "grid-cols-2" : "grid-cols-3"}`}
+                    >
                       <div className="flex flex-col gap-1 items-center ">
                         <p className="py-2 text-orange-400 text-center">
                           Internals
@@ -193,60 +201,81 @@ const Page = () => {
                             placeholder="0"
                             autoComplete="off"
                             value={manualInternal[mark.code]}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                              const value =
+                                Number(totalMarks) > 60
+                                  ? Math.min(Number(e.target.value), 100)
+                                  : Math.min(Number(e.target.value), 60);
                               setmanualInternals((prev) => ({
                                 ...prev,
-                                [mark.code]: Number(e.target.value),
-                              }))
-                            }
+                                [mark.code]: value,
+                              }));
+                            }}
                             className="w-7 focus:outline-none text-orange-300"
                           />
-                          <p className="text-foreground/60">/ 60</p>
-                        </div>
-                      </div>
-                      <div className="flex flex-col gap-1 items-center ">
-                        <p className="py-2 text-orange-400 text-center">
-                          Theory
-                        </p>
-                        <div
-                          className={`flex items-center border border-foreground/10 rounded-full px-2 py-1 text-sm w-fit bg-background ${gradeX.requiredTheoryMarks > 75 ? "text-red-700" : "text-green-600"}`}
-                        >
-                          <p className="w-7 focus:outline-none font-semibold">
-                            {isNaN(gradeX.requiredTheoryMarks)
-                              ? 0
-                              : gradeX.requiredTheoryMarks.toFixed(0)}
+                          <p className="text-foreground/60">
+                            {Number(totalMarks) > 60 ? "/ 100" : "/ 60"}
                           </p>
-                          <p className="text-foreground/60">/ 75</p>
                         </div>
                       </div>
+
+                      {totalMarks <= 60 && (
+                        <div className="flex flex-col gap-1 items-center ">
+                          <p className="py-2 text-orange-400 text-center">
+                            Theory
+                          </p>
+                          <div
+                            className={`flex items-center border border-foreground/10 rounded-full px-2 py-1 text-sm w-fit bg-background ${
+                              typeof gradeX === "object" &&
+                              gradeX.requiredTheoryMarks > 75
+                                ? "text-red-700"
+                                : "text-green-600"
+                            }`}
+                          >
+                            <p className="w-7 focus:outline-none font-semibold">
+                              {typeof gradeX === "object" &&
+                              !isNaN(gradeX.requiredTheoryMarks)
+                                ? gradeX.requiredTheoryMarks.toFixed(0)
+                                : 0}
+                            </p>
+                            <p className="text-foreground/60">/ 75</p>
+                          </div>
+                        </div>
+                      )}
                       <div className="flex flex-col gap-1 items-center ">
                         <p className="py-2 text-orange-400 text-center">
                           Grade
                         </p>
                         <div className="flex items-center  text-sm ">
-                          <select
-                            name="grade"
-                            id={`${mark.code}`}
-                            value={subjectGrades}
-                            aria-label="grade"
-                            onChange={(e) => {
-                              setGrades((prevGrades) => ({
-                                ...prevGrades,
-                                [mark.code]: e.target.value as Grade,
-                              }));
-                            }}
-                            className="cursor-pointer hover:scale-95 duration-300 bg-foreground/10 backdrop-blur-3xl shadow-inner shadow-foreground/25 rounded pl-2.5 p-1 appearance-none focus:outline-none"
-                          >
-                            {["O", "A+", "A", "B+", "B", "C"].map((item, i) => (
-                              <option
-                                key={i}
-                                value={item}
-                                className="bg-background "
-                              >
-                                {item}
-                              </option>
-                            ))}
-                          </select>
+                          {typeof gradeX !== "object" ? (
+                            <div>{gradeX}</div>
+                          ) : (
+                            <select
+                              name="grade"
+                              id={`${mark.code}`}
+                              value={subjectGrades}
+                              aria-label="grade"
+                              onChange={(e) => {
+                                setGrades((prevGrades) => ({
+                                  ...prevGrades,
+                                  [mark.code]: e.target.value as Grade,
+                                }));
+                              }}
+                              className="cursor-pointer hover:scale-95 duration-300 bg-foreground/10 backdrop-blur-3xl shadow-inner shadow-foreground/25 rounded pl-2.5 p-1 appearance-none focus:outline-none"
+                            >
+                              {["O", "A+", "A", "B+", "B", "C"].map(
+                                (item, i) => (
+                                  <option
+                                    key={i}
+                                    value={item}
+                                    className="bg-background "
+                                  >
+                                    {item}
+                                  </option>
+                                )
+                              )}
+                            </select>
+                          )}
                         </div>
                       </div>
                     </div>
