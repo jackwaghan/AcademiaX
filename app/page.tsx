@@ -1,6 +1,5 @@
 import { GraduationCap } from "lucide-react";
 import Image from "next/image";
-import Template from "../public/screenshots/LandingPage-2.png";
 import Link from "next/link";
 export default function Home() {
   return (
@@ -39,7 +38,7 @@ export default function Home() {
         <div className="relative p-2 bg-foreground/5 rounded-lg  border border-foreground/10 ">
           <Image
             alt="App Template"
-            src={Template}
+            src="/screenshots/LandingPage-2.png"
             blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
             placeholder="blur"
             width={1700}
