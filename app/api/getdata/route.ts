@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { verifyToken } from "@/lib/jwt";
-import { createClient } from "@/lib/supabase/server";
+// import { createClient } from "@/lib/supabase/server";
 
 export async function GET() {
   const cookie = (await cookies()).get("token")?.value as string | undefined;
@@ -18,7 +18,7 @@ export async function GET() {
     ) {
       return NextResponse.json({ error: "JWT decode Error" }, { status: 402 });
     }
-    const email = decode.email as string;
+    // const email = decode.email as string;
     const token = decode.token as string;
 
     const [user, marks, timetable, attendance, dayorder, planner] =
@@ -29,7 +29,7 @@ export async function GET() {
         getAttendance(token),
         getDayOrder(token),
         getPlanner(token),
-        updateLastSeen(email),
+        // updateLastSeen(email),
       ]);
     return NextResponse.json(
       {
@@ -51,6 +51,7 @@ export async function GET() {
 
 async function getUser(cookie: string) {
   const user = await fetch("https://www.acadia.asia/api/user", {
+    next: { revalidate: 60 * 60 * 24 * 7 }, // 7 days cache
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
@@ -77,6 +78,7 @@ async function getUser(cookie: string) {
 
 async function getMark(cookie: string) {
   const marks = await fetch("https://www.acadia.asia/api/mark", {
+    next: { revalidate: 60 * 60 }, // 1 hour cache
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
@@ -103,6 +105,7 @@ async function getMark(cookie: string) {
 
 async function getTimetable(cookie: string) {
   const timetable = await fetch("https://www.acadia.asia/api/timetable", {
+    next: { revalidate: 60 * 60 * 24 * 7 }, // 7 days cache
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
@@ -133,6 +136,7 @@ async function getTimetable(cookie: string) {
 
 async function getAttendance(cookie: string) {
   const attendance = await fetch("https://www.acadia.asia/api/attendance", {
+    next: { revalidate: 60 * 60 }, // 1 hour cache
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
@@ -159,6 +163,7 @@ async function getAttendance(cookie: string) {
 
 async function getDayOrder(cookie: string) {
   const dayorder = await fetch("https://www.acadia.asia/api/dayorder", {
+    next: { revalidate: 60 * 60 * 12 }, // 12 hours cache
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
@@ -185,6 +190,7 @@ async function getDayOrder(cookie: string) {
 
 async function getPlanner(cookie: string) {
   const planner = await fetch("https://www.acadia.asia/api/planner", {
+    next: { revalidate: 60 * 60 * 7 }, // 24 hours cache
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
@@ -209,12 +215,12 @@ async function getPlanner(cookie: string) {
   return planner;
 }
 
-async function updateLastSeen(email: string) {
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("students")
-    .update({ last_seen: new Date() })
-    .eq("email", email);
-  if (error) return NextResponse.json({ error }, { status: 500 });
-  // return data
-}
+// async function updateLastSeen(email: string) {
+//   const supabase = await createClient();
+//   const { error } = await supabase
+//     .from("students")
+//     .update({ last_seen: new Date() })
+//     .eq("email", email);
+//   if (error) return NextResponse.json({ error }, { status: 500 });
+//   // return data
+// }
