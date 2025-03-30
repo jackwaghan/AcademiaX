@@ -88,4 +88,4 @@ export type Planner = {
     },
   ];
 };
-export type Grade = "O" | "A+" | "A" | "B+" | "B" | "C";
+export type Grade = "O" | "A+" | "A" | "B+" | "B" | "C" | "F";

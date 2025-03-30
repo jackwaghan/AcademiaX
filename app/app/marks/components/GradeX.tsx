@@ -9,6 +9,7 @@ export function predictMarks(internalMarks: number, grade: Grade) {
     "B+": 61,
     B: 56,
     C: 50,
+    F: 40,
   };
 
   // Get required final score for the selected grade
@@ -21,4 +22,25 @@ export function predictMarks(internalMarks: number, grade: Grade) {
     requiredFinalScore,
     requiredTheoryMarks,
   };
+}
+
+export function getGradeThresholds(internalMarks: number): Grade {
+  switch (true) {
+    case internalMarks >= 91:
+      return "O";
+    case internalMarks >= 81:
+      return "A+";
+    case internalMarks >= 71:
+      return "A";
+    case internalMarks >= 61:
+      return "B+";
+    case internalMarks >= 56:
+      return "B";
+    case internalMarks >= 50:
+      return "C";
+    case internalMarks <= 40:
+      return "F";
+    default:
+      return "O"; // Default case if none of the conditions match
+  }
 }
