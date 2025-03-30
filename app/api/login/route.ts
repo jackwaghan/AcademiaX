@@ -1,6 +1,5 @@
 import { signToken } from "@/lib/jwt";
 import { createClient } from "@/lib/supabase/server";
-
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 // import { UAParser } from "ua-parser-js";
@@ -14,6 +13,8 @@ import { NextRequest, NextResponse } from "next/server";
 //     };
 //   };
 // }
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
   (await cookies()).delete("token");
   const { email, password } = await req.json();

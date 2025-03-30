@@ -7,6 +7,8 @@ import Error from "../components/Error";
 import { getGradeThresholds, predictMarks } from "./components/GradeX";
 import { Grade } from "@/Types/type";
 
+export const runtime = "edge";
+
 const Page = () => {
   const [mount, setMount] = useState(false);
   const [grades, setGrades] = useState<{ [subject: string]: Grade }>({});

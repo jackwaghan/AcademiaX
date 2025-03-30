@@ -3,6 +3,8 @@ import { useUser } from "@/lib/zustand";
 import Image from "next/image";
 import React from "react";
 
+export const runtime = "edge";
+
 const Page = () => {
   const { user } = useUser();
   const [mount, setMount] = React.useState(false);

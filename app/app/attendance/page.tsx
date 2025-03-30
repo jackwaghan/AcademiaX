@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
 import App from "./components/AttendancePieBar";
-
 import { useWindow } from "@/lib/hook";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { useUser } from "@/lib/zustand";
 import Error from "../components/Error";
 import Prediction from "./components/Prediction";
+
+export const runtime = "edge";
 
 const Suggestion = (value: number) => {
   switch (true) {
