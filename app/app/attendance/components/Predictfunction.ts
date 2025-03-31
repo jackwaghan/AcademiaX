@@ -58,6 +58,14 @@ export function isPast(
     return true;
   }
 
+  // If the start month is the current month but the end month is the next month, it's Future
+  if (
+    startMonthIndex === currentMonthIndex &&
+    endMonthIndex === currentMonthIndex + 1
+  ) {
+    return false;
+  }
+
   // If the start month is the current month, but the start day is before today, it's Past
   if (
     startMonthIndex === currentMonthIndex &&
@@ -81,7 +89,6 @@ export function isPast(
 
   return false; // Otherwise, it's Future
 }
-
 export function getClassMargin(
   attended: number,
   conducted: number,
