@@ -12,8 +12,6 @@ import { useUser } from "@/lib/zustand";
 import Error from "../components/Error";
 import { getCurrentAndNextTimeslot } from "./components/TimeInRange";
 
-export const runtime = "edge";
-
 const Page = () => {
   const { timetable, attendance, dayorder, setDay } = useUser();
   const [mount, setMount] = React.useState(false);

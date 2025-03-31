@@ -7,8 +7,6 @@ import { useUser } from "@/lib/zustand";
 import Error from "../components/Error";
 import Prediction from "./components/Prediction";
 
-export const runtime = "edge";
-
 const Suggestion = (value: number) => {
   switch (true) {
     case value >= 90 && value <= 100:

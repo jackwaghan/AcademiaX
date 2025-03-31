@@ -5,8 +5,6 @@ import React, { useRef, useState } from "react";
 import { getCurrentMonth } from "./components/CurrentMonth";
 import { getCurrentDate } from "./components/CurrentDay";
 
-export const runtime = "edge";
-
 const Page = () => {
   const { planner } = useUser();
 
