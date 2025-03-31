@@ -64,6 +64,10 @@ const Page = () => {
         } delay-200 transition-all duration-500`}
       >
         {marks.map((mark, i) => {
+          const isSemester = marks
+            .map((item) => item.code === mark.code && item.type)
+            .includes("Theory");
+
           const getMark = mark.marks.map((item) => item);
           const value = getMark.map((item) => ({
             name: item.name,
@@ -87,11 +91,9 @@ const Page = () => {
             .toFixed(2);
 
           const subjectGrades = grades[mark.code] || "O"; // Default grade is "O"
-
-          const gradeX =
-            totalMarks > 60
-              ? getGradeThresholds(manualInternal[mark.code])
-              : predictMarks(manualInternal[mark.code], subjectGrades);
+          const gradeX = !isSemester
+            ? getGradeThresholds(manualInternal[mark.code])
+            : predictMarks(manualInternal[mark.code], subjectGrades);
 
           const getFaculty = attendance.find((item) => item.code === mark.code);
 
@@ -190,7 +192,7 @@ const Page = () => {
                   </div> */}
                   <div>
                     <div
-                      className={`grid  gap-2 w-full justify-between items-center ${totalMarks > 60 ? "grid-cols-2" : "grid-cols-3"}`}
+                      className={`grid  gap-2 w-full justify-between items-center ${!isSemester ? "grid-cols-2" : "grid-cols-3"}`}
                     >
                       <div className="flex flex-col gap-1 items-center ">
                         <p className="py-2 text-orange-400 text-center">
@@ -204,10 +206,9 @@ const Page = () => {
                             autoComplete="off"
                             value={manualInternal[mark.code]}
                             onChange={(e) => {
-                              const value =
-                                Number(totalMarks) > 60
-                                  ? Math.min(Number(e.target.value), 100)
-                                  : Math.min(Number(e.target.value), 60);
+                              const value = !isSemester
+                                ? Math.min(Number(e.target.value), 100)
+                                : Math.min(Number(e.target.value), 60);
                               setmanualInternals((prev) => ({
                                 ...prev,
                                 [mark.code]: value,
@@ -216,12 +217,12 @@ const Page = () => {
                             className="w-7 focus:outline-none text-orange-300"
                           />
                           <p className="text-foreground/60">
-                            {Number(totalMarks) > 60 ? "/ 100" : "/ 60"}
+                            {!isSemester ? "/ 100" : "/ 60"}
                           </p>
                         </div>
                       </div>
 
-                      {totalMarks <= 60 && (
+                      {isSemester && (
                         <div className="flex flex-col gap-1 items-center ">
                           <p className="py-2 text-orange-400 text-center">
                             Theory

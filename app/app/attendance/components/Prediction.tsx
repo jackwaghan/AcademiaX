@@ -3,8 +3,8 @@ import { useUser } from "@/lib/zustand";
 import React from "react";
 import { getCurrentMonth } from "../../planner/components/CurrentMonth";
 import { getCurrentDate } from "../../planner/components/CurrentDay";
-import { countCoursePresence } from "./coursePresent";
-import { ArrowBigUpDash } from "lucide-react";
+import { countCoursePresence, isPast } from "./Predictfunction";
+import { ArrowBigUpDash, Loader2 } from "lucide-react";
 
 const Prediction = () => {
   const { planner } = useUser();
@@ -13,12 +13,15 @@ const Prediction = () => {
   const [startday, setstartDay] = React.useState(getCurrentDate());
   const [endday, setendDay] = React.useState(getCurrentDate());
   const [dayorder, setdayOrder] = React.useState<number[]>([]);
+  const [loading, setLoading] = React.useState(false);
   if (!planner)
     return <div className="text-white text-center mt-10">Loading...</div>;
-  const method =
-    Number(startday) >= Number(getCurrentDate()) ? "Future" : "Past";
+  const method = isPast(startmonth, startday, endmonth, endday)
+    ? "Past"
+    : "Future";
 
   const handlePredict = () => {
+    setLoading(true);
     {
       let dayOrder = [];
 
@@ -46,6 +49,10 @@ const Prediction = () => {
       }
 
       setdayOrder(dayOrder);
+      // Delay setting loading false to ensure re-render
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     }
   };
   return (
@@ -78,8 +85,18 @@ const Prediction = () => {
       </div>
 
       <div className="mt-8">
-        {dayorder.length !== 0 && (
-          <PredictedItems dayorder={dayorder} startday={startday} />
+        {loading ? (
+          <div className="flex justify-center items-center h-full w-full ">
+            <Loader2 className="animate-spin" />
+          </div>
+        ) : dayorder.length !== 0 ? (
+          <PredictedItems
+            dayorder={dayorder}
+            startday={startday}
+            method={method}
+          />
+        ) : (
+          <div className="text-center">No class found</div>
         )}
       </div>
     </div>
@@ -108,7 +125,14 @@ const SelectionBox = ({
         <select
           className="px-3 py-1.5 bg-foreground/10 rounded shadow-inner shadow-foreground/10  focus:outline-none cursor-pointer"
           value={month}
-          onChange={(e) => setMonth(e.target.value)}
+          onChange={(e) => {
+            const newMonth = e.target.value;
+            setMonth(newMonth);
+
+            // Reset the day to the first available date in the new month
+            const firstAvailableDay = planner[newMonth][0]?.date || "01";
+            setDay(firstAvailableDay);
+          }}
         >
           {Object.keys(planner).map((m, i) => (
             <option key={i} value={m} className="bg-background">
@@ -134,13 +158,12 @@ const SelectionBox = ({
 
 const PredictedItems = ({
   dayorder,
-  startday,
+  method,
 }: {
   dayorder: number[];
   startday: string;
+  method: "Past" | "Future";
 }) => {
-  const method =
-    Number(startday) >= Number(getCurrentDate()) ? "Future" : "Past";
   const ref = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     if (ref.current) {

@@ -105,6 +105,7 @@ const Sidebar = () => {
               <Link
                 key={i}
                 href={menu.link}
+                prefetch={false}
                 className={`mx-4 py-1.5 px-4 flex items-center gap-4  rounded-md hover:text-foreground hover:scale-98 cursor-pointer  duration-300 transition-transform ${path === menu.link ? "shadow-inner shadow-foreground/10 text-foreground bg-foreground/10 " : " text-foreground/60"}`}
                 onClick={() => isMobile && toggle()}
               >
@@ -141,7 +142,7 @@ const Sidebar = () => {
           }}
           className="cursor-pointer mb-3 px-4 py-2 flex justify-between items-center shadow-inner shadow-foreground/5 rounded-lg border border-sidebar-foreground/5 bg-foreground/5 text-sm  "
         >
-          <p>v1.0.9</p>
+          <p>v1.1.0</p>
           <p>@2025</p>
         </div>
       </div>
