@@ -165,7 +165,8 @@ async function getAttendance(cookie: string) {
 
 async function getDayOrder(cookie: string) {
   const dayorder = await fetch("https://www.acadia.asia/api/dayorder", {
-    next: { revalidate: 60 * 60 * 12 }, // 12 hours cache
+    next: { revalidate: 60 }, // 1 minute cache
+
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
