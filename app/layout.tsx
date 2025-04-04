@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 });
 
 const description =
-  "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.";
+  "AcademiaX SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.";
 export const metadata: Metadata = {
   title: "AcademiaX SRM",
   description,
