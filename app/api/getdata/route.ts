@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { verifyToken } from "@/lib/jwt";
-// import { createClient } from "@/lib/supabase/server";
 
 export async function GET() {
   const cookie = (await cookies()).get("token")?.value as string | undefined;
@@ -50,7 +49,7 @@ export async function GET() {
 }
 
 async function getUser(cookie: string) {
-  const user = await fetch("https://www.acadia.asia/api/user", {
+  const user = await fetch(`${process.env.BACKEND_URL}/api/user`, {
     next: { revalidate: 60 * 60 * 24 * 7 }, // 7 days cache
     headers: {
       accept: "*/*",
@@ -66,7 +65,7 @@ async function getUser(cookie: string) {
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
       cookie: `token=${cookie}`,
-      Referer: "https://www.acadia.asia/user",
+      Referer: `${process.env.BACKEND_URL}/user`,
       "Referrer-Policy": "strict-origin-when-cross-origin",
     },
     body: null,
@@ -77,7 +76,7 @@ async function getUser(cookie: string) {
 }
 
 async function getMark(cookie: string) {
-  const marks = await fetch("https://www.acadia.asia/api/mark", {
+  const marks = await fetch(`${process.env.BACKEND_URL}/api/mark`, {
     next: { revalidate: 60 * 60 }, // 1 hour cache
     headers: {
       accept: "*/*",
@@ -93,7 +92,7 @@ async function getMark(cookie: string) {
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
       cookie: `token=${cookie}`,
-      Referer: "https://www.acadia.asia/mark",
+      Referer: `${process.env.BACKEND_URL}/mark`,
       "Referrer-Policy": "strict-origin-when-cross-origin",
     },
     body: null,
@@ -104,7 +103,7 @@ async function getMark(cookie: string) {
 }
 
 async function getTimetable(cookie: string) {
-  const timetable = await fetch("https://www.acadia.asia/api/timetable", {
+  const timetable = await fetch(`${process.env.BACKEND_URL}/api/timetable`, {
     next: { revalidate: 60 * 60 * 24 * 7 }, // 7 days cache
     headers: {
       accept: "*/*",
@@ -120,7 +119,7 @@ async function getTimetable(cookie: string) {
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
       cookie: `token=${cookie}`,
-      Referer: "https://www.acadia.asia/timetable",
+      Referer: `${process.env.BACKEND_URL}/timetable`,
       "Referrer-Policy": "strict-origin-when-cross-origin",
     },
     body: null,
@@ -135,7 +134,7 @@ async function getTimetable(cookie: string) {
 }
 
 async function getAttendance(cookie: string) {
-  const attendance = await fetch("https://www.acadia.asia/api/attendance", {
+  const attendance = await fetch(`${process.env.BACKEND_URL}/api/attendance`, {
     next: { revalidate: 60 * 60 }, // 1 hour cache
     headers: {
       accept: "*/*",
@@ -151,7 +150,7 @@ async function getAttendance(cookie: string) {
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
       cookie: `token=${cookie}`,
-      Referer: "https://www.acadia.asia/attendance",
+      Referer: `${process.env.BACKEND_URL}/attendance`,
       "Referrer-Policy": "strict-origin-when-cross-origin",
     },
     body: null,
@@ -162,7 +161,7 @@ async function getAttendance(cookie: string) {
 }
 
 async function getDayOrder(cookie: string) {
-  const dayorder = await fetch("https://www.acadia.asia/api/dayorder", {
+  const dayorder = await fetch(`${process.env.BACKEND_URL}/api/dayorder`, {
     next: { revalidate: 60 * 60 }, // 1 hour cache
 
     headers: {
@@ -179,8 +178,6 @@ async function getDayOrder(cookie: string) {
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
       cookie: `token=${cookie}`,
-      Referer: "https://www.acadia.asia/timetable",
-      "Referrer-Policy": "strict-origin-when-cross-origin",
     },
     body: null,
     method: "GET",
@@ -190,7 +187,7 @@ async function getDayOrder(cookie: string) {
 }
 
 async function getPlanner(cookie: string) {
-  const planner = await fetch("https://www.acadia.asia/api/planner", {
+  const planner = await fetch(`${process.env.BACKEND_URL}/api/planner`, {
     next: { revalidate: 60 * 60 * 7 * 7 }, // 7 days cache
     headers: {
       accept: "*/*",
@@ -206,8 +203,6 @@ async function getPlanner(cookie: string) {
       "sec-fetch-mode": "cors",
       "sec-fetch-site": "same-origin",
       cookie: `token=${cookie}`,
-      Referer: "https://www.acadia.asia/timetable",
-      "Referrer-Policy": "strict-origin-when-cross-origin",
     },
     body: null,
     method: "GET",

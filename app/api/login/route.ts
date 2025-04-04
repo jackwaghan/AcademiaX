@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     );
 
   try {
-    const user = await fetch("https://www.acadia.asia/api/login", {
+    const user = await fetch(`${process.env.BACKEND_URL}/api/login`, {
       headers: {
         accept: "*/*",
         "accept-language": "en-US,en;q=0.9",
@@ -44,8 +44,6 @@ export async function POST(req: NextRequest) {
         "sec-fetch-dest": "empty",
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
-        Referer: "https://www.acadia.asia/login",
-        "Referrer-Policy": "strict-origin-when-cross-origin",
       },
       body: JSON.stringify({ email: email, pass: password }),
       method: "POST",
