@@ -1,6 +1,8 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
+export const runtime = "edge";
+
 const Loading = () => (
   <div className="w-dvw h-dvh flex items-center justify-between overflow-hidden">
     <span className="loader" />

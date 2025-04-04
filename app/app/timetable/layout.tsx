@@ -1,8 +1,11 @@
 import { Metadata } from "next";
 
+export const runtime = "edge";
+
 export const metadata: Metadata = {
   title: "TimeTable - AcademiaX",
-  description: "Academia - SRM Institute of Science and Technology",
+  description:
+    "Academiax SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
 };
 export default async function Rootlayout({
   children,
