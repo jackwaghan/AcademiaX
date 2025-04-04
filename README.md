@@ -34,6 +34,16 @@ Get started with AcademiaX SRM in just a few steps:
     ```bash
     bun install
     ```
+Add `.env` file in the root directory
+
+```plaintext
+SUPABASE_URL=your_supabase_url_here
+SUPABASE_ANON_KEY=your_supabase_anon_key_here
+JWT_SECRET=your_jwt_secret_here
+NEXT_PUBLIC_DOMAIN=your_next_public_domain_here
+BACKEND_URL=your_backend_url_here
+NEXT_PUBLIC_GA_TRACKING_ID=your_next_public_ga_tracking_id_here
+```
 
 ## 📦 Usage
 
