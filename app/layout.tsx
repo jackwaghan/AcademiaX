@@ -25,24 +25,16 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const description =
+  "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.";
 export const metadata: Metadata = {
   title: "AcademiaX SRM",
-  description:
-    "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
-  keywords: [
-    "SRM",
-    "Academia",
-    "AcademiaX",
-    "AcademiaX SRM",
-    "jackwaghan",
-    "jackwaghan.com",
-    "jack waghan",
-    "SRM Academia",
-  ],
+  description,
+  authors: [{ name: "jackwaghan", url: "https://jackwaghan.com" }],
+  keywords: ["SRM", "Academia", "AcademiaX", "AcademiaX SRM", "SRM Academia"],
   openGraph: {
     title: "AcademiaX SRM",
-    description:
-      "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
+    description,
     url: "https://academiax.in",
     siteName: "AcademiaX SRM",
     images: [
@@ -59,8 +51,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@academiax",
     title: "AcademiaX SRM",
-    description:
-      "Academix SRM helps you manage your attendance, marks, timetable, and more, all in one beautifully designed platform tailored for SRM students.",
+    description,
+    creator: "@jackwaghan",
     images: ["https://academiax.in/screenshots/Desktop.png"],
   },
 };
