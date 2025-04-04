@@ -30,10 +30,10 @@ const Page = () => {
   }, []);
   if (attendance === null) return <Error error="Attendance not found" />;
   return (
-    <div className=" px-4 ">
+    <div className=" px-4  ">
       <div className="h-full mx-auto max-w-7xl pt-10">
         <div
-          className={`grid grid-cols-1 md:grid-cols-2 gap-6  rounded-lg p-5 bg-foreground/5 shadow-inner border border-foreground/5 shadow-foreground/30  ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500`}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-6  rounded-lg p-5 bg-background-muted/15 shadow-inner border border-foreground/5 shadow-foreground/30  ${mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"} transition-all duration-500`}
         >
           <div className="flex flex-col ">
             <p className="text-xl text-center  text-orange-500 md:text-2xl">
@@ -106,7 +106,7 @@ const Page = () => {
             return (
               <div
                 key={i}
-                className={`flex flex-col justify-between border border-foreground/5 shadow-inner shadow-foreground/10 rounded-lg p-4 bg-foreground/5 backdrop-blur-3xl ${mount ? "translate-y-0 opacity-100 " : "translate-y-20 opacity-0"} transition-all  delay-200 duration-500`}
+                className={`flex flex-col justify-between border border-foreground/5 shadow-inner shadow-foreground/10 rounded-lg p-4 bg-background-muted/15 backdrop-blur-3xl ${mount ? "translate-y-0 opacity-100 " : "translate-y-20 opacity-0"} transition-all  delay-200 duration-500`}
               >
                 <div className="flex justify-between border-b pb-5  border-foreground/10 w-full gap-2 ">
                   <div className="flex flex-col gap-2 w-full">

@@ -46,7 +46,7 @@ const Header = () => {
   }, [show]);
   return (
     <div
-      className={`z-40 fixed top-0 w-full  min-h-[50px]  border-b border-foreground/15 items-center justify-between flex px-4 bg-foreground/10 backdrop-blur-3xl ${isOpen && !isMobile ? "pl-[260px]" : ""} transition-all duration-300 `}
+      className={`z-40 fixed top-0 w-full  min-h-[50px]  border-b border-foreground/10  items-center justify-between flex px-4 bg-foreground/10 backdrop-blur-3xl ${isOpen && !isMobile ? "pl-[260px]" : ""} transition-all duration-300 `}
     >
       <div className="flex gap-2 items-center h-full">
         <PanelRightOpen

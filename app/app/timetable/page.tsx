@@ -49,7 +49,7 @@ const Page = () => {
       <div
         className={`pt-7 grid grid=cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 h-full ${mount ? "translate-x-0 opacity-100" : " translate-y-20 opacity-0"} transition-all duration-500 `}
       >
-        <div className="h-[270px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl ">
+        <div className="h-[270px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-background-muted/15 backdrop-blur-3xl ">
           <div className="flex items-center gap-4 ">
             {" "}
             <Clock8 size={30} className="stroke-orange-300" />
@@ -82,7 +82,7 @@ const Page = () => {
             </div>
           )}
         </div>
-        <div className="h-[270px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl">
+        <div className="h-[270px] p-6 border border-foreground/5 shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-background-muted/15 backdrop-blur-3xl">
           <div className="flex items-center gap-4 ">
             {" "}
             <ChevronRight size={30} className="stroke-orange-300" />
@@ -113,7 +113,7 @@ const Page = () => {
             </div>
           )}
         </div>
-        <div className="h-[270px] p-6 border border-foreground/5  shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-foreground/5 backdrop-blur-3xl">
+        <div className="h-[270px] p-6 border border-foreground/5  shadow-inner shadow-foreground/20 rounded-lg flex flex-col bg-background-muted/15 backdrop-blur-3xl">
           <div className="flex items-center gap-4 ">
             <BookOpen size={30} className="stroke-orange-300" />
             <p className="text-2xl text-orange-300 font-semibold">Day Order</p>
@@ -149,7 +149,7 @@ const SelectDay = ({ mount }: { mount: boolean }) => {
               className={`px-4 py-2 rounded-lg shadow-inner shadow-foreground/5 border border-foreground/5   cursor-pointer hover:scale-90 duration-300 transition-transform ${
                 day === item
                   ? "bg-blue-500 text-white"
-                  : "bg-foreground/5 text-orange-500"
+                  : "bg-background-muted/15 text-orange-500"
               }`}
             >
               {Number(item) + 1}
@@ -188,20 +188,18 @@ const TimeTable = ({
           return (
             <div
               key={i}
-              className={`flex flex-col gap-6  p-4 rounded-lg  justify-between bg-foreground/5 ${current === classItem ? "border-red-500 border" : "border-l-4 border-orange-200/20 "}`}
+              className={`flex flex-col gap-6  p-4 rounded-lg  justify-between bg-background-muted/15 ${current === classItem ? "border-red-500 border" : "border-l-4 border-orange-200/20 "}`}
             >
               <div className="flex justify-between items-center gap-4">
-                <p className="text-orange-300 text-sm border border-foreground/10 rounded-full bg-foreground/5 px-3 py-0.5">
+                <p className="text-orange-300 text-sm border border-foreground/10 rounded-full bg-background-muted/15 px-3 py-0.5">
                   {classItem?.type}
                 </p>
                 <p className="text-green-500 text-sm border border-foreground/10 rounded-full bg-green-500/10 px-2 py-0.5">
                   {item}
                 </p>
               </div>
-              <div className="flex flex-col gap-2">
-                {" "}
+              <div className="flex flex-col gap-3">
                 <p className="text-foreground">{classItem?.title}</p>
-                <p className="text-foreground/50 font-sm">{classItem?.code}</p>
                 <div className="flex items-center gap-2 text-md text-blue-500">
                   <User size={20} />
                   <p>{faculty?.faculty}</p>

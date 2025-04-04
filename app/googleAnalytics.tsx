@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 
-// Extend the Window interface to include the gtag property
 declare global {
   interface Window {
     gtag?: (...args: [string, string, Record<string, unknown>?]) => void;
@@ -11,7 +10,7 @@ declare global {
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 
-const GA_TRACKING_ID = "G-59BZ9QH491";
+const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID!;
 
 export default function GoogleAnalytics() {
   const pathname = usePathname(); // Get the current route

@@ -64,7 +64,7 @@ const Page = () => {
             <div
               key={i}
               ref={isToday ? todayRef : null}
-              className={`bg-foreground/5 p-5 rounded-lg flex flex-col gap-3 ${isToday ? "border-2 border-orange-500" : "shadow-foreground/20 shadow-inner "}`}
+              className={`bg-background-muted/15 p-5 rounded-lg flex flex-col gap-3 ${isToday ? "border-2 border-orange-500" : "shadow-foreground/20 shadow-inner "}`}
             >
               <div className="flex justify-between items-center">
                 <p className="text-2xl text-blue-500 font-semibold">

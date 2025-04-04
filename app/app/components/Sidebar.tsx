@@ -69,7 +69,7 @@ const Sidebar = () => {
   return (
     <div
       ref={ref}
-      className={`z-50 fixed w-[250px] h-full flex flex-col bg-sidebar-foreground/5 backdrop-blur-3xl border-r border-sidebar-foreground/15 ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300`}
+      className={`z-50 fixed w-[250px] h-full flex flex-col bg-foreground/5 backdrop-blur-3xl border-r border-sidebar-foreground/15 ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300`}
     >
       <div className="min-h-[50px] flex gap-2 items-center justify-between border-b border-sidebar-foreground/15 px-4">
         <div className="flex gap-2 items-center p-1">
@@ -121,7 +121,7 @@ const Sidebar = () => {
           target="_blank"
         >
           <div
-            className={`flex flex-col gap-2 border rounded-lg bg-foreground/5 shadow-orange-300 hover:shadow-foreground/10 shadow-inner  px-5 py-3 duration-300 `}
+            className={`flex flex-col gap-2 border border-foreground/10 rounded-lg bg-foreground/5 shadow-orange-300 hover:shadow-foreground/10 shadow-inner  px-5 py-3 duration-300 `}
           >
             <p className="">🛠️ Designed & Built by </p>
             <p className="text-orange-300 pl-5 font-semibold">JACK WAGHAN</p>

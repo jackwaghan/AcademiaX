@@ -77,7 +77,6 @@ async function getUser(cookie: string) {
 
 async function getMark(cookie: string) {
   const marks = await fetch(`${process.env.BACKEND_URL}/api/mark`, {
-    next: { revalidate: 60 * 60 }, // 1 hour cache
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
@@ -135,7 +134,6 @@ async function getTimetable(cookie: string) {
 
 async function getAttendance(cookie: string) {
   const attendance = await fetch(`${process.env.BACKEND_URL}/api/attendance`, {
-    next: { revalidate: 60 * 60 }, // 1 hour cache
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",
@@ -162,8 +160,6 @@ async function getAttendance(cookie: string) {
 
 async function getDayOrder(cookie: string) {
   const dayorder = await fetch(`${process.env.BACKEND_URL}/api/dayorder`, {
-    next: { revalidate: 60 * 60 }, // 1 hour cache
-
     headers: {
       accept: "*/*",
       "accept-language": "en-US,en;q=0.9",

@@ -31,7 +31,7 @@ const Page = () => {
           mount ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
         } transition-all duration-500`}
       >
-        <div className="h-[150px] justify-center px-5 rounded-lg bg-foreground/5 shadow-inner shadow-foreground/20 border border-foreground/5 flex flex-col gap-4">
+        <div className="h-[150px] justify-center px-5 rounded-lg bg-background-muted/15 shadow-inner shadow-foreground/20 border border-foreground/5 flex flex-col gap-4">
           <p className="text-xl text-blue-500 font-semibold">
             Current Semester
           </p>
@@ -43,7 +43,7 @@ const Page = () => {
           </div>
         </div>
         <div>
-          <div className="h-[150px] justify-center px-5 rounded-lg bg-foreground/5 shadow-inner shadow-foreground/20 border border-foreground/5 flex flex-col gap-4">
+          <div className="h-[150px] justify-center px-5 rounded-lg bg-background-muted/15 shadow-inner shadow-foreground/20 border border-foreground/5 flex flex-col gap-4">
             <p className="text-2xl text-blue-500 font-semibold">Section</p>
             <div className="flex items-center justify-between">
               <p className="text-4xl font-semibold">{user.section}</p>
@@ -63,8 +63,9 @@ const Page = () => {
       >
         {marks.map((mark, i) => {
           const isSemester = marks
-            .map((item) => item.code === mark.code && item.type)
-            .includes("Theory");
+            .find((item) => item.code === mark.code)
+            ?.code.endsWith("T");
+          console.log(isSemester);
 
           const getMark = mark.marks.map((item) => item);
           const value = getMark.map((item) => ({
@@ -98,7 +99,7 @@ const Page = () => {
           return (
             <div
               key={i}
-              className="p-4 border-orange-200/20 border-l-4 rounded-lg bg-foreground/5 flex flex-col gap-3"
+              className="p-4 border-orange-200/20 border-l-4 rounded-lg bg-background-muted/15 flex flex-col gap-3"
             >
               <div className="flex justify-between gap-2">
                 <p className="text-md">{mark.name}</p>
@@ -153,7 +154,7 @@ const Page = () => {
               </div>
 
               {value.length !== 0 ? (
-                <div className="w-full border-t pt-2">
+                <div className="w-full border-t pt-2 border-foreground/10">
                   {/* <p className="py-2 text-orange-500">
                     Predicted Theory Marks{" "}
                   </p>

@@ -2,6 +2,7 @@ import { signToken } from "@/lib/jwt";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+
 // import { UAParser } from "ua-parser-js";
 // interface DeviceInfo {
 //   deviceInfo: {

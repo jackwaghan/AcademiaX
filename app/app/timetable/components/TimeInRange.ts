@@ -64,10 +64,10 @@ function convertTo24Hour(timeStr: string) {
 
   // Convert 12-hour format to 24-hour format based on logical sequence
   if (hour === 12) {
-    hour = 0; // 12:XX should be treated as 0:XX in 24-hour time
+    hour = 0;
   }
   if (hour < 7) {
-    hour += 12; // Assume times before 7 are PM (e.g., "1:00" should be 13:00)
+    hour += 12; // Assume times before 7 are PM
   }
 
   return { hour, minute };
