@@ -1,4 +1,6 @@
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export const runtime = "edge";
@@ -19,5 +21,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const token = (await cookies()).get("token")?.value;
+  if (!token) redirect("/auth/login");
   return <Main>{children}</Main>;
 }
