@@ -1,7 +1,9 @@
 import { GraduationCap } from "lucide-react";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-export default function Home() {
+export default async function Home() {
+  const token = (await cookies()).get("token")?.value;
   return (
     <div className="w-dvw h-svh overflow-hidden px-4 md:px-0 font-poppins">
       <nav className="relative max-w-6xl mx-auto mt-5 border border-foreground/10 bg-foreground/5 backdrop-blur-3xl rounded-xl  h-[60px] flex items-center justify-between px-4">
@@ -10,10 +12,10 @@ export default function Home() {
           <h1>AcademiaX SRM</h1>
         </div>
         <Link
-          href={"/auth/login"}
+          href={token ? "/app/dashboard" : "/auth/login"}
           className="bg-orange-500 text-black px-3 py-1 md:px-4 md:py-2 rounded-lg hover:scale-95 duration-300 cursor-pointer font-semibold"
         >
-          Login
+          {token ? "Dashboard" : "Login"}
         </Link>
         <div className="absolute inset-0 bg-orange-500/20 blur-3xl -z-10" />
       </nav>
@@ -28,10 +30,10 @@ export default function Home() {
           students.
         </p>
         <Link
-          href={"/app/timetable"}
+          href={token ? "/app/dashboard" : "/app/timetable"}
           className="mt-10 bg-orange-500 text-black px-3 py-1 md:px-4 md:py-2 rounded-lg hover:scale-95 duration-300 cursor-pointer font-semibold"
         >
-          Get Started
+          {token ? "Go to Dashboard" : "Get Started"}
         </Link>
       </main>
       <div className="  w-full flex items-center justify-center py-15 px-4">
