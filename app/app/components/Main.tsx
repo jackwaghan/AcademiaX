@@ -13,7 +13,7 @@ async function fetchdata() {
     },
     credentials: "include",
   });
-  const version = (await cookies()).get("version")?.value || "v1.1.0";
+  const version = (await cookies()).get("version")?.value || "v1.2.0";
 
   return { data: await data.json(), status: data.status, version };
 }

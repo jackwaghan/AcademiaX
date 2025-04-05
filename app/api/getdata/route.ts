@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { verifyToken } from "@/lib/jwt";
+import { cache } from "react";
 
 export const runtime = "edge";
 
@@ -50,7 +51,7 @@ export async function GET() {
   }
 }
 
-async function getUser(cookie: string) {
+const getUser = cache(async (cookie: string) => {
   const user = await fetch(`${process.env.BACKEND_URL}/api/user`, {
     next: { revalidate: 60 * 60 * 24 * 7 }, // 7 days cache
     headers: {
@@ -75,7 +76,7 @@ async function getUser(cookie: string) {
   }).then((res) => res.json());
   if (user.error) return NextResponse.json(user, { status: 400 });
   return user;
-}
+});
 
 async function getMark(cookie: string) {
   const marks = await fetch(`${process.env.BACKEND_URL}/api/mark`, {
@@ -184,7 +185,7 @@ async function getDayOrder(cookie: string) {
   return dayorder;
 }
 
-async function getPlanner(cookie: string) {
+const getPlanner = cache(async (cookie: string) => {
   const planner = await fetch(`${process.env.BACKEND_URL}/api/planner`, {
     next: { revalidate: 60 * 60 * 7 * 7 }, // 7 days cache
     headers: {
@@ -207,7 +208,7 @@ async function getPlanner(cookie: string) {
   }).then((res) => res.json());
   if (planner.error) return NextResponse.json(planner, { status: 400 });
   return planner;
-}
+});
 
 // async function updateLastSeen(email: string) {
 //   const supabase = await createClient();

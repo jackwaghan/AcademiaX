@@ -12,7 +12,8 @@ import {
   TimetableData,
   User,
 } from "@/Types/type";
-import { Updates } from "./UpdateBox";
+import dynamic from "next/dynamic";
+const Updates = dynamic(() => import("./UpdateBox"), { ssr: false });
 
 const AppLayout = ({
   children,
