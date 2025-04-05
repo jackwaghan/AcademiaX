@@ -1,11 +1,4 @@
 import nextPWA from "next-pwa";
-import { setupDevPlatform } from "@cloudflare/next-on-pages/next-dev";
-
-(async () => {
-  if (process.env.NODE_ENV === "development") {
-    await setupDevPlatform();
-  }
-})();
 
 const nextConfig = nextPWA({
   dest: "public",

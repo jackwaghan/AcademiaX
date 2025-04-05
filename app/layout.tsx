@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import GoogleAnalytics from "./googleAnalytics";
 
 export const runtime = "edge";
@@ -88,7 +87,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${poppins.variable} ${geistMono.variable} antialiased  `}
       >
         <GoogleAnalytics />
-        <SpeedInsights />
         <ThemeProvider
           enableSystem={false}
           defaultTheme="dark"
