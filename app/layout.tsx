@@ -4,6 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import GoogleAnalytics from "./googleAnalytics";
+
+export const runtime = "edge";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
