@@ -23,7 +23,7 @@ export default function Home() {
           <span className="font-semibold text-orange-500">SRM Academia</span>
         </h1>
         <p className="px-2 text-md md:text-xl mt-10 text-foreground/80  flex items-center max-w-3xl text-center">
-          Academix SRM helps you manage your attendance, marks, timetable, and
+          Academiax SRM helps you manage your attendance, marks, timetable, and
           more, all in one beautifully designed platform tailored for SRM
           students.
         </p>
