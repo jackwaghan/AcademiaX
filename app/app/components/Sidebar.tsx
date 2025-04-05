@@ -142,7 +142,7 @@ const Sidebar = () => {
           }}
           className="cursor-pointer mb-3 px-4 py-2 flex justify-between items-center shadow-inner shadow-foreground/5 rounded-lg border border-sidebar-foreground/5 bg-foreground/5 text-sm  "
         >
-          <p>v1.1.0</p>
+          <p>v1.2.0</p>
           <p>@2025</p>
         </div>
       </div>
