@@ -62,10 +62,8 @@ const Page = () => {
         } delay-200 transition-all duration-500`}
       >
         {marks.map((mark, i) => {
-          const isSemester = marks
-            .find((item) => item.code === mark.code)
-            ?.code.endsWith("T");
-          console.log(isSemester);
+          const sem = marks.find((item) => item.code === mark.code);
+          const isSemester = sem?.code.endsWith("T") || sem?.code.endsWith("J");
 
           const getMark = mark.marks.map((item) => item);
           const value = getMark.map((item) => ({
