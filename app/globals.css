@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted-background: var(--muted-background);
+  --color-card-background: var(--card-background);
+  --font-geist-sans: var(--font-sans);
+  --font-geist-mono: var(--font-mono);
+}
+
+@layer base {
+  [data-theme='light'] {
+    --background: #f7f7f7;
+    --foreground: #000000;
+    --muted-background: #f4f3ee;
+    --card-background: #e6e6e6;
+  }
+  [data-theme='dark'] {
+    --background: #161718;
+    --foreground: #e0e0e0;
+    --muted-background: #1c1d1f;
+    --fade-background: #121212;
+  }
+}
+
+.shadow-lg {
+  @apply inset-shadow-sm inset-shadow-white/20;
+}
+.shadow-sm {
+  @apply inset-shadow-2xs inset-shadow-white/20;
+}
