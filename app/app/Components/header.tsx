@@ -8,7 +8,7 @@ import {
   useUserInfoQuery,
 } from '@/hooks/query';
 import { usePathname } from 'next/navigation';
-import path from 'path';
+// import path from 'path'; // Removed, not available in browser
 import React from 'react';
 import { RotateCcw } from 'lucide-react';
 import Menu from './menu';
@@ -63,7 +63,8 @@ const Header = ({ children }: { children: React.ReactNode }) => {
   }, [dataUpdatedAt, isError]);
 
   React.useEffect(() => {
-    const base = path.basename(pathname) as RouteKey;
+    // Get the last segment of the pathname as the route key
+    const base = (pathname.split('/').pop() ?? '') as RouteKey;
     setRoute(base);
   }, [pathname]);
 

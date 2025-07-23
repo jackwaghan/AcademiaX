@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import path from 'path';
+// import path from 'path'; // Removed, not available in browser
 import { ArrowDownRightSquareIcon } from 'lucide-react';
 import Link from 'next/link';
 
@@ -13,11 +13,14 @@ const Menu = () => {
       onClick={() => setToggle((prev) => !prev)}
       className='text-md relative flex items-center justify-center gap-2 rounded-lg border border-neutral-500/30 bg-orange-100 px-2 py-1'
     >
-      <h1 className='capitalize'>{path.basename(pathname)}</h1>
+      <h1 className='capitalize'>{pathname.split('/').pop()}</h1>
       <span className='rounded-lg border border-neutral-500/30 bg-orange-300 p-0.5'>
         <ArrowDownRightSquareIcon className='h-5 w-5' />
         {toggle && (
-          <MenuCard setToggle={setToggle} path={path.basename(pathname)} />
+          <MenuCard
+            setToggle={setToggle}
+            path={pathname.split('/').pop() ?? ''}
+          />
         )}
       </span>
     </div>
