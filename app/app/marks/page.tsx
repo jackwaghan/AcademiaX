@@ -1,14 +1,14 @@
 'use client';
-import { courseInfo } from '@/data/info';
-import { useMarksQuery } from '@/hooks/query';
+import { useCourseQuery, useMarksQuery } from '@/hooks/query';
 import React from 'react';
 import { Loading } from '../Components/global';
 
 const Page = () => {
   const { data, isLoading, isError } = useMarksQuery();
+  const courseInfo = useCourseQuery().data;
   const markList = data?.markList;
   const courseTitle = (idx: string) =>
-    courseInfo.courseList.find((item) => item.courseCode === idx);
+    courseInfo && courseInfo.courseList.find((item) => item.courseCode === idx);
 
   if (!isError && !isLoading && markList?.length === 0) {
     return <Loading data='No marks available' />;
