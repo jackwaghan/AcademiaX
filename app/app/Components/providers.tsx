@@ -22,7 +22,7 @@ export function Providers({ children }: { children: ReactNode }) {
       queryClient,
       persister: localStoragePersister,
       maxAge: THIRTY_DAYS,
-      buster: 'v1',
+      buster: 'v2.0.0', // Versioning to bust cache
     });
   }
 

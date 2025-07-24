@@ -47,21 +47,15 @@ const Page = () => {
             <Plus className='h-5 w-5' />
           </button>
           <div
-            onClick={() =>
-              currentMonthData &&
-              setDayOrder(Number(currentMonthData[0].dayOrder))
-            }
+            onClick={() => {
+              if (currentMonthData && currentMonthData[0].dayOrder !== '-') {
+                setDayOrder(Number(currentMonthData[0].dayOrder));
+              }
+            }}
             className='absolute top-2 flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-200 py-0.5 pr-0.5 pl-2 text-sm font-medium text-gray-700'
           >
             Today
-            <span
-              className={`rounded border border-neutral-500/30 px-2 py-0.5 font-medium text-black ${
-                currentMonthData &&
-                currentMonthData[0].dayOrder === dayOrder.toString()
-                  ? 'bg-orange-100'
-                  : 'bg-orange-300'
-              }`}
-            >
+            <span className='rounded border border-neutral-500/30 bg-orange-100 px-2 py-0.5 font-medium text-black'>
               {currentMonthData && currentMonthData[0].dayOrder !== '-'
                 ? currentMonthData[0].dayOrder
                 : 'Holiday'}

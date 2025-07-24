@@ -20,6 +20,9 @@ export function useTimetableQuery() {
     },
     staleTime: 1000 * 60 * 60 * 24, // 1 day
     retry: 0,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }
 
@@ -35,6 +38,9 @@ export function useAttendanceQuery() {
     },
     staleTime: 1000 * 60 * 30, // 30 minutes
     retry: 0,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }
 
@@ -50,6 +56,9 @@ export function useMarksQuery() {
     },
     staleTime: 1000 * 60 * 30 * 24, // 1 day
     retry: 0,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }
 
@@ -64,6 +73,9 @@ export function useCourseQuery() {
     },
     staleTime: 1000 * 60 * 60 * 24, // 1 day
     retry: 0,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }
 
@@ -78,6 +90,9 @@ export function useCalendarQuery() {
     },
     staleTime: 1000 * 60 * 60 * 24, // 1 day
     retry: 0,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }
 
@@ -92,5 +107,8 @@ export function useUserInfoQuery() {
     },
     staleTime: 1000 * 60 * 60 * 24, // 1 day
     retry: 0,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }
