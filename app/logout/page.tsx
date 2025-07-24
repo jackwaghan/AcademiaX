@@ -10,7 +10,7 @@ const Page = () => {
 
   async function logout() {
     try {
-      if (Cookies.get('token')) {
+      if (Cookies.get('isAuthenticated')) {
         await fetchWithCredentials('http://localhost:3001/api/logout');
       }
       window.localStorage.clear();

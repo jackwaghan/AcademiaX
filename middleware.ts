@@ -4,6 +4,9 @@ export const runtime = 'edge';
 
 export async function middleware(request: NextRequest) {
   const user = await verifyUser(request);
+  if (user && request.nextUrl.pathname === '/logout') {
+    return NextResponse.next();
+  }
   if (!user && request.nextUrl.pathname !== '/login') {
     return NextResponse.redirect(new URL('/login', request.url));
   }
@@ -17,7 +20,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ['/app/:path*', '/login'],
+  matcher: ['/app/:path*', '/login', '/logout'],
 };
 
 export async function verifyUser(request: NextRequest): Promise<boolean> {
