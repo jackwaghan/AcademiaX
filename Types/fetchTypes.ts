@@ -24,11 +24,12 @@ export type attendanceType = {
 
 export type attendanceDataType = {
   courseCode: string;
-  courseType: string;
   courseTitle: string;
   courseCategory: string;
   courseFaculty: string;
   courseSlot: string;
+  courseConducted: number;
+  courseAbsent: number;
   courseAttendance: string;
 }[];
 
@@ -82,3 +83,19 @@ export type calendarDataType = {
     event: string;
   }[];
 }[];
+
+export type userInfoType = {
+  userInfo: userInfoDataType;
+  status: number;
+};
+
+export type userInfoDataType = {
+  regNumber: string;
+  name: string;
+  mobile: string;
+  section: string;
+  program: string;
+  department: string;
+  semester: string;
+  batch: string;
+};

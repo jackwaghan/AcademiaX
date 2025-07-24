@@ -4,6 +4,7 @@ import {
   courseType,
   marksType,
   timetableType,
+  userInfoType,
 } from '@/Types/fetchTypes';
 import { fetchWithCredentials } from '@/utils/fetch';
 import { useQuery } from '@tanstack/react-query';
@@ -84,7 +85,7 @@ export function useUserInfoQuery() {
   return useQuery({
     queryKey: ['userInfo'],
     queryFn: async () => {
-      const response = await fetchWithCredentials(
+      const response: userInfoType = await fetchWithCredentials(
         `${process.env.NEXT_PUBLIC_APP_DOMAIN}/api/userinfo`,
       );
       return response;

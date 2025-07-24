@@ -3,14 +3,14 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import NavBar from '../app/Components/navBar';
 import Image from 'next/image';
-import { Loader2 } from 'lucide-react';
+import { EyeIcon, EyeOff, Loader2 } from 'lucide-react';
 const Page = () => {
   return (
-    <div className='bg-muted-background flex h-screen w-screen flex-col'>
+    <div className='bg-muted-background flex h-dvh w-screen flex-col overflow-hidden'>
       <div className='h-20 w-full p-3'>
         <NavBar />
       </div>
-      <div className='flex flex-1 flex-col items-center pt-[50%]'>
+      <div className='flex flex-1 flex-col items-center pt-32'>
         <LoginComponent />
       </div>
     </div>
@@ -23,6 +23,7 @@ const LoginComponent = () => {
   const [user, setUser] = React.useState(false);
   const [progress, setProgress] = React.useState(false);
   const [captcha, setCaptcha] = React.useState(false);
+  const [hidden, setHidden] = React.useState(true);
   const [data, setData] = React.useState({
     identifier: '',
     digest: '',
@@ -78,7 +79,7 @@ const LoginComponent = () => {
       });
     } else {
       setProgress(false);
-      setLoginError('User not found');
+      setLoginError(verifyUser.message);
     }
   }
 
@@ -101,7 +102,6 @@ const LoginComponent = () => {
     );
     const verifyPassword = await verifyPasswordResponse.json();
     if (verifyPassword.isAuthenticated) {
-      setProgress(false);
       window.localStorage.setItem('token', verifyPassword.cookies);
       return router.push('/app/onboarding');
     }
@@ -153,23 +153,38 @@ const LoginComponent = () => {
       </div>
       {!user && (
         <input
-          type='name'
+          type='text'
           id='email'
           name='email'
           placeholder='Email'
           required
-          className='rounded-lg border border-neutral-500/30 bg-orange-200 px-3 py-1.5'
+          className='rounded-lg border border-neutral-500/30 bg-orange-200 px-3 py-1.5 focus:ring-1 focus:ring-orange-300 focus:outline-none'
+          autoFocus
         />
       )}
       {user && (
-        <input
-          type='text'
-          id='password'
-          name='password'
-          placeholder='Password'
-          required
-          className='rounded-lg border border-neutral-500/30 bg-orange-200 px-3 py-1.5'
-        />
+        <div className='relative'>
+          <input
+            type={hidden ? 'password' : 'text'}
+            id='password'
+            name='password'
+            placeholder='Password'
+            required
+            className='w-full rounded-lg border border-neutral-500/30 bg-orange-200 px-3 py-1.5 focus:ring-1 focus:ring-orange-300 focus:outline-none'
+            autoFocus
+          />
+          <button
+            type='button'
+            onClick={() => setHidden((prev) => !prev)}
+            className='absolute top-1/2 right-3 -translate-y-1/2 text-sm text-gray-500'
+          >
+            {hidden ? (
+              <EyeIcon className='h-5 w-5' />
+            ) : (
+              <EyeOff className='h-5 w-5' />
+            )}
+          </button>
+        </div>
       )}
       {captcha && (
         <div className='flex flex-col gap-3'>
@@ -186,7 +201,7 @@ const LoginComponent = () => {
             name='captcha'
             placeholder='Captcha'
             required
-            className='rounded-lg border border-neutral-500/30 bg-orange-200 px-3 py-1.5'
+            className='rounded-lg border border-neutral-500/30 bg-orange-200 px-3 py-1.5 focus:ring-1 focus:ring-orange-300 focus:outline-none'
           />
         </div>
       )}

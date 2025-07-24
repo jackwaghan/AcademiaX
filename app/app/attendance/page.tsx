@@ -27,25 +27,33 @@ const Page = () => {
               </h1>
             </div>
             <div
-              className={`rounded border border-neutral-500/30 bg-orange-100 px-2 py-1 text-center text-lg font-bold ${Number(item.courseAttendance) >= 75 ? 'text-green-600' : 'text-red-600'}`}
+              className={`rounded border border-neutral-500/30 bg-orange-100 px-2 py-1 text-center text-lg font-bold ${
+                item.courseAttendance.length === 0
+                  ? 'text-gray-500'
+                  : Number(item.courseAttendance) >= 75
+                    ? 'text-green-600'
+                    : 'text-red-600'
+              } `}
             >
-              {item.courseAttendance}
+              {item.courseAttendance ? `${item.courseAttendance}%` : 'N/A'}
             </div>
           </div>
-          <div className='flex gap-4 text-xs'>
-            <div className='flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-100 py-1 pr-2 pl-1'>
-              <span className='flex rounded border border-neutral-500/30 bg-orange-300 px-1.5 py-1 text-center'>
-                19
-              </span>
-              14
+          {item.courseConducted > 0 && (
+            <div className='flex gap-4 text-xs'>
+              <div className='flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-100 py-1 pr-2 pl-1'>
+                <span className='flex rounded border border-neutral-500/30 bg-orange-300 px-1.5 py-1 text-center'>
+                  {item.courseConducted}
+                </span>
+                {item.courseConducted - item.courseAbsent}
+              </div>
+              <div className='flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-100 py-1 pr-1 pl-2'>
+                Margin
+                <span className='flex rounded border border-neutral-500/30 bg-orange-300 px-2 py-1 text-center'>
+                  1
+                </span>
+              </div>
             </div>
-            <div className='flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-100 py-1 pr-1 pl-2'>
-              Margin
-              <span className='flex rounded border border-neutral-500/30 bg-orange-300 px-2 py-1 text-center'>
-                1
-              </span>
-            </div>
-          </div>
+          )}
         </div>
       ))}
     </div>

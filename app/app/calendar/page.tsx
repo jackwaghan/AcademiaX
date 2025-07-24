@@ -31,7 +31,7 @@ const Page = () => {
   return (
     <div className='flex flex-col gap-4 text-black'>
       <div className='bg-muted-background sticky top-0 z-10 p-4'>
-        <div className='relative flex h-[150px] items-center justify-center rounded-xl border border-neutral-500/30 bg-orange-300 text-2xl'>
+        <div className='relative z-20 flex h-[150px] items-center justify-center rounded-xl border border-neutral-500/30 bg-orange-300 text-2xl'>
           {currentMonth}
           <button
             disabled={
@@ -73,7 +73,7 @@ const Page = () => {
         {currentCalendar?.days.map((event, i) => (
           <div
             key={i}
-            className={`flex flex-col gap-2 border-b border-neutral-500/30 p-4 first:rounded-t-lg last:rounded-b-lg ${event.dayOrder !== '-' ? 'bg-orange-200' : 'bg-orange-300'}`}
+            className={`flex flex-col gap-2 border-b border-neutral-500/30 p-4 first:rounded-t-lg last:rounded-b-lg ${event.dayOrder !== '-' ? 'bg-orange-300' : 'bg-orange-200'}`}
           >
             <div className='flex items-center justify-between'>
               <p className='flex flex-col items-center gap-2 text-xl font-medium'>

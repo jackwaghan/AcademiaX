@@ -29,8 +29,8 @@ const Page = () => {
 
   return (
     <div className='text-white'>
-      <div className='bg-muted-background sticky top-0 p-4'>
-        <div className='relative flex h-[170px] items-center justify-center rounded-xl border border-neutral-500/30 bg-orange-300 text-4xl text-black'>
+      <div className='bg-muted-background sticky top-0 z-10 p-4'>
+        <div className='relative z-20 flex h-[170px] items-center justify-center rounded-xl border border-neutral-500/30 bg-orange-300 text-4xl text-black'>
           {dayOrder}
           <button
             disabled={dayOrder === 1}
@@ -46,9 +46,30 @@ const Page = () => {
           >
             <Plus className='h-5 w-5' />
           </button>
+          <div
+            onClick={() =>
+              currentMonthData &&
+              setDayOrder(Number(currentMonthData[0].dayOrder))
+            }
+            className='absolute top-2 flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-200 py-0.5 pr-0.5 pl-2 text-sm font-medium text-gray-700'
+          >
+            Today
+            <span
+              className={`rounded border border-neutral-500/30 px-2 py-0.5 font-medium text-black ${
+                currentMonthData &&
+                currentMonthData[0].dayOrder === dayOrder.toString()
+                  ? 'bg-orange-100'
+                  : 'bg-orange-300'
+              }`}
+            >
+              {currentMonthData && currentMonthData[0].dayOrder !== '-'
+                ? currentMonthData[0].dayOrder
+                : 'Holiday'}
+            </span>
+          </div>
         </div>
       </div>
-      <div className='mx-4 my-2 flex flex-col rounded-xl border border-neutral-500/30 text-black'>
+      <div className='-z-10 mx-4 my-2 flex flex-col rounded-xl border border-neutral-500/30 text-black'>
         {timetable[dayOrder - 1].class.map((item, i) => {
           return (
             <div

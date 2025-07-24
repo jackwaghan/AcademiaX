@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation';
 // import path from 'path'; // Removed, not available in browser
 import React from 'react';
 import { RotateCcw } from 'lucide-react';
-import Menu from './menu';
+import Menu, { IconMenuCard } from './menu';
 const Header = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   type RouteKey =
@@ -22,6 +22,7 @@ const Header = ({ children }: { children: React.ReactNode }) => {
     | 'calendar'
     | 'userinfo';
   const [route, setRoute] = React.useState<RouteKey>('timetable');
+  const [iconMenuOpen, setIconMenuOpen] = React.useState(false);
   const [time, setTime] = React.useState('');
 
   const query = {
@@ -63,7 +64,6 @@ const Header = ({ children }: { children: React.ReactNode }) => {
   }, [dataUpdatedAt, isError]);
 
   React.useEffect(() => {
-    // Get the last segment of the pathname as the route key
     const base = (pathname.split('/').pop() ?? '') as RouteKey;
     setRoute(base);
   }, [pathname]);
@@ -71,8 +71,7 @@ const Header = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='bg-background flex h-dvh w-screen flex-col overflow-hidden'>
       {/* This is for Notice */}
-      {/* <div className=''>
-      </div> */}
+      {/* <div className='h-10 bg-green-200'></div> */}
       <header className='flex h-14 w-full items-center justify-between px-4'>
         <div>
           <h1 className='text-xl font-medium text-black'>AcademiaX</h1>
@@ -80,9 +79,28 @@ const Header = ({ children }: { children: React.ReactNode }) => {
         <div className='flex items-center justify-center gap-6'>
           <Menu />
           <a
-            href='#'
-            className='bg-muted-background h-10 w-10 rounded-full border border-neutral-500/30'
-          ></a>
+            onClick={() => setIconMenuOpen((prev) => !prev)}
+            className='flex h-10 w-10 items-center justify-center rounded-full border border-neutral-500/30 bg-green-100 text-xl font-bold text-black capitalize'
+          >
+            {useUserInfoQuery().data?.userInfo.name?.charAt(0)}
+          </a>
+          {iconMenuOpen && (
+            <div
+              className=''
+              onMouseDown={(e) => {
+                // Only close if click is outside the menu/avatar
+                if (e.target === e.currentTarget) setIconMenuOpen(false);
+              }}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+            />
+          )}
+          {iconMenuOpen && <IconMenuCard />}
         </div>
       </header>
       <div className='mx-3 mb-1 flex h-10 items-center justify-between px-2 text-sm font-medium text-gray-500'>

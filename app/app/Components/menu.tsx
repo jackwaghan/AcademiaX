@@ -22,6 +22,22 @@ const Menu = () => {
             path={pathname.split('/').pop() ?? ''}
           />
         )}
+        {toggle && (
+          <div
+            className=''
+            onMouseDown={(e) => {
+              e.stopPropagation(); // Prevent parent onClick
+              if (e.target === e.currentTarget) setToggle(false);
+            }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
+          />
+        )}
       </span>
     </div>
   );
@@ -77,6 +93,41 @@ const MenuCard = ({
           </Link>
         );
       })}
+    </div>
+  );
+};
+
+export const IconMenuCard = () => {
+  const items = [
+    {
+      name: 'profile',
+      url: '',
+    },
+    {
+      name: 'smart fetch',
+      url: '/app/attendance',
+    },
+    {
+      name: 'bugs',
+      url: '/app/',
+    },
+    {
+      name: 'logout',
+      url: '/logout',
+    },
+  ];
+
+  return (
+    <div className='absolute top-14 right-5 z-50 flex w-38 flex-col rounded-xl border border-neutral-500/30'>
+      {items.map((item, i) => (
+        <a
+          key={i}
+          href={item.url}
+          className={`items-center px-3.5 py-1.5 text-black capitalize first:rounded-t-xl last:rounded-b-xl ${item.name === 'logout' ? 'bg-red-400 text-white' : 'bg-green-100'}`}
+        >
+          {item.name}
+        </a>
+      ))}
     </div>
   );
 };

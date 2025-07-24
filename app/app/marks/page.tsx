@@ -22,6 +22,9 @@ const Page = () => {
       <div className='flex flex-col gap-4 px-4 py-6'>
         {markList?.map((item, i) => {
           const courseDetails = courseTitle(item.course);
+          if (!courseDetails) {
+            return null;
+          }
           return (
             <div
               key={i}
@@ -30,12 +33,14 @@ const Page = () => {
               <div className='flex items-center justify-between rounded-t-lg border-b border-neutral-500/30 bg-orange-200 p-2'>
                 <div className='flex w-[70%] flex-col gap-1'>
                   <h1 className='text-sm'>{courseDetails?.courseTitle}</h1>
-                  <h2 className='text-gray-600'>{courseDetails?.courseCode}</h2>
+                  <h2 className='text-gray-600'>
+                    {courseDetails?.courseCode} - {courseDetails?.courseType}
+                  </h2>
                 </div>
                 <div className='flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-100 py-0.5 pr-0.5 pl-2 text-center font-medium'>
                   Credit{' '}
                   <span className='rounded border border-neutral-500/30 bg-orange-300 px-2 py-0.5'>
-                    {courseDetails?.courseCredit}
+                    {courseDetails?.courseCredit || '0'}
                   </span>
                 </div>
               </div>
