@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 
-export const runtime = 'edge';
+export const runtime = 'experimental-edge';
 
 export async function middleware(request: NextRequest) {
   const user = await verifyUser(request);
