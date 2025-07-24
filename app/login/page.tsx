@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import NavBar from '../app/Components/navBar';
 import Image from 'next/image';
@@ -103,6 +104,9 @@ const LoginComponent = () => {
     const verifyPassword = await verifyPasswordResponse.json();
     if (verifyPassword.isAuthenticated) {
       window.localStorage.setItem('token', verifyPassword.cookies);
+      Cookies.set('isAuthenticated', 'true', {
+        expires: 30,
+      });
       return router.push('/app/onboarding');
     }
     setProgress(false);
