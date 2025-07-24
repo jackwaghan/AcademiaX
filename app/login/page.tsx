@@ -70,6 +70,11 @@ const LoginComponent = () => {
       },
     );
     const verifyUser = await verifyUserResponse.json();
+    if (verifyUser.error) {
+      setProgress(false);
+      setLoginError(verifyUser.error);
+      return;
+    }
     if (verifyUser.statusCode === 201) {
       setProgress(false);
       setUser(true);
@@ -103,7 +108,9 @@ const LoginComponent = () => {
     );
     const verifyPassword = await verifyPasswordResponse.json();
     if (verifyPassword.isAuthenticated) {
-      window.localStorage.setItem('token', verifyPassword.cookies);
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('token', verifyPassword.cookies);
+      }
       Cookies.set('isAuthenticated', 'true', {
         expires: 30,
       });
@@ -209,7 +216,7 @@ const LoginComponent = () => {
           />
         </div>
       )}
-      {loginError.length > 0 && (
+      {loginError?.length > 0 && (
         <div className='text-center text-sm font-medium text-red-500'>
           {loginError}
         </div>

@@ -2,7 +2,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 // import path from 'path'; // Removed, not available in browser
-import { ArrowDownRightSquareIcon } from 'lucide-react';
+import { ArrowDownRightSquareIcon, Bug, Share } from 'lucide-react';
 import Link from 'next/link';
 
 const Menu = () => {
@@ -100,16 +100,22 @@ const MenuCard = ({
 export const IconMenuCard = () => {
   const items = [
     {
-      name: 'profile',
-      url: '',
+      name: 'share',
+      action: async () => {
+        if (navigator.share) {
+          await navigator.share({
+            title: 'AcademiaX',
+            text: 'Explore AcademiaX v2 Beta – a modern, fast, and efficient academic platform. Experience enhanced performance and a refreshed interface.',
+            url: window.location.href,
+          });
+        } else {
+          alert('Sharing is not supported in this browser.');
+        }
+      },
     },
     {
-      name: 'smart fetch',
-      url: '/app/attendance',
-    },
-    {
-      name: 'bugs',
-      url: '/app/',
+      name: 'report bugs',
+      url: 'https://chat.whatsapp.com/B6a15jYEKgI1UD7QzX39cM', // Replace with your actual WhatsApp group link
     },
     {
       name: 'logout',
@@ -119,15 +125,37 @@ export const IconMenuCard = () => {
 
   return (
     <div className='absolute top-14 right-5 z-50 flex w-38 flex-col rounded-xl border border-neutral-500/30'>
-      {items.map((item, i) => (
-        <a
-          key={i}
-          href={item.url}
-          className={`items-center px-3.5 py-1.5 text-black capitalize first:rounded-t-xl last:rounded-b-xl ${item.name === 'logout' ? 'bg-red-400 text-white' : 'bg-green-100'}`}
-        >
-          {item.name}
-        </a>
-      ))}
+      {items.map((item, i) =>
+        item.name === 'share' ? (
+          <button
+            key={i}
+            onClick={item.action}
+            className='flex items-center justify-between bg-green-100 px-4 py-2 text-black capitalize first:rounded-t-xl'
+            type='button'
+          >
+            {item.name}
+            <Share className='h-4 w-4 text-black' />
+          </button>
+        ) : (
+          <a
+            key={i}
+            href={item.url}
+            target={item.name === 'report bugs' ? '_blank' : undefined}
+            rel={
+              item.name === 'report bugs' ? 'noopener noreferrer' : undefined
+            }
+            className={`flex items-center justify-between px-4 py-2 text-black capitalize ${i === 0 ? 'first:rounded-t-xl' : ''} ${i === items.length - 1 ? 'last:rounded-b-xl' : ''} ${item.name === 'logout' ? 'bg-red-400 text-white' : 'bg-green-100'}`}
+          >
+            {item.name}
+            {item.name === 'report bugs' && (
+              <Bug className='h-4 w-4 text-black' />
+            )}
+            {item.name === 'logout' && (
+              <ArrowDownRightSquareIcon className='h-4 w-4 text-white' />
+            )}
+          </a>
+        ),
+      )}
     </div>
   );
 };

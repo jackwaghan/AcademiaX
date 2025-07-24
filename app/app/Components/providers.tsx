@@ -9,15 +9,12 @@ export function Providers({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient();
   const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30;
 
-  const localStoragePersister =
-    typeof window !== 'undefined'
-      ? createAsyncStoragePersister({
-          storage: window.localStorage,
-        })
-      : undefined;
-
-  // Enable persistence
-  if (localStoragePersister) {
+  let localStoragePersister;
+  if (typeof window !== 'undefined') {
+    localStoragePersister = createAsyncStoragePersister({
+      storage: window.localStorage,
+    });
+    // Enable persistence only on client
     persistQueryClient({
       queryClient,
       persister: localStoragePersister,

@@ -4,7 +4,13 @@ export const runtime = 'experimental-edge';
 
 export async function middleware(request: NextRequest) {
   const user = await verifyUser(request);
-  if (user && request.nextUrl.pathname === '/logout') {
+  if (request.nextUrl.pathname === '/') {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  if (
+    (user && request.nextUrl.pathname === '/logout') ||
+    (!user && request.nextUrl.pathname === '/login')
+  ) {
     return NextResponse.next();
   }
   if (!user && request.nextUrl.pathname !== '/login') {
@@ -20,7 +26,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ['/app/:path*', '/login', '/logout'],
+  matcher: ['/app/:path*', '/login', '/logout', '/'],
 };
 
 export async function verifyUser(request: NextRequest): Promise<boolean> {
