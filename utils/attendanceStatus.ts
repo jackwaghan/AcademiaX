@@ -3,32 +3,35 @@ interface AttendanceStatusType {
   classes: number;
 }
 
-export function attendanceStatus(
-  conducted: number,
-  absent: number,
-  targetPercent = 75,
-): AttendanceStatusType {
-  const present = conducted - absent;
-  const targetDecimal = targetPercent / 100;
-  const currentPercent = (present / conducted) * 100;
+export function attendanceStatus({
+  conducted,
+  absent,
+}: {
+  conducted: number;
+  absent: number;
+}): AttendanceStatusType {
+  const target = 0.75;
 
-  if (currentPercent < targetPercent) {
-    // You are below target — calculate how many more classes needed
-    const numerator = targetDecimal * conducted - present;
-    const denominator = 1 - targetDecimal;
-    const required = Math.ceil(numerator / denominator);
+  if (conducted === 0) {
+    return { status: 'required', classes: 1 }; // edge case: no classes yet
+  }
+
+  const present = conducted - absent;
+  const currentRatio = present / conducted;
+
+  if (currentRatio < target) {
+    // Need to find future classes (x) such that (present + x)/(conducted + x) >= target
+    const x = Math.ceil((target * conducted - present) / (1 - target));
     return {
       status: 'required',
-      classes: required,
+      classes: x,
     };
   } else {
-    // You are at or above target — calculate margin (how many can skip)
-    const margin = Math.floor(
-      (present - targetDecimal * conducted) / targetDecimal,
-    );
+    // Can skip x future classes: (present)/(conducted + x) >= target
+    const x = Math.floor(present / target - conducted);
     return {
       status: 'margin',
-      classes: margin,
+      classes: x,
     };
   }
 }

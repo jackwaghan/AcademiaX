@@ -16,7 +16,12 @@ const Page = () => {
   return (
     <div className='m-4 flex flex-col rounded-xl border border-neutral-500/30 bg-orange-200 text-sm text-black'>
       {attendance?.map((item, i) => {
-        const data = attendanceStatus(item.courseAbsent, item.courseConducted);
+        const data =
+          item.courseConducted > 0 &&
+          attendanceStatus({
+            conducted: item.courseConducted,
+            absent: item.courseAbsent,
+          });
 
         return (
           <div
@@ -42,17 +47,20 @@ const Page = () => {
                 {item.courseAttendance ? `${item.courseAttendance}%` : 'N/A'}
               </div>
             </div>
-            {item.courseConducted > 0 && (
+            {data && (
               <div className='flex gap-4 text-xs'>
-                <div className='flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-100 py-1 pr-2 pl-1'>
-                  <span className='flex rounded border border-neutral-500/30 bg-orange-300 px-1.5 py-1 text-center'>
+                <div className='flex items-center gap-3 rounded border border-neutral-500/30 bg-orange-100 py-1 pr-3 pl-1.5'>
+                  <span className='flex rounded border border-neutral-500/30 bg-orange-300 px-2 py-1 text-center'>
                     {item.courseConducted}
                   </span>
                   {item.courseConducted - item.courseAbsent}
                 </div>
-                <div className='flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-100 py-1 pr-1 pl-2'>
-                  <h1 className='capitalize'>{data.status}</h1>
-                  <span className='flex rounded border border-neutral-500/30 bg-orange-300 px-2 py-1 text-center'>
+
+                <div className='flex items-center gap-2 rounded border border-neutral-500/30 bg-orange-100 py-1 pr-1.5 pl-2 capitalize'>
+                  {data.status}
+                  <span
+                    className={`flex rounded px-2 py-1 text-center ${data.status === 'required' ? 'bg-red-200 text-red-700' : 'bg-green-200 text-green-700'} `}
+                  >
                     {data.classes}
                   </span>
                 </div>

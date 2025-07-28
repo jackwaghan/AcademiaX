@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <head>
+      {/* <head>
         <link
           rel='icon'
           type='image/png'
@@ -44,7 +44,7 @@ export default function RootLayout({
         />
         <meta name='apple-mobile-web-app-title' content='AcademiaX' />
         <link rel='manifest' href='%PUBLIC_URL%/site.webmanifest' />
-      </head>
+      </head> */}
       <body
         className={`${geistMono.variable} ${geistSans.variable} font-geist-sans bg-background text-black antialiased`}
       >
