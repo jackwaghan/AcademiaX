@@ -8,7 +8,7 @@ const Page = async () => {
   const cookieStore = await cookies();
   const onboarding = cookieStore.get('onboarding')?.value;
   if (onboarding === 'true') {
-    redirect('/app/timetable');
+    return redirect('/app/timetable');
   }
 
   return <Progress />;
