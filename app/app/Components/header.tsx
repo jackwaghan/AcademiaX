@@ -70,8 +70,12 @@ const Header = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className='bg-background flex h-dvh w-screen flex-col overflow-hidden'>
-      {/* This is for Notice */}
-      {/* <div className='h-10 bg-green-200'></div> */}
+      
+      <div className='p-1.5 bg-green-200 flex items-center justify-between gap-6 font-semibold px-5'>
+        <h1>Introducing - <span >SRM-Academia-API</span></h1>
+        <a className='font-medium text-sm bg-green-300 px-2 py-0.5 border border-neutral-500/30 rounded' href="https://www.linkedin.com/posts/jackwaghan_nodejs-npm-typescript-activity-7356467923122622464-uGo4?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEIFUxQB_U0Ipu6dfGQXMNbpSXcz0iiWLL8" target='_blank'>
+        View</a>
+      </div>
       <header className='flex h-14 w-full items-center justify-between px-4'>
         <div>
           <h1 className='text-xl font-medium text-black'>AcademiaX</h1>
