@@ -42,3 +42,4 @@ next-env.d.ts
 
 # ignore json-webserver
 db.json
+

@@ -7,7 +7,7 @@ import { GlobalLoader } from "../components/loader";
 const Page = () => {
   const { data, isPending } = useAttendance();
   if (isPending) return <GlobalLoader className="h-10 w-10 text-blue-400" />;
-  if (!data)
+  if (!data || data.length === 0)
     return (
       <div className="flex h-full w-full justify-center items-center">
         No data found

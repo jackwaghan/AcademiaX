@@ -1,40 +1,43 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 }
 
 :root {
-  --background: #16171b;
-  --foreground: #ededed;
+    --background: #16171b;
+    --foreground: #ededed;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans);
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-geist-sans);
 }
 
 @layer utilities {
-  .apply-border-sm {
-    @apply border border-white/5;
-  }
-  .apply-border-md {
-    @apply border border-slate-400/10;
-  }
-  .background-rounded {
-    @apply bg-white/5  px-2 py-0.5 rounded-full text-sm;
-  }
-  .apply-inner-shadow-sm {
-    @apply inset-shadow-sm inset-shadow-white/15;
-  }
-  .apply-inner-shadow-md {
-    @apply inset-shadow-sm inset-shadow-white/25;
-  }
-  .apply-inner-shadow-xs {
-    @apply inset-shadow-sm inset-shadow-white/5;
-  }
+    .apply-border-sm {
+        @apply border border-white/5;
+    }
+    .apply-border-md {
+        @apply border border-slate-400/10;
+    }
+    .background-rounded {
+        @apply bg-white/5  px-2 py-0.5 rounded-full text-sm;
+    }
+    .apply-inner-shadow-sm {
+        @apply inset-shadow-sm inset-shadow-white/15;
+    }
+    .apply-inner-shadow-md {
+        @apply inset-shadow-sm inset-shadow-white/25;
+    }
+    .apply-inner-shadow-xs {
+        @apply inset-shadow-sm inset-shadow-white/5;
+    }
+    .apply-hover-scale {
+        @apply hover:scale-[0.98] duration-200 transition-transform;
+    }
 }

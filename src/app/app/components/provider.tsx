@@ -8,20 +8,38 @@ import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persi
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { useScreen, useSidebar } from "@/hooks/zustand";
 import { usePathname } from "next/navigation";
-import { LogOut, PanelRightOpen, ShieldAlert } from "lucide-react";
+import {
+  CircleUserRound,
+  Github,
+  LogOut,
+  PanelRightOpen,
+  ShieldAlert,
+} from "lucide-react";
 import { SidebarToggle } from "@/utils/sidebarToggle";
 import { useUserInfo } from "@/hooks/query";
+import Loading from "../loading";
+import { DiNpm } from "react-icons/di";
+import Link from "next/link";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       gcTime: Infinity,
       retry: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
     },
   },
 });
 
+export type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+};
+
 const QueryProvider = ({ children }: { children: React.ReactNode }) => {
   const myDivRef = useRef(null);
+  const { isMobile } = useScreen();
+  const { isOpen } = useSidebar();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,19 +58,17 @@ const QueryProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, [myDivRef]);
 
-  if (typeof window !== "undefined") {
-    const localStoragePersister = createAsyncStoragePersister({
-      storage: window.localStorage,
-    });
-    persistQueryClient({
-      persister: localStoragePersister,
-      queryClient,
-      maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
-      buster: "v1.0.1",
-    });
-  }
-  const { isMobile } = useScreen();
-  const { isOpen } = useSidebar();
+  if (typeof window === "undefined") return <Loading />;
+
+  const localStoragePersister = createAsyncStoragePersister({
+    storage: window.localStorage,
+  });
+  persistQueryClient({
+    persister: localStoragePersister,
+    queryClient,
+    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+    buster: "v1.0.2",
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -61,10 +77,8 @@ const QueryProvider = ({ children }: { children: React.ReactNode }) => {
           ref={isOpen && isMobile ? myDivRef : null}
           className={`${
             isMobile
-              ? `z-10 fixed inset-y-2 bg-white/5 backdrop-blur-xl rounded-lg  min-w-64 ${
-                  isOpen
-                    ? "translate-x-0 transform-gpu transition-transform duration-300"
-                    : "-translate-x-96"
+              ? `z-10 fixed inset-y-2 bg-white/5 backdrop-blur-xl rounded-lg  min-w-64 transform-gpu transition-transform duration-300 ${
+                  isOpen ? "translate-x-0 " : "-translate-x-96"
                 } `
               : "min-w-76"
           } `}
@@ -132,7 +146,7 @@ const ProfileIcon = () => {
   return (
     <div
       ref={iconRef}
-      className="relative w-10 h-10 shadow-2xl flex items-center justify-center font-semibold apply-border-md background-rounded cursor-pointer"
+      className={`relative w-10 h-10 shadow-2xl flex items-center justify-center font-semibold apply-border-md background-rounded cursor-pointer ${!toggle && "apply-hover-scale"}`}
       onClick={() => setToggle((prev) => !prev)}
     >
       {data?.name
@@ -155,12 +169,72 @@ const ProfileDrop = ({
   return (
     <div
       ref={dropRef}
-      className="absolute top-12 right-0 w-48  bg-white/5 backdrop-blur-sm apply-border-md rounded-xl z-50 flex flex-col shadow-2xl overflow-hidden"
+      className="absolute top-12 right-0 w-48  bg-white/5 backdrop-blur-sm apply-border-md rounded-xl z-50 flex flex-col shadow-2xl overflow-hidden "
     >
+      <Link
+        href="/app/profile"
+        className="w-full px-4 py-3 flex justify-between items-center font-medium hover:bg-white/10 transition-colors focus:outline-none border-b border-white/5"
+      >
+        <span>Profile</span>
+        <span>
+          <CircleUserRound className="w-5 h-5" />
+        </span>
+      </Link>
+      <a
+        href="https://github.com/jackwaghan/AcademiaX"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full px-4 py-3 flex justify-between items-center font-medium hover:bg-white/10 transition-colors focus:outline-none border-b border-white/5"
+        onClick={(e) => {
+          if (window.matchMedia("(display-mode: standalone)").matches) {
+            e.preventDefault();
+            window.open(
+              "https://github.com/jackwaghan/AcademiaX",
+              "_blank",
+              "noopener,noreferrer",
+            );
+          }
+        }}
+      >
+        <span>GitHub</span>
+        <span>
+          <Github className="w-5 h-5" />
+        </span>
+      </a>
+      <a
+        href="https://www.npmjs.com/package/srm-academia-api"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full px-4 py-3 flex justify-between items-center font-medium hover:bg-white/10 transition-colors focus:outline-none border-b border-white/5"
+        onClick={(e) => {
+          if (window.matchMedia("(display-mode: standalone)").matches) {
+            e.preventDefault();
+            window.open(
+              "https://www.npmjs.com/package/srm-academia-api",
+              "_blank",
+              "noopener,noreferrer",
+            );
+          }
+        }}
+      >
+        <span>Npm Package</span>
+        <span>
+          <DiNpm className="w-6 h-6" />
+        </span>
+      </a>
       <a
         href="https://chat.whatsapp.com/B6a15jYEKgI1UD7QzX39cM"
         target="_blank"
+        rel="noopener noreferrer"
         className="w-full px-4 py-3 flex justify-between items-center font-medium hover:bg-white/10 transition-colors focus:outline-none border-b border-white/5"
+        onClick={(e) => {
+          e.preventDefault();
+          window.open(
+            "https://chat.whatsapp.com/B6a15jYEKgI1UD7QzX39cM",
+            "_blank",
+            "noopener,noreferrer",
+          );
+        }}
       >
         <span>Support</span>
         <span>

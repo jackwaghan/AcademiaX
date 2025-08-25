@@ -29,7 +29,7 @@ const Content = () => {
   return (
     <div className="py-10 flex flex-col w-full items-center justify-center gap-6 text-center">
       <h1 className="lg:text-7xl text-3xl font-extrabold leading-tight tracking-tight">
-        Ditch the old SRM Portal.
+        Ditch the old SRM Academia.
       </h1>
       <p className="lg:text-xl text-base max-w-2xl font-normal opacity-80 px-4 mt-2">
         Discover a sleek and modern way to manage your academics - no clutter,
@@ -59,6 +59,7 @@ const Content = () => {
           src={LandingImage}
           alt="Landing illustration showing a modern dashboard"
           className="w-full h-auto rounded-xl shadow-lg"
+          loading="lazy"
         />
       </div>
     </div>

@@ -8,7 +8,7 @@ const Header = ({ value }: { value: string }) => {
       <div className="relative max-w-5xl w-full flex px-4 h-[70%] items-center justify-between apply-border-md rounded-lg bg-white/5 backdrop-blur-xs ">
         <div className="absolute inset-0 bg-blue-400/30 blur-3xl -z-10 " />
         <div className="flex gap-4 items-center justify-center">
-          <Image src={Icon} width={25} height={25} alt="icon" />
+          <Image loading="lazy" src={Icon} width={25} height={25} alt="icon" />
           <h1 className="text-lg tracking-wide">
             AcademiaX <span className="text-white/50 text-sm ">v2</span>
           </h1>

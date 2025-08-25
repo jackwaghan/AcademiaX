@@ -26,6 +26,7 @@ export function useTimetable() {
       return data.timetable as DaySchedule[];
     },
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    enabled: !!getCookie(), // Only fetch if user is authenticated
   });
 }
 
@@ -38,6 +39,7 @@ export function useAttendance() {
       return data.attendance as AttendanceDetail[];
     },
     staleTime: 1000 * 60 * 30, // 30 minutes
+    enabled: !!getCookie(), // Only fetch if user is authenticated
   });
 }
 
@@ -50,6 +52,7 @@ export function useMarks() {
       return data.markList as MarkDetail[];
     },
     staleTime: 1000 * 60 * 30, // 30 minutes
+    enabled: !!getCookie(), // Only fetch if user is authenticated
   });
 }
 
@@ -62,6 +65,7 @@ export function useUserInfo() {
       return data.userInfo as UserInfo;
     },
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    enabled: !!getCookie(), // Only fetch if user is authenticated
   });
 }
 
@@ -74,6 +78,7 @@ export function useCourse() {
       return data.courseList as CourseDetail[];
     },
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    enabled: !!getCookie(), // Only fetch if user is authenticated
   });
 }
 
@@ -86,5 +91,6 @@ export function useCalendar() {
       return data.calendar as Month[];
     },
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    enabled: !!getCookie(), // Only fetch if user is authenticated
   });
 }

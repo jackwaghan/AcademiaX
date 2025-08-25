@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { GoogleAnalytics } from "@next/third-parties/google";
+// import { GoogleAnalytics } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,9 +28,10 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://academiax.in/Landing/BigScreen.png",
-        width: 1920,
-        height: 1080,
+        width: 1200,
+        height: 630,
         alt: "AcademiaX",
+        type: "image/png",
       },
     ],
     type: "website",
@@ -41,7 +42,15 @@ export const metadata: Metadata = {
     title: "AcademiaX",
     description,
     creator: "@jackwaghan",
-    images: ["https://academiax.in/Landing/BigScreen.png"],
+    images: [
+      {
+        url: "https://academiax.in/Landing/BigScreen.png",
+        width: 1200,
+        height: 630,
+        alt: "AcademiaX",
+        type: "image/png",
+      },
+    ],
   },
 };
 
@@ -74,7 +83,7 @@ export default function RootLayout({
         {children}
       </body>
 
-      <GoogleAnalytics gaId={process.env.GA_TRACKING_CODE!} />
+      {/* <GoogleAnalytics gaId={process.env.GA_TRACKING_CODE!} /> */}
     </html>
   );
 }

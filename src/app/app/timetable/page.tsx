@@ -1,13 +1,14 @@
 "use client";
 import { useAttendance, useCalendar, useTimetable } from "@/hooks/query";
-import React, { useState } from "react";
-import { Minus, Plus } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Minus, Plus, RotateCcw } from "lucide-react";
 import { AttendanceDetail, DaySchedule } from "srm-academia-api";
 import { GlobalLoader } from "../components/loader";
+import { isCurrentClass } from "@/utils/currentClass";
 const Page = () => {
   const { data, isPending } = useTimetable();
   if (isPending) return <GlobalLoader className="h-10 w-10 text-blue-400" />;
-  if (!data)
+  if (!data || data.length === 0)
     return (
       <div className="flex h-full w-full justify-center items-center">
         No data found
@@ -26,6 +27,8 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
     data: calendarData,
     isLoading: calendarLoading,
     isError: calendarError,
+    refetch: calendarRefetch,
+    isFetching: calendarIsFetching,
   } = useCalendar();
 
   React.useEffect(() => {
@@ -57,7 +60,9 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
           if (!isNaN(todayDayOrder)) {
             setToday(todayDayOrder);
             setDayOrder(todayDayOrder - 1);
+            return;
           }
+          setToday(0);
         }
       }
     }
@@ -67,8 +72,22 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
     <div className="w-full h-full flex flex-col overflow-hidden">
       <div className="w-full flex items-center justify-center gap-3 ">
         {/* Today */}
-        <div className="flex  bg-white/5  px-1 py-0.5 rounded-full text-sm apply-border-sm">
-          <h1 className=" px-2 py-0.5 text-sm ">Today</h1>
+        <div
+          onClick={() => {
+            if (today && today !== 0) {
+              setDayOrder(today - 1);
+              return;
+            }
+          }}
+          className="flex bg-white/5  pl-2 pr-1 py-0.5 rounded-full text-sm apply-border-sm items-center justify-center gap-3 cursor-pointer"
+        >
+          {!calendarIsFetching && !calendarError && (
+            <span className="relative flex h-2 w-2 ">
+              <span className="absolute animate-ping inset-0 rounded-full bg-blue-400 opacity-75"></span>
+              <span className="rounded-full h-1.5 w-1.5 bg-blue-500 apply-inner-shadow-sm m-auto"></span>
+            </span>
+          )}
+          <h1>Today</h1>
           <span
             className={`px-2.5 py-0.5 rounded-full text-sm  apply-border-sm  backdrop-blur-3xl bg-black items-center flex ${
               calendarLoading
@@ -81,7 +100,12 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
             {calendarLoading ? (
               <GlobalLoader className="w-4 h-4" />
             ) : calendarError ? (
-              "Failed"
+              <span className="flex gap-2 items-center justify-center">
+                <h1>Failed</h1>
+                <span onClick={() => calendarRefetch()}>
+                  <RotateCcw className="w-3 h-3" />
+                </span>
+              </span>
             ) : today === 0 ? (
               "Holiday"
             ) : (
@@ -112,7 +136,7 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
         </div>
       </div>
       <div className="flex-1 overflow-auto ">
-        <Data data={data} dayorder={dayOrder} />
+        <Data data={data} dayorder={dayOrder} today={today} />
       </div>
     </div>
   );
@@ -121,39 +145,74 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
 const Data = ({
   data,
   dayorder,
+  today,
 }: {
   data: DaySchedule[];
   dayorder: number;
+  today: number | undefined;
 }) => {
   const { data: attendanceData, isError } = useAttendance();
+  const currentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (currentRef.current && today !== 0) {
+      currentRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [today, dayorder]);
+
   return (
     <div className="py-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full grid gap-4 px-2 lg:px-5">
       {data[dayorder].class.map((item) => {
         const attendance = attendanceData?.find(
-          (i) => i.courseCode === item.courseCode
+          (i) =>
+            i.courseCode === item.courseCode &&
+            ((item.slot.startsWith("P") && i.courseSlot === "LAB") ||
+              !item.slot.startsWith("P"))
         );
-
+        const current =
+          today && today !== 0 && dayorder === today - 1
+            ? isCurrentClass(item.time)
+            : undefined;
         return (
           <div
             key={item.time}
-            className="flex flex-col items-center gap-3 rounded-xl apply-border-md bg-[#16171b] min-h-50 shadow-2xl "
+            ref={current ? currentRef : undefined}
+            className={`flex flex-col items-center gap-3 rounded-xl  bg-[#16171b] min-h-50 shadow-2xl ${
+              current
+                ? "border-2 border-blue-400/50 border-dotted "
+                : "apply-border-md"
+            }`}
           >
             {item.isClass ? (
               <div className="w-full h-full text-white/70  flex flex-col gap-4 ">
                 <div className="flex justify-between w-full px-2 min-h-12 items-center border-b border-white/5">
-                  <h1 className="background-rounded apply-border-sm">
-                    {item.courseRoomNo}
-                  </h1>
                   <span className=" px-2 py-0.5 rounded-full text-sm apply-border-sm bg-black text-blue-400 ">
                     {item.courseType?.charAt(0)}
                   </span>
+                  {current && (
+                    <span className="background-rounded apply-border-sm flex gap-2 items-center justify-center">
+                      <span className="relative flex h-2 w-2 ">
+                        <span className="absolute animate-ping inset-0 rounded-full bg-blue-400 opacity-75"></span>
+                        <span className="rounded-full h-1.5 w-1.5 bg-blue-500 apply-inner-shadow-sm m-auto"></span>
+                      </span>
+                      <h1>Now</h1>
+                    </span>
+                  )}
                   <span className="background-rounded apply-border-sm ">
                     {item.time}
                   </span>
                 </div>
-                <div className=" flex items-center justify-center w-[80%] h-full mx-auto  text-green-300">
-                  {item.courseTitle}
+                <div className=" flex items-center justify-center w-[80%] h-full mx-auto  text-green-300 flex-col gap-3">
+                  <h1 className="w-full">{item.courseTitle}</h1>
+                  <h2 className=" text-sm text-white/60 flex gap-2 w-full">
+                    <span className="text-white/80">Class Room</span> -
+                    <span>{item.courseRoomNo}</span>
+                  </h2>
                 </div>
+
                 {attendance ? (
                   <AttendanceData attendance={attendance} />
                 ) : !isError ? (
@@ -172,7 +231,20 @@ const Data = ({
               </div>
             ) : (
               <div className="justify-between h-full w-full flex flex-col">
-                <div className="w-full h-12 flex items-center justify-end px-2  ">
+                <div
+                  className={`w-full h-12 flex items-center  px-2  ${
+                    current ? "justify-between" : "justify-end"
+                  }`}
+                >
+                  {current && (
+                    <span className="background-rounded apply-border-sm flex gap-2 items-center justify-center">
+                      <span className="relative flex h-2 w-2 ">
+                        <span className="absolute animate-ping inset-0 rounded-full bg-blue-400 opacity-75"></span>
+                        <span className="rounded-full h-1.5 w-1.5 bg-blue-500 apply-inner-shadow-sm m-auto"></span>
+                      </span>
+                      <h1>Now</h1>
+                    </span>
+                  )}
                   <div className="background-rounded apply-border-sm ">
                     {item.time}
                   </div>

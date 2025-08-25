@@ -7,7 +7,7 @@ import { GlobalLoader } from "../components/loader";
 const Page = () => {
   const { data, isPending } = useMarks();
   if (isPending) return <GlobalLoader className="h-10 w-10 text-blue-400" />;
-  if (!data)
+  if (!data || data.length === 0)
     return (
       <div className="flex h-full w-full justify-center items-center">
         No data found
@@ -31,12 +31,10 @@ const Data = ({ data, category }: { data: MarkDetail[]; category: string }) => {
   const filteredData = data.filter(
     (i) => i.category.toLowerCase() === category
   );
-  console.log(data);
   return (
     <div className=" py-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full grid gap-4 px-2 lg:px-5">
       {filteredData.map((item, i) => {
         const courseList = course?.find((i) => i.courseCode === item.course);
-        // console.log(courseList);
         return (
           <div
             key={i}

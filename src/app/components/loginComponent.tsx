@@ -2,7 +2,7 @@
 import { useAuth } from "@/hooks/zustand";
 import { validatePassword, validateUser } from "@/server/action";
 import { Eye, EyeOff } from "lucide-react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { Loader } from "../app/components/loader";
@@ -10,69 +10,105 @@ import { Loader } from "../app/components/loader";
 export const LoginComponent = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const { error, setError, loading, setLoading, setEmail, email } = useAuth();
+  const router = useRouter();
 
   const HandleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    const form = new FormData(e.currentTarget);
-    const hash1 = form.get("name") as string;
-    const hash2 = form.get("password") as string;
 
-    if (hash1) {
-      const { res } = await validateUser(hash1);
-      if (res.data?.status_code === 400) {
-        setError(res.data?.message as string);
-        setLoading(false);
-        return;
-      }
-      if (res.data?.status_code === 500) {
-        setError("You reached Maximum Login");
-        setLoading(false);
-        return;
-      }
-      if (res.error) {
-        setError(res.errorReason as string);
-        setLoading(false);
-        return;
+    try {
+      const form = new FormData(e.currentTarget);
+      const hash1 = form.get("name") as string;
+      const hash2 = form.get("password") as string;
+
+      // First step: Validate user (email)
+      if (hash1 && hash1.length !== 0) {
+        const email = hash1.includes("@srmist.edu.in")
+          ? hash1
+          : `${hash1}@srmist.edu.in`;
+        const { res } = await validateUser(email);
+
+        if (res.data?.status_code === 400) {
+          setError(res.data?.message as string);
+          setLoading(false);
+          return;
+        }
+        if (res.data?.status_code === 500) {
+          setError("You reached Maximum Login");
+          setLoading(false);
+          return;
+        }
+        if (res.error) {
+          setError(res.errorReason as string);
+          setLoading(false);
+          return;
+        }
+
+        if (res.data?.digest && res.data?.identifier) {
+          setEmail({
+            digest: res.data.digest as string,
+            identifier: res.data.identifier as string,
+          });
+          setLoading(false);
+          return;
+        } else {
+          setError("Invalid response from server");
+          setLoading(false);
+          return;
+        }
       }
 
-      setEmail({
-        digest: res.data?.digest as string,
-        identifier: res.data?.identifier as string,
-      });
+      // Second step: Validate password
+      if (hash2 && hash2.length !== 0) {
+        if (!email.digest || !email.identifier) {
+          setError("Please enter your email first");
+          setLoading(false);
+          return;
+        }
+
+        const { res } = await validatePassword({
+          digest: email.digest,
+          identifier: email.identifier,
+          password: hash2,
+        });
+
+        if (res.data?.statusCode === 500 || res.data?.captcha?.required) {
+          if (res.data?.captcha?.required) {
+            setError(res.data.message as string);
+            setLoading(false);
+            return;
+          }
+          setError(res.data?.message as string);
+          setLoading(false);
+          return;
+        }
+
+        if (res.error) {
+          setError(res.errorReason as string);
+          setLoading(false);
+          return;
+        }
+
+        if (res.isAuthenticated && typeof res.data?.cookies === "string") {
+          Cookies.set("token", res.data.cookies, { expires: 30, path: "/" });
+          router.push("/app/timetable");
+          return;
+        } else {
+          setError("Authentication failed");
+          setLoading(false);
+          return;
+        }
+      }
+
+      // If neither hash1 nor hash2 is provided
+      setError("Please enter your credentials");
       setLoading(false);
-      return;
-    }
-
-    const { res } = await validatePassword({
-      digest: email.digest,
-      identifier: email.identifier,
-      password: hash2,
-    });
-
-    if (res.data?.statusCode === 500 || res.data?.captcha?.required) {
-      if (res.data?.captcha?.required) {
-        setError(res.data.message as string);
-        setLoading(false);
-        return;
-      }
-      setError(res.data?.message as string);
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("An unexpected error occurred. Please try again.");
       setLoading(false);
-      return;
     }
-    if (res.error) {
-      setError(res.errorReason as string);
-      setLoading(false);
-      return;
-    }
-
-    if (res.isAuthenticated && typeof res.data?.cookies === "string") {
-      Cookies.set("token", res.data.cookies, { expires: 30, path: "/" });
-      return redirect("/app/timetable");
-    }
-    setLoading(false);
-    return;
   };
   return (
     <div className="flex-1 flex items-center justify-center px-6 lg:px-0">
@@ -82,6 +118,10 @@ export const LoginComponent = () => {
         <div className="flex items-center justify-center min-h-20 lg:text-4xl h-full text-2xl ">
           Login
         </div>
+        <h1 className="absolute -top-20 left-1/2 -translate-x-1/2  text-sm lg:text-lg w-full flex items-center justify-center text-white/50">
+          Note: This is an unofficial student-built wrapper for SRM Academia.
+          Please use it responsibly.
+        </h1>
         <div className="w-full h-full flex items-center justify-center ">
           <form
             onSubmit={HandleSubmit}
@@ -89,7 +129,7 @@ export const LoginComponent = () => {
           >
             <div className="w-full flex flex-col gap-4 ">
               {/* Show email input if digest is empty (first step) */}
-              {email.digest.length === 0 && (
+              {email?.digest.length === 0 && (
                 <input
                   id="name"
                   name="name"
@@ -102,7 +142,7 @@ export const LoginComponent = () => {
                 />
               )}
               {/* Show password input if digest is present and password is not yet set (second step) */}
-              {email.digest.length !== 0 && (
+              {email?.digest.length !== 0 && (
                 <div className="w-full relative z-10 ">
                   <input
                     id="password"
@@ -130,7 +170,7 @@ export const LoginComponent = () => {
                 </div>
               )}
             </div>
-            {error.length !== 0 && <div className="text-red-400">{error}</div>}
+            {error?.length !== 0 && <div className="text-red-400">{error}</div>}
             <button
               type="submit"
               disabled={loading}
@@ -141,9 +181,10 @@ export const LoginComponent = () => {
           </form>
         </div>
         <a
-          href="https://ssp.srmist.edu.in/resetpassword/"
+          href="https://academia.srmist.edu.in/reset"
           target="_blank"
-          className="absolute -bottom-20 left-1/2 -translate-x-1/2 text-lg underline text-blue-400"
+          rel="noopener"
+          className="absolute -bottom-20 left-1/2 -translate-x-1/2  px-3 py-1 apply-border-sm bg-white/5 rounded text-sm"
         >
           Forget Password ?
         </a>
