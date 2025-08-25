@@ -95,9 +95,7 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
           {day[dayOrder]}
           <div
             onClick={() => {
-              if (dayOrder > 0) {
-                setDayOrder(dayOrder - 1);
-              }
+              setDayOrder(dayOrder > 0 ? dayOrder - 1 : day.length - 1);
             }}
             className="absolute top-1/2  -translate-y-1/2 left-15   bg-white/5  p-1 apply-border-sm rounded-lg cursor-pointer shadow-2xl"
           >
@@ -105,9 +103,7 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
           </div>
           <div
             onClick={() => {
-              if (dayOrder < day.length - 1) {
-                setDayOrder(dayOrder + 1);
-              }
+              setDayOrder(dayOrder < day.length - 1 ? dayOrder + 1 : 0);
             }}
             className="absolute top-1/2 -translate-y-1/2 right-15  bg-white/5  p-1 apply-border-sm rounded-lg cursor-pointer shadow-2xl"
           >
