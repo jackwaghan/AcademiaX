@@ -2,6 +2,7 @@ import {
   attendance,
   Calendar,
   Course,
+  dayOrder,
   marks,
   timetable,
   userInfo,
@@ -14,6 +15,7 @@ import {
   UserInfo,
   CourseDetail,
   Month,
+  DayOrderResponse,
 } from "srm-academia-api";
 import { getCookie } from "@/utils/getCookieClient";
 
@@ -91,6 +93,18 @@ export function useCalendar() {
       return data.calendar as Month[];
     },
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    enabled: !!getCookie(), // Only fetch if user is authenticated
+  });
+}
+
+export function useDayOrder() {
+  return useQuery({
+    queryKey: ["dayOrder"],
+    queryFn: async () => {
+      const { data } = await dayOrder(getCookie());
+      if (data.error) throw new Error(data.error);
+      return data as DayOrderResponse;
+    },
     enabled: !!getCookie(), // Only fetch if user is authenticated
   });
 }

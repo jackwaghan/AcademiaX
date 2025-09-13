@@ -4,7 +4,9 @@ const nextConfig: NextConfig = {
   experimental: {
     globalNotFound: true,
   },
-  optimizeFonts: true,
+  images: {
+    qualities: [75, 85, 95, 100],
+  },
 };
 
 export default nextConfig;

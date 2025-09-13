@@ -1,5 +1,5 @@
 "use client";
-import { useAttendance, useCalendar, useTimetable } from "@/hooks/query";
+import { useAttendance, useDayOrder, useTimetable } from "@/hooks/query";
 import React, { useState, useRef, useEffect } from "react";
 import {
   Minus,
@@ -34,49 +34,24 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
   const [today, setToday] = useState<number>();
   const [dayOrder, setDayOrder] = useState<number>(0);
   const {
-    data: calendarData,
-    isLoading: calendarLoading,
-    isError: calendarError,
-    refetch: calendarRefetch,
-    isFetching: calendarIsFetching,
-  } = useCalendar();
+    data: dayOrderData,
+    isLoading: dayOrderLoading,
+    isError: dayOrderError,
+    refetch: dayOrderRefetch,
+    isFetching: dayOrderIsFetching,
+  } = useDayOrder();
 
   React.useEffect(() => {
-    if (calendarData) {
-      const now = new Date();
-      const monthsShort = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-      const formattedMonth = `${monthsShort[now.getMonth()]} '${String(
-        now.getFullYear()
-      ).slice(-2)}`;
-      const monthObj = calendarData.find((m) => m.month === formattedMonth);
-      if (monthObj) {
-        const todayDate = String(now.getDate());
-        const todayDay = monthObj.days.find((d) => d.date === todayDate);
-        if (todayDay) {
-          const todayDayOrder = Number(todayDay.dayOrder);
-          if (!isNaN(todayDayOrder)) {
-            setToday(todayDayOrder);
-            setDayOrder(todayDayOrder - 1);
-            return;
-          }
-          setToday(0);
-        }
+    if (dayOrderData) {
+      const todayDayOrder = Number(dayOrderData.dayOrder);
+      if (!isNaN(todayDayOrder)) {
+        setToday(todayDayOrder);
+        setDayOrder(todayDayOrder - 1);
+        return;
       }
+      setToday(0);
     }
-  }, [calendarData]);
+  }, [dayOrderData]);
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
@@ -91,28 +66,26 @@ const DayChange = ({ data }: { data: DaySchedule[] }) => {
           }}
           className="flex bg-white/5  pl-2 pr-1 py-0.5 rounded-full text-sm apply-border-sm items-center justify-center gap-3 cursor-pointer"
         >
-          {!calendarIsFetching && !calendarError && (
-            <span className="relative flex h-2 w-2 ">
-              <span className="absolute animate-ping inset-0 rounded-full bg-blue-400 opacity-75"></span>
-              <span className="rounded-full h-1.5 w-1.5 bg-blue-500 apply-inner-shadow-sm m-auto"></span>
-            </span>
-          )}
+          <span className="relative flex h-2 w-2 ">
+            <span className="absolute animate-ping inset-0 rounded-full bg-blue-400 opacity-75"></span>
+            <span className="rounded-full h-1.5 w-1.5 bg-blue-500 apply-inner-shadow-sm m-auto"></span>
+          </span>
           <h1>Today</h1>
           <span
             className={`px-2.5 py-0.5 rounded-full text-sm  apply-border-sm  backdrop-blur-3xl bg-black items-center flex ${
-              calendarLoading
+              dayOrderLoading
                 ? "text-blue-400"
-                : today === 0 || calendarError
+                : today === 0 || dayOrderError
                 ? "text-red-400"
                 : "text-blue-400"
             }`}
           >
-            {calendarLoading ? (
+            {dayOrderLoading ? (
               <GlobalLoader className="w-4 h-4" />
-            ) : calendarError ? (
+            ) : dayOrderError ? (
               <span className="flex gap-2 items-center justify-center">
                 <h1>Failed</h1>
-                <span onClick={() => calendarRefetch()}>
+                <span onClick={() => dayOrderRefetch()}>
                   <RotateCcw className="w-3 h-3" />
                 </span>
               </span>

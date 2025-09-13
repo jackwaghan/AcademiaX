@@ -11,6 +11,7 @@ import {
   verifyPassword,
   verifyUser,
   logoutUser,
+  getDayOrder,
 } from "srm-academia-api";
 
 export async function validateUser(email: string) {
@@ -64,6 +65,12 @@ export async function Course(cookie: string) {
 
 export async function userInfo(cookie: string) {
   const data = await getUserInfo(cookie);
+  if (data.status === 404) redirect("/auth/logout");
+  return { data };
+}
+
+export async function dayOrder(cookie: string) {
+  const data = await getDayOrder(cookie);
   if (data.status === 404) redirect("/auth/logout");
   return { data };
 }
