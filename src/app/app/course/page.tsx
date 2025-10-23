@@ -1,7 +1,7 @@
 "use client";
 import { useCourse } from "@/hooks/query";
 import React from "react";
-import { CourseDetail } from "srm-academia-api";
+import { CourseDetail } from "@jackwaghan/srm-academia-api";
 import { GlobalLoader } from "../components/loader";
 
 const Page = () => {

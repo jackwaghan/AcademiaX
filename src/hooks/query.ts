@@ -16,7 +16,7 @@ import {
   CourseDetail,
   Month,
   DayOrderResponse,
-} from "srm-academia-api";
+} from "@jackwaghan/srm-academia-api";
 import { getCookie } from "@/utils/getCookieClient";
 
 export function useTimetable() {

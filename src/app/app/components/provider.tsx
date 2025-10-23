@@ -195,7 +195,7 @@ const ProfileIcon = () => {
     >
       {data?.name
         ?.split(" ")
-        .map((i) => i[0])
+        .map((i: string) => i[0])
         .join("")
         .slice(0, 2)}
       {toggle && (

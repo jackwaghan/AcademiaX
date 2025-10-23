@@ -2,7 +2,7 @@
 import { useCalendar } from "@/hooks/query";
 import React, { useState, useRef, useEffect } from "react";
 import { Minus, Plus } from "lucide-react";
-import { Month } from "srm-academia-api";
+import { Month } from "@jackwaghan/srm-academia-api";
 import { GlobalLoader } from "../components/loader";
 import { formattedMonth, getIndex } from "@/utils/currentMonth";
 const Page = () => {

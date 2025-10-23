@@ -12,7 +12,7 @@ import {
   verifyUser,
   logoutUser,
   getDayOrder,
-} from "srm-academia-api";
+} from "@jackwaghan/srm-academia-api";
 
 export async function validateUser(email: string) {
   const res = await verifyUser(email);

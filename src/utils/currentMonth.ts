@@ -1,4 +1,4 @@
-import { Month } from "srm-academia-api";
+import { Month } from "@jackwaghan/srm-academia-api";
 
 const now = new Date();
 const monthsShort = [

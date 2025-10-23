@@ -9,7 +9,7 @@ import {
   Bookmark,
   Settings2,
 } from "lucide-react";
-import { AttendanceDetail, DaySchedule } from "srm-academia-api";
+import { AttendanceDetail, DaySchedule } from "@jackwaghan/srm-academia-api";
 import { GlobalLoader } from "../components/loader";
 import { useOptionalClasses } from "@/hooks/zustand";
 import { isCurrentClass } from "@/utils/currentClass";

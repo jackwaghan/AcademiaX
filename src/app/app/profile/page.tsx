@@ -1,7 +1,7 @@
 "use client";
 import { useUserInfo } from "@/hooks/query";
 import React from "react";
-import { UserInfo } from "srm-academia-api";
+import { UserInfo } from "@jackwaghan/srm-academia-api";
 import { GlobalLoader } from "../components/loader";
 
 const Page = () => {

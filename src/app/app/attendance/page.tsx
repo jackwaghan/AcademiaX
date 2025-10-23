@@ -1,7 +1,7 @@
 "use client";
 import { useAttendance } from "@/hooks/query";
 import React from "react";
-import { AttendanceDetail } from "srm-academia-api";
+import { AttendanceDetail } from "@jackwaghan/srm-academia-api";
 import { GlobalLoader } from "../components/loader";
 
 const Page = () => {
