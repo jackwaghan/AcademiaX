@@ -247,27 +247,6 @@ const ProfileDrop = ({
         </span>
       </a>
       <a
-        href="https://www.npmjs.com/package/srm-academia-api"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-full px-4 py-3 flex justify-between items-center font-medium hover:bg-white/10 transition-colors focus:outline-none border-b border-white/5"
-        onClick={(e) => {
-          if (window.matchMedia("(display-mode: standalone)").matches) {
-            e.preventDefault();
-            window.open(
-              "https://www.npmjs.com/package/srm-academia-api",
-              "_blank",
-              "noopener,noreferrer"
-            );
-          }
-        }}
-      >
-        <span>Npm Package</span>
-        <span>
-          <DiNpm className="w-6 h-6" />
-        </span>
-      </a>
-      <a
         href="https://chat.whatsapp.com/B6a15jYEKgI1UD7QzX39cM"
         target="_blank"
         rel="noopener noreferrer"

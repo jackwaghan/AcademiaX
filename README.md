@@ -113,6 +113,4 @@ This project is licensed under the Creative Commons Attribution 4.0 Internationa
 
 ## 🔗 Links
 
-- **GitHub Repository**: [https://github.com/jackwaghan/academiax](https://github.com/jackwaghan/academiax)
-- **NPM Package**: [https://www.npmjs.com/package/srm-academia-api](https://www.npmjs.com/package/srm-academia-api)
 - **AcademiaX**: [https://academiax.in](https://academiax.in)
