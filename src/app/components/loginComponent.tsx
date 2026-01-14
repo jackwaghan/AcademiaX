@@ -173,7 +173,32 @@ export const LoginComponent = () => {
                 </div>
               )}
             </div>
-            {error?.length !== 0 && <div className="text-red-400">{error}</div>}
+            {error &&
+              (typeof error === "string" ? (
+                String(error).includes("CAPTCHA") ? (
+                  <div className="text-red-400">Captcha not supported yet</div>
+                ) : error.length !== 0 ? (
+                  <div className="text-red-400">{String(error)}</div>
+                ) : null
+              ) : (
+                <div className="text-red-400">
+                  {String(error).includes("Error") ? (
+                    <a className="flex items-center justify-center gap-2 flex-col">
+                      Password Expired
+                      <a
+                        href="https://academia.srmist.edu.in"
+                        target="_blank"
+                        rel="noopener"
+                        className="text-white/50 text-sm underline "
+                      >
+                        (Open Academia to set new password)
+                      </a>
+                    </a>
+                  ) : (
+                    String(error)
+                  )}
+                </div>
+              ))}
             <button
               type="submit"
               disabled={loading}
