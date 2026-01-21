@@ -9,6 +9,9 @@ import { Loader } from "../app/components/loader";
 export const LoginComponent = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const { error, setError, loading, setLoading, setEmail, email } = useAuth();
+  const [captchaImage, setCaptchaImage] = useState<string | null>(null);
+  const [captchaDigest, setCaptchaDigest] = useState<string | null>(null);
+  const [captchaCode, setCaptchaCode] = useState("");
 
   useEffect(() => {
     window.localStorage.clear();
@@ -74,7 +77,43 @@ export const LoginComponent = () => {
           digest: email.digest,
           identifier: email.identifier,
           password: hash2,
+          captcha: captchaCode || undefined,
+          cdigest: captchaDigest || undefined,
         });
+
+        // Handle Captcha / HIP Error
+        if (res.data?.status_code === 400 &&
+          (res.data?.captcha || (res.data as any)?.image || (res.data?.message as string)?.includes("HIP"))) {
+          const dataRecord = res.data as Record<string, any>;
+
+          if (dataRecord?.captcha || dataRecord?.image || (res.data as any)?.captcha) {
+            const captchaRecord = (dataRecord["captcha"] as Record<string, any>) || (dataRecord as Record<string, any>);
+
+            const imgCandidate =
+              captchaRecord?.["image"] ??
+              captchaRecord?.["Image"] ??
+              dataRecord?.["image"] ??
+              null;
+
+            const digestCandidate =
+              captchaRecord?.["cdigest"] ??
+              captchaRecord?.["Cdigest"] ??
+              dataRecord?.["cdigest"] ??
+              null;
+
+            if (typeof imgCandidate === "string" && imgCandidate.length > 0) {
+              const imageSrc = imgCandidate.startsWith("data:image")
+                ? imgCandidate
+                : `data:image/png;base64,${imgCandidate}`;
+              setCaptchaImage(imageSrc);
+              setCaptchaDigest(typeof digestCandidate === "string" ? digestCandidate : null);
+              setCaptchaCode("");
+              setError(dataRecord?.["localized_message"] as string || "Please enter the code shown below.");
+              setLoading(false);
+              return;
+            }
+          }
+        }
 
         if (res.data?.statusCode === 500 || res.data?.captcha?.required) {
           if (res.data?.captcha?.required) {
@@ -101,6 +140,9 @@ export const LoginComponent = () => {
         if (res.isAuthenticated && typeof res.data?.cookies === "string") {
           Cookies.set("token", res.data.cookies, { path: "/" });
           Cookies.set("user", email.mail, { path: "/" });
+          setCaptchaImage(null);
+          setCaptchaDigest(null);
+          setCaptchaCode("");
           return (window.location.href = "/app/timetable");
         } else {
           setError("Authentication failed");
@@ -177,10 +219,30 @@ export const LoginComponent = () => {
                   </div>
                 </div>
               )}
+
+              {/* Captcha Display */}
+              {captchaImage && (
+                <div className="w-full flex flex-col gap-2 animate-in fade-in zoom-in duration-300">
+                  <img
+                    src={captchaImage}
+                    alt="Captcha"
+                    className="w-full h-auto rounded-lg border border-white/20"
+                  />
+                  <input
+                    type="text"
+                    value={captchaCode}
+                    onChange={(e) => setCaptchaCode(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl apply-inner-shadow-sm bg-white/10 focus:outline-none placeholder:text-white/30"
+                    placeholder="Enter Captcha Code"
+                    required
+                  />
+                </div>
+              )}
+
             </div>
             {error &&
               (typeof error === "string" ? (
-                String(error).includes("CAPTCHA") ? (
+                String(error).includes("CAPTCHA") && !captchaImage ? (
                   <div className="text-red-400">Captcha not supported yet</div>
                 ) : String(error).includes("concurrent") ? (
                   <a className="flex items-center justify-center gap-2 flex-col text-red-400">

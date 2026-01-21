@@ -23,8 +23,10 @@ export async function validatePassword({
   digest,
   identifier,
   password,
-}: PasswordInput) {
-  const res = await verifyPassword({ digest, identifier, password });
+  captcha,
+  cdigest,
+}: PasswordInput & { captcha?: string; cdigest?: string }) {
+  const res = await verifyPassword({ digest, identifier, password, captcha, cdigest });
   return { res };
 }
 
