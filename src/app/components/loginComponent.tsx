@@ -94,8 +94,8 @@ export const LoginComponent = () => {
         }
 
         if (res.isAuthenticated && typeof res.data?.cookies === "string") {
-          Cookies.set("token", res.data.cookies, { expires: 30, path: "/" });
-          Cookies.set("user", email.mail, { expires: 30, path: "/" });
+          Cookies.set("token", res.data.cookies, { path: "/" });
+          Cookies.set("user", email.mail, { path: "/" });
           return (window.location.href = "/app/timetable");
         } else {
           setError("Authentication failed");
