@@ -92,6 +92,11 @@ export const LoginComponent = () => {
           setLoading(false);
           return;
         }
+        if (res.isAuthenticated && res.data?.cookies?.length == 1) {
+          setError("Maximum concurrent sessions limit reached");
+          setLoading(false);
+          return;
+        }
 
         if (res.isAuthenticated && typeof res.data?.cookies === "string") {
           Cookies.set("token", res.data.cookies, { path: "/" });
@@ -177,7 +182,19 @@ export const LoginComponent = () => {
               (typeof error === "string" ? (
                 String(error).includes("CAPTCHA") ? (
                   <div className="text-red-400">Captcha not supported yet</div>
-                ) : error.length !== 0 ? (
+                ) : String(error).includes("concurrent") ? (
+                  <a className="flex items-center justify-center gap-2 flex-col text-red-400">
+                    Maximum concurrent sessions limit reached
+                    <a
+                      href="https://academia.srmist.edu.in/49910842/portal/academia-academic-services/myProfile"
+                      target="_blank"
+                      rel="noopener"
+                      className="text-white/50 text-sm underline "
+                    >
+                      (Click here to login Academia && Terminate all sessions)
+                    </a>
+                  </a>
+                ) : error && error.length !== 0 ? (
                   <div className="text-red-400">{String(error)}</div>
                 ) : null
               ) : (
