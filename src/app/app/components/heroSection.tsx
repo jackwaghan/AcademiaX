@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 import LandingImage from "@/../public/Landing/LandingImage.png";
 import { Github } from "lucide-react";
-import { TbBrandNpm } from "react-icons/tb";
 const HeroSection = () => {
   return (
     <div className="flex-1 flex flex-col ">
@@ -43,14 +42,6 @@ const Content = () => {
         >
           <h1>Github</h1>
           <Github className="w-5 h-5" />
-        </a>
-        <a
-          href="https://www.npmjs.com/package/srm-academia-api"
-          target="_blank"
-          className="px-5 py-2 rounded-lg apply-inner-shadow-md  bg-white/5 flex items-center justify-between gap-4 "
-        >
-          <h1>NPM Docs</h1>
-          <TbBrandNpm className="w-5 h-5" />
         </a>
       </div>
       <div className="relative bg-white/5 apply-border-md rounded-xl p-1 lg:p-2 mt-4 lg:w-[80%] w-[90%]">

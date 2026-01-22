@@ -18,7 +18,6 @@ import {
 import { SidebarToggle } from "@/utils/sidebarToggle";
 import { useUserInfo } from "@/hooks/query";
 import Loading from "../loading";
-import { DiNpm } from "react-icons/di";
 import Link from "next/link";
 import { getPaymentClient } from "@/utils/getCookieClient";
 const queryClient = new QueryClient({

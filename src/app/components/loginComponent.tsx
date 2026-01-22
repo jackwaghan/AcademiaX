@@ -1,14 +1,23 @@
 "use client";
 import { useAuth } from "@/hooks/zustand";
-import { validatePassword, validateUser } from "@/server/action";
+import {
+  validatePassword,
+  validateUser,
+  validateCaptcha,
+  captchaLogin,
+} from "@/server/action";
 import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Loader } from "../app/components/loader";
+import Image from "next/image";
 
 export const LoginComponent = () => {
   const [eyeOpen, setEyeOpen] = useState(false);
   const { error, setError, loading, setLoading, setEmail, email } = useAuth();
+  const [captcha, setCaptcha] = useState(false);
+  const [captchaImage, setCaptchaImage] = useState("");
+  const [captchaCdigest, setCaptchaCdigest] = useState("");
 
   useEffect(() => {
     window.localStorage.clear();
@@ -23,24 +32,52 @@ export const LoginComponent = () => {
       const form = new FormData(e.currentTarget);
       const hash1 = form.get("name") as string;
       const hash2 = form.get("password") as string;
+      const hash3 = form.get("captcha") as string;
 
       // First step: Validate user (email)
       if (hash1 && hash1.length !== 0) {
         const email = hash1.includes("@srmist.edu.in")
           ? hash1
           : `${hash1}@srmist.edu.in`;
-        const { res } = await validateUser(email.toLowerCase());
+
+        let res;
+
+        // If captcha input is present (i.e. user solving captcha), call with captcha & cdigest.
+        if (hash3 && captchaCdigest) {
+          ({ res } = await captchaLogin({
+            username: email.toLowerCase(),
+            cdigest: captchaCdigest,
+            captcha: hash3,
+          }));
+        } else {
+          // Regular call without captcha (first try or captcha not required)
+          ({ res } = await validateUser(email.toLowerCase()));
+        }
+
+        if (res.data?.status_code === 400 && res.data.cdigest) {
+          const data = await validateCaptcha(res.data.cdigest);
+          // Clear captcha input after showing new captcha
+          const captchaInput = document.getElementById(
+            "captcha"
+          ) as HTMLInputElement;
+          if (captchaInput) {
+            captchaInput.value = "";
+          }
+          setCaptcha(true);
+          setCaptchaImage(data.res.image);
+          setLoading(false);
+          setCaptchaCdigest(res.data.cdigest);
+          return;
+        }
+
+        setCaptcha(false);
 
         if (res.data?.status_code === 400) {
           setError(res.data?.message as string);
           setLoading(false);
           return;
         }
-        if (res.data?.status_code === 500) {
-          setError("You reached Maximum Login");
-          setLoading(false);
-          return;
-        }
+
         if (res.error) {
           setError(res.errorReason as string);
           setLoading(false);
@@ -145,9 +182,32 @@ export const LoginComponent = () => {
                   className="w-full px-4 py-3 rounded-xl apply-inner-shadow-sm bg-white/10 focus:outline-none "
                   placeholder="SRM Mail ID"
                   autoComplete="email"
-                  autoFocus
+                  autoFocus={captcha ? false : true}
                   required
                 />
+              )}
+              {/* Show captcha input if captcha true */}
+
+              {captcha && (
+                <div className="flex justify-between w-full gap-2">
+                  <input
+                    id="captcha"
+                    name="captcha"
+                    type="name"
+                    className="w-[60%] max-h-12 px-4 py-3 rounded-xl apply-inner-shadow-sm bg-white/10 focus:outline-none "
+                    placeholder="Captcha"
+                    autoFocus
+                    required
+                  />
+                  <Image
+                    src={captchaImage}
+                    alt="Captcha"
+                    width={120}
+                    height={48}
+                    className=" w-[40%] max-h-12 object-contain"
+                    unoptimized
+                  />
+                </div>
               )}
               {/* Show password input if digest is present and password is not yet set (second step) */}
               {email?.digest.length !== 0 && (
@@ -181,7 +241,12 @@ export const LoginComponent = () => {
             {error &&
               (typeof error === "string" ? (
                 String(error).includes("CAPTCHA") ? (
-                  <div className="text-red-400">Captcha not supported yet</div>
+                  <div
+                    onClick={() => window.location.reload()}
+                    className="text-white/50 underline text-md"
+                  >
+                    Click here to Refresh Page
+                  </div>
                 ) : String(error).includes("concurrent") ? (
                   <a className="flex items-center justify-center gap-2 flex-col text-red-400">
                     Maximum concurrent sessions limit reached

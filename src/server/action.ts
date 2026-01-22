@@ -12,6 +12,8 @@ import {
   verifyUser,
   logoutUser,
   getDayOrder,
+  verifyCaptcha,
+  Captcha,
 } from "@jackwaghan/srm-academia-api";
 
 export async function validateUser(email: string) {
@@ -25,6 +27,24 @@ export async function validatePassword({
   password,
 }: PasswordInput) {
   const res = await verifyPassword({ digest, identifier, password });
+  return { res };
+}
+
+export async function validateCaptcha(cdigest: string) {
+  const res = await verifyCaptcha(cdigest);
+  return { res };
+}
+
+export async function captchaLogin({
+  username,
+  cdigest,
+  captcha,
+}: {
+  username: string;
+  cdigest: string;
+  captcha: string;
+}) {
+  const res = await Captcha(username, cdigest, captcha);
   return { res };
 }
 
