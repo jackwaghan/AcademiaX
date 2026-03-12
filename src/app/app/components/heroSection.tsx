@@ -6,15 +6,6 @@ const HeroSection = () => {
   return (
     <div className="flex-1 flex flex-col ">
       <div className="lg:py-10 py-10  w-full container flex mx-auto flex-col justify-center items-center">
-        <div className="flex items-center justify-center gap-2 apply-border-md pl-3 pr-1 lg:py-1 py-0.5 rounded-full lg:text-sm text-xs bg-white/5  ">
-          <span className="relative mx-1 bg-blue-500 w-2 h-2 inset-0 rounded-full ">
-            <span className=" absolute  w-2 h-2 rounded-full bg-blue-400 animate-ping" />
-          </span>
-          Built with{" "}
-          <span className="apply-border-md px-2 py-1 rounded-full text-sm bg-black flex gap-2 items-center justify-center">
-            srm-academia-api
-          </span>
-        </div>
         <Content />
       </div>
       <div className="w-full flex justify-center items-center "></div>
@@ -26,7 +17,7 @@ export default HeroSection;
 
 const Content = () => {
   return (
-    <div className="py-10 flex flex-col w-full items-center justify-center gap-6 text-center">
+    <div className="py-10 flex flex-col w-full items-center justify-center gap-6 text-center px-4 lg:px-0">
       <h1 className="lg:text-7xl text-3xl font-extrabold leading-tight tracking-tight">
         Ditch the old SRM Academia.
       </h1>

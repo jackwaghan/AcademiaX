@@ -80,7 +80,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body
-        className={`${geistMono.variable} ${spaceGrotesk.variable} antialiased overflow-hidden`}
+        className={`${geistMono.variable} ${spaceGrotesk.variable} antialiased overflow-x-hidden`}
       >
         {/* <TallyModalRoot /> */}
 
