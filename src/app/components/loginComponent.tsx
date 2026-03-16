@@ -4,7 +4,8 @@ import {
   validatePassword,
   validateUser,
   validateCaptcha,
-  captchaLogin,
+  UserWithCaptcha,
+  PasswordWithCaptcha,
 } from "@/server/action";
 import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -35,7 +36,7 @@ export const LoginComponent = () => {
       const hash3 = form.get("captcha") as string;
 
       // First step: Validate user (email)
-      if (hash1 && hash1.length !== 0) {
+      if (hash1 && hash1.length !== 0 && !hash2) {
         const email = hash1.includes("@srmist.edu.in")
           ? hash1
           : `${hash1}@srmist.edu.in`;
@@ -44,7 +45,7 @@ export const LoginComponent = () => {
 
         // If captcha input is present (i.e. user solving captcha), call with captcha & cdigest.
         if (hash3 && captchaCdigest) {
-          ({ res } = await captchaLogin({
+          ({ res } = await UserWithCaptcha({
             username: email.toLowerCase(),
             cdigest: captchaCdigest,
             captcha: hash3,
@@ -53,10 +54,8 @@ export const LoginComponent = () => {
           // Regular call without captcha (first try or captcha not required)
           ({ res } = await validateUser(email.toLowerCase()));
         }
-
+        console.log(res);
         if (res.data?.status_code === 400 && res.data.cdigest) {
-          const data = await validateCaptcha(res.data.cdigest);
-          // Clear captcha input after showing new captcha
           const captchaInput = document.getElementById(
             "captcha"
           ) as HTMLInputElement;
@@ -64,6 +63,8 @@ export const LoginComponent = () => {
             captchaInput.value = "";
           }
           setCaptcha(true);
+          setError(res.data?.localized_message as string);
+          const data = await validateCaptcha(res.data.cdigest);
           setCaptchaImage(data.res.image);
           setLoading(false);
           setCaptchaCdigest(res.data.cdigest);
@@ -102,20 +103,41 @@ export const LoginComponent = () => {
       // Second step: Validate password
       if (hash2 && hash2.length !== 0) {
         if (!email.digest || !email.identifier) {
-          setError("Please enter your email first");
-          setLoading(false);
-          return;
+          return window.location.reload();
+        }
+        let res;
+        if (hash3) {
+          ({ res } = await PasswordWithCaptcha({
+            password: hash2,
+            cdigest: captchaCdigest,
+            captcha: hash3,
+            digest: email.digest,
+            identifier: email.identifier,
+          }));
+          console.log("PasswordWithCaptcha");
+        } else {
+          ({ res } = await validatePassword({
+            digest: email.digest,
+            identifier: email.identifier,
+            password: hash2,
+          }));
+          console.log("without captcha");
         }
 
-        const { res } = await validatePassword({
-          digest: email.digest,
-          identifier: email.identifier,
-          password: hash2,
-        });
-
         if (res.data?.statusCode === 500 || res.data?.captcha?.required) {
-          if (res.data?.captcha?.required) {
+          console.log(res);
+          if (res.data?.captcha?.digest) {
+            const captchaInput = document.getElementById(
+              "captcha"
+            ) as HTMLInputElement;
+            if (captchaInput) {
+              captchaInput.value = "";
+            }
+            setCaptcha(true);
+            const data = await validateCaptcha(res.data.captcha.digest);
+            setCaptchaImage(data.res.image);
             setError(res.data.message as string);
+            setCaptchaCdigest(res.data.captcha.digest);
             setLoading(false);
             return;
           }
@@ -138,17 +160,20 @@ export const LoginComponent = () => {
         if (res.isAuthenticated && typeof res.data?.cookies === "string") {
           // Set cookies with 7 days expiration
           const expirationDays = 30;
-          Cookies.set("token", res.data.cookies, { 
-            path: "/", 
-            expires: expirationDays 
+          Cookies.set("token", res.data.cookies, {
+            path: "/",
+            expires: expirationDays,
           });
-          Cookies.set("user", email.mail, { 
-            path: "/", 
-            expires: expirationDays 
+          Cookies.set("user", email.mail, {
+            path: "/",
+            expires: expirationDays,
           });
           return (window.location.href = "/app/timetable");
         } else {
-          setError("Authentication failed");
+          const msg = decodeURIComponent(res.data?.message as string);
+          // Replace HTML entities so “You&#39;ve” becomes “You've”
+          const decoded = msg.replace(/&#39;/g, "'");
+          setError(decoded);
           setLoading(false);
           return;
         }
@@ -194,29 +219,7 @@ export const LoginComponent = () => {
                   required
                 />
               )}
-              {/* Show captcha input if captcha true */}
 
-              {captcha && (
-                <div className="flex justify-between w-full gap-2">
-                  <input
-                    id="captcha"
-                    name="captcha"
-                    type="name"
-                    className="w-[60%] max-h-12 px-4 py-3 rounded-xl apply-inner-shadow-sm bg-white/10 focus:outline-none "
-                    placeholder="Captcha"
-                    autoFocus
-                    required
-                  />
-                  <Image
-                    src={captchaImage}
-                    alt="Captcha"
-                    width={120}
-                    height={48}
-                    className=" w-[40%] max-h-12 object-contain"
-                    unoptimized
-                  />
-                </div>
-              )}
               {/* Show password input if digest is present and password is not yet set (second step) */}
               {email?.digest.length !== 0 && (
                 <div className="w-full relative z-10 ">
@@ -245,17 +248,34 @@ export const LoginComponent = () => {
                   </div>
                 </div>
               )}
+
+              {/* Show captcha input if captcha true */}
+
+              {captcha && (
+                <div className="flex justify-between w-full gap-2">
+                  <input
+                    id="captcha"
+                    name="captcha"
+                    type="name"
+                    className="w-[60%] max-h-12 px-4 py-3 rounded-xl apply-inner-shadow-sm bg-white/10 focus:outline-none "
+                    placeholder="Captcha"
+                    autoFocus
+                    required
+                  />
+                  <Image
+                    src={captchaImage}
+                    alt="Captcha"
+                    width={120}
+                    height={48}
+                    className=" w-[40%] max-h-12 object-contain"
+                    unoptimized
+                  />
+                </div>
+              )}
             </div>
             {error &&
               (typeof error === "string" ? (
-                String(error).includes("CAPTCHA") ? (
-                  <div
-                    onClick={() => window.location.reload()}
-                    className="text-white/50 underline text-md"
-                  >
-                    Click here to Refresh Page
-                  </div>
-                ) : String(error).includes("concurrent") ? (
+                String(error).includes("concurrent") ? (
                   <a className="flex items-center justify-center gap-2 flex-col text-red-400">
                     Maximum concurrent sessions limit reached
                     <a

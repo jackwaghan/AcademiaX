@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import Script from "next/script";
 // import { TallyModalRoot } from "./TallyModalRoot";
 
 const spaceGrotesk = Space_Grotesk({
@@ -79,20 +78,6 @@ export default function RootLayout({
           sizes="180x180"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <Script
-          data-cfasync="false"
-          src="https://cmp.gatekeeperconsent.com/min.js"
-        ></Script>
-        <Script
-          data-cfasync="false"
-          src="https://the.gatekeeperconsent.com/cmp.min.js"
-        ></Script>
-        <Script async src="//www.ezojs.com/ezoic/sa.min.js"></Script>
-        <Script id="ezstandalone-init" strategy="afterInteractive">
-          {`window.ezstandalone = window.ezstandalone || {};
-    ezstandalone.cmd = ezstandalone.cmd || [];`}
-        </Script>
-        <Script src="//ezoicanalytics.com/analytics.js"></Script>
       </head>
       <body
         className={`${geistMono.variable} ${spaceGrotesk.variable} antialiased overflow-x-hidden`}

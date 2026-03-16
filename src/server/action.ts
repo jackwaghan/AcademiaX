@@ -13,7 +13,8 @@ import {
   logoutUser,
   getDayOrder,
   verifyCaptcha,
-  Captcha,
+  validateUserWithCaptcha,
+  validatePasswordWithCaptcha,
 } from "@jackwaghan/srm-academia-api";
 
 export async function validateUser(email: string) {
@@ -35,7 +36,7 @@ export async function validateCaptcha(cdigest: string) {
   return { res };
 }
 
-export async function captchaLogin({
+export async function UserWithCaptcha({
   username,
   cdigest,
   captcha,
@@ -44,8 +45,37 @@ export async function captchaLogin({
   cdigest: string;
   captcha: string;
 }) {
-  const res = await Captcha(username, cdigest, captcha);
+  const res = await validateUserWithCaptcha(username, cdigest, captcha);
   return { res };
+}
+
+export async function PasswordWithCaptcha({
+  password,
+  cdigest,
+  captcha,
+  digest,
+  identifier,
+}: {
+  password: string;
+  cdigest: string;
+  captcha: string;
+  digest: string;
+  identifier: string;
+}) {
+  try {
+    const res = await validatePasswordWithCaptcha(
+      digest,
+      cdigest,
+      captcha,
+      password,
+      identifier
+    );
+    return { res };
+  } catch (error) {
+    return {
+      res: { error: "Failed to validate Password", errorReason: error },
+    };
+  }
 }
 
 export async function getLogout(cookie: string) {
